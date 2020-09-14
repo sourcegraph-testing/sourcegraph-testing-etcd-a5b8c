@@ -75,7 +75,7 @@ func newMember(name string, peerURLs types.URLs, clusterName string, now *time.T
 
 	b = append(b, []byte(clusterName)...)
 	if now != nil {
-		b = append(b, []byte(fmt.Sprintf("%d", now.Unix()))...)
+		b = append(b, []byte(strconv.Itoa(now.Unix()))...)
 	}
 
 	hash := sha1.Sum(b)

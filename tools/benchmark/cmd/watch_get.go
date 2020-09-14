@@ -56,7 +56,7 @@ func watchGetFunc(cmd *cobra.Command, args []string) {
 	// setup keys for watchers
 	watchRev := int64(0)
 	for i := 0; i < watchEvents; i++ {
-		v := fmt.Sprintf("%d", i)
+		v := strconv.Itoa(i)
 		resp, err := clients[0].Put(context.TODO(), "watchkey", v)
 		if err != nil {
 			panic(err)

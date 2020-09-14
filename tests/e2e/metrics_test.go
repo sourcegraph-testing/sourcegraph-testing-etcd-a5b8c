@@ -52,10 +52,10 @@ func metricsTest(cx ctlCtx) {
 		{"/health", `{"health":"true"}`},
 	} {
 		i++
-		if err := ctlV3Put(cx, fmt.Sprintf("%d", i), "v", ""); err != nil {
+		if err := ctlV3Put(cx, strconv.Itoa(i), "v", ""); err != nil {
 			cx.t.Fatal(err)
 		}
-		if err := ctlV3Del(cx, []string{fmt.Sprintf("%d", i)}, 1); err != nil {
+		if err := ctlV3Del(cx, []string{strconv.Itoa(i)}, 1); err != nil {
 			cx.t.Fatal(err)
 		}
 

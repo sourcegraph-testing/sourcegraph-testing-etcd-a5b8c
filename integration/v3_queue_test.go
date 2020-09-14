@@ -41,7 +41,7 @@ func TestQueueOneReaderOneWriter(t *testing.T) {
 		etcdc := clus.RandClient()
 		q := recipe.NewQueue(etcdc, "testq")
 		for i := 0; i < 5; i++ {
-			if err := q.Enqueue(fmt.Sprintf("%d", i)); err != nil {
+			if err := q.Enqueue(strconv.Itoa(i)); err != nil {
 				t.Errorf("error enqueuing (%v)", err)
 			}
 		}
@@ -54,7 +54,7 @@ func TestQueueOneReaderOneWriter(t *testing.T) {
 		if err != nil {
 			t.Fatalf("error dequeueing (%v)", err)
 		}
-		if s != fmt.Sprintf("%d", i) {
+		if s != strconv.Itoa(i) {
 			t.Fatalf("expected dequeue value %v, got %v", s, i)
 		}
 	}
@@ -94,7 +94,7 @@ func TestPrQueueOneReaderOneWriter(t *testing.T) {
 	for i := 0; i < 5; i++ {
 		// [0, 2] priority for priority collision to test seq keys
 		pr := uint16(rand.Intn(3))
-		if err := q.Enqueue(fmt.Sprintf("%d", pr), pr); err != nil {
+		if err := q.Enqueue(strconv.Itoa(pr), pr); err != nil {
 			t.Fatalf("error enqueuing (%v)", err)
 		}
 	}

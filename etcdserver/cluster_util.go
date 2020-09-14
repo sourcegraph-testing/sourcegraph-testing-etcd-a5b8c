@@ -312,7 +312,7 @@ func promoteMemberHTTP(ctx context.Context, url string, id uint64, peerRt http.R
 	cc := &http.Client{Transport: peerRt}
 	// TODO: refactor member http handler code
 	// cannot import etcdhttp, so manually construct url
-	requestUrl := url + "/members/promote/" + fmt.Sprintf("%d", id)
+	requestUrl := url + "/members/promote/" + strconv.Itoa(id)
 	req, err := http.NewRequest("POST", requestUrl, nil)
 	if err != nil {
 		return nil, err
