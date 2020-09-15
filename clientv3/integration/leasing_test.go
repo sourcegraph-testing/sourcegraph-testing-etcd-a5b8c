@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"math/rand"
 	"reflect"
+	"strconv"
 	"sync"
 	"testing"
 	"time"
@@ -978,7 +979,7 @@ func TestLeasingTxnRandIfThenOrElse(t *testing.T) {
 	keyCount := 16
 	dat := make([]*clientv3.PutResponse, keyCount)
 	for i := 0; i < keyCount; i++ {
-		k, v := fmt.Sprintf("k-%d", i), fmt.Sprintf("%d", i)
+		k, v := fmt.Sprintf("k-%d", i), strconv.Itoa(i)
 		dat[i], err1 = clus.Client(0).Put(context.TODO(), k, v)
 		if err1 != nil {
 			t.Fatal(err1)
@@ -1493,7 +1494,7 @@ func TestLeasingReconnectOwnerConsistency(t *testing.T) {
 	}
 
 	for i := 0; i < 10; i++ {
-		v := fmt.Sprintf("%d", i)
+		v := strconv.Itoa(i)
 		donec := make(chan struct{})
 		clus.Members[0].DropConnections()
 		go func() {

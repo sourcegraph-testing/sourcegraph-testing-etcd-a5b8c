@@ -17,6 +17,7 @@ package rpcpb
 import (
 	"fmt"
 	"reflect"
+	"strconv"
 	"strings"
 )
 
@@ -81,7 +82,7 @@ func (e *Etcd) Flags() (fs []string) {
 			}
 			sv = strings.Join(sl, ",")
 		case reflect.Int64:
-			sv = fmt.Sprintf("%d", fv.Int())
+			sv = strconv.Itoa(fv.Int())
 		case reflect.Bool:
 			sv = fmt.Sprintf("%v", fv.Bool())
 		default:

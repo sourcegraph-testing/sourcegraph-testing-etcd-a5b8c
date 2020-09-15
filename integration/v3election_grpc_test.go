@@ -17,6 +17,7 @@ package integration
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"testing"
 	"time"
 
@@ -149,7 +150,7 @@ func TestV3ElectionObserve(t *testing.T) {
 			t.Error(cerr2)
 		}
 		for i := 6; i < 10; i++ {
-			v := []byte(fmt.Sprintf("%d", i))
+			v := []byte(strconv.Itoa(i))
 			req := &epb.ProclaimRequest{Leader: c2.Leader, Value: v}
 			if _, err := lc.Proclaim(context.TODO(), req); err != nil {
 				t.Error(err)
@@ -158,7 +159,7 @@ func TestV3ElectionObserve(t *testing.T) {
 	}()
 
 	for i := 1; i < 5; i++ {
-		v := []byte(fmt.Sprintf("%d", i))
+		v := []byte(strconv.Itoa(i))
 		req := &epb.ProclaimRequest{Leader: c1.Leader, Value: v}
 		if _, err := lc.Proclaim(context.TODO(), req); err != nil {
 			t.Fatal(err)

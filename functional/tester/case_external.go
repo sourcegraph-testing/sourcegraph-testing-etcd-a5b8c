@@ -17,6 +17,7 @@ package tester
 import (
 	"fmt"
 	"os/exec"
+	"strconv"
 
 	"go.etcd.io/etcd/v3/functional/rpcpb"
 )
@@ -31,11 +32,11 @@ type caseExternal struct {
 }
 
 func (c *caseExternal) Inject(clus *Cluster) error {
-	return exec.Command(c.scriptPath, "enable", fmt.Sprintf("%d", clus.rd)).Run()
+	return exec.Command(c.scriptPath, "enable", strconv.Itoa(clus.rd)).Run()
 }
 
 func (c *caseExternal) Recover(clus *Cluster) error {
-	return exec.Command(c.scriptPath, "disable", fmt.Sprintf("%d", clus.rd)).Run()
+	return exec.Command(c.scriptPath, "disable", strconv.Itoa(clus.rd)).Run()
 }
 
 func (c *caseExternal) Desc() string {
