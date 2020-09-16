@@ -968,11 +968,11 @@ func TestWatchCancelOnServer(t *testing.T) {
 	cancels := make([]context.CancelFunc, numWatches)
 	for i := 0; i < numWatches; i++ {
 		// force separate streams in client
-		md := metadata.Pairs("some-key", fmt.Sprintf("%d", i))
+		md := metadata.Pairs("some-key", strconv.Itoa(i))
 		mctx := metadata.NewOutgoingContext(context.Background(), md)
 		ctx, cancel := context.WithCancel(mctx)
 		cancels[i] = cancel
-		w := client.Watch(ctx, fmt.Sprintf("%d", i), clientv3.WithCreatedNotify())
+		w := client.Watch(ctx, strconv.Itoa(i), clientv3.WithCreatedNotify())
 		<-w
 	}
 
@@ -1031,7 +1031,7 @@ func testWatchOverlapContextCancel(t *testing.T, f func(*integration.ClusterV3))
 	ctxs, ctxc := make([]context.Context, 5), make([]chan struct{}, 5)
 	for i := range ctxs {
 		// make unique stream
-		md := metadata.Pairs("some-key", fmt.Sprintf("%d", i))
+		md := metadata.Pairs("some-key", strconv.Itoa(i))
 		ctxs[i] = metadata.NewOutgoingContext(context.Background(), md)
 		// limits the maximum number of outstanding watchers per stream
 		ctxc[i] = make(chan struct{}, 2)

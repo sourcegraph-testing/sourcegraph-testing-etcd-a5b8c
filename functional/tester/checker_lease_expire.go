@@ -17,6 +17,7 @@ package tester
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"time"
 
 	"go.etcd.io/etcd/v3/clientv3"
@@ -224,7 +225,7 @@ func (lc *leaseExpireChecker) hasLeaseExpired(ctx context.Context, leaseID int64
 // Since the format of keys contains about leaseID, finding keys base on "<leaseID>" prefix
 // determines whether the attached keys for a given leaseID has been deleted or not
 func (lc *leaseExpireChecker) hasKeysAttachedToLeaseExpired(ctx context.Context, leaseID int64) (bool, error) {
-	resp, err := lc.cli.Get(ctx, fmt.Sprintf("%d", leaseID), clientv3.WithPrefix())
+	resp, err := lc.cli.Get(ctx, strconv.Itoa(leaseID), clientv3.WithPrefix())
 	if err != nil {
 		lc.lg.Warn(
 			"hasKeysAttachedToLeaseExpired failed",

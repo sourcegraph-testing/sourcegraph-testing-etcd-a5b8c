@@ -21,6 +21,7 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"testing"
 	"time"
@@ -265,7 +266,7 @@ func restoreCluster(t *testing.T, clusterN int, dbPath string) (
 		cfg := embed.NewConfig()
 		cfg.Logger = "zap"
 		cfg.LogOutputs = []string{"/dev/null"}
-		cfg.Name = fmt.Sprintf("%d", i)
+		cfg.Name = strconv.Itoa(i)
 		cfg.InitialClusterToken = testClusterTkn
 		cfg.ClusterState = "existing"
 		cfg.LCUrls, cfg.ACUrls = []url.URL{cURLs[i]}, []url.URL{cURLs[i]}

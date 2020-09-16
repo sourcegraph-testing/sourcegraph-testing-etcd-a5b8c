@@ -21,6 +21,7 @@ import (
 	"log"
 	"math"
 	"sort"
+	"strconv"
 	"sync"
 	"time"
 )
@@ -127,11 +128,11 @@ func (t TimeSeries) String() string {
 	rows := [][]string{}
 	for i := range t {
 		row := []string{
-			fmt.Sprintf("%d", t[i].Timestamp),
+			strconv.Itoa(t[i].Timestamp),
 			t[i].MinLatency.String(),
 			t[i].AvgLatency.String(),
 			t[i].MaxLatency.String(),
-			fmt.Sprintf("%d", t[i].ThroughPut),
+			strconv.Itoa(t[i].ThroughPut),
 		}
 		rows = append(rows, row)
 	}

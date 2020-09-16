@@ -26,14 +26,15 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"go.etcd.io/etcd/v3/clientv3"
-	"go.etcd.io/etcd/v3/clientv3/concurrency"
 	"io/ioutil"
 	"net/http"
 	"os"
 	"runtime"
 	"strconv"
 	"time"
+
+	"go.etcd.io/etcd/v3/clientv3"
+	"go.etcd.io/etcd/v3/clientv3/concurrency"
 )
 
 type node struct {

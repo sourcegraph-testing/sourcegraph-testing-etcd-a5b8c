@@ -21,6 +21,7 @@ import (
 	"os"
 	"os/exec"
 	"os/signal"
+	"strconv"
 
 	"go.etcd.io/etcd/v3/client"
 
@@ -119,7 +120,7 @@ func execWatchCommandFunc(c *cli.Context, ki client.KeysAPI) {
 
 func environResponse(resp *client.Response, env []string) []string {
 	env = append(env, "ETCD_WATCH_ACTION="+resp.Action)
-	env = append(env, "ETCD_WATCH_MODIFIED_INDEX="+fmt.Sprintf("%d", resp.Node.ModifiedIndex))
+	env = append(env, "ETCD_WATCH_MODIFIED_INDEX="+strconv.Itoa(resp.Node.ModifiedIndex))
 	env = append(env, "ETCD_WATCH_KEY="+resp.Node.Key)
 	env = append(env, "ETCD_WATCH_VALUE="+resp.Node.Value)
 	return env
