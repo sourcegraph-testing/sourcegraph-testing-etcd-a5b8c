@@ -15,7 +15,7 @@
 package e2e
 
 import (
-	"fmt"
+	"strconv"
 	"strings"
 	"testing"
 	"time"
@@ -381,5 +381,5 @@ func ctlV3GetWithErr(cx ctlCtx, args []string, errs []string) error {
 func ctlV3Del(cx ctlCtx, args []string, num int) error {
 	cmdArgs := append(cx.PrefixArgs(), "del")
 	cmdArgs = append(cmdArgs, args...)
-	return spawnWithExpects(cmdArgs, fmt.Sprintf("%d", num))
+	return spawnWithExpects(cmdArgs, strconv.Itoa(num))
 }

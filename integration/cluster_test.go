@@ -71,7 +71,7 @@ func testClusterUsingDiscovery(t *testing.T, size int) {
 	dcc := MustNewHTTPClient(t, dc.URLs(), nil)
 	dkapi := client.NewKeysAPI(dcc)
 	ctx, cancel := context.WithTimeout(context.Background(), requestTimeout)
-	if _, err := dkapi.Create(ctx, "/_config/size", fmt.Sprintf("%d", size)); err != nil {
+	if _, err := dkapi.Create(ctx, "/_config/size", strconv.Itoa(size)); err != nil {
 		t.Fatal(err)
 	}
 	cancel()
@@ -94,7 +94,7 @@ func TestTLSClusterOf3UsingDiscovery(t *testing.T) {
 	dcc := MustNewHTTPClient(t, dc.URLs(), nil)
 	dkapi := client.NewKeysAPI(dcc)
 	ctx, cancel := context.WithTimeout(context.Background(), requestTimeout)
-	if _, err := dkapi.Create(ctx, "/_config/size", fmt.Sprintf("%d", 3)); err != nil {
+	if _, err := dkapi.Create(ctx, "/_config/size", strconv.Itoa(3)); err != nil {
 		t.Fatal(err)
 	}
 	cancel()

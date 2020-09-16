@@ -59,8 +59,8 @@ func TestSTMConflict(t *testing.T) {
 				return nil
 			}
 			xfer := int64(rand.Intn(int(srcV)) / 2)
-			stm.Put(srcKey, fmt.Sprintf("%d", srcV-xfer))
-			stm.Put(dstKey, fmt.Sprintf("%d", dstV+xfer))
+			stm.Put(srcKey, strconv.Itoa(srcV-xfer))
+			stm.Put(dstKey, strconv.Itoa(dstV+xfer))
 			return nil
 		}
 		go func() {
@@ -164,7 +164,7 @@ func TestSTMSerialize(t *testing.T) {
 	go func() {
 		defer close(updatec)
 		for i := 0; i < 5; i++ {
-			s := fmt.Sprintf("%d", i)
+			s := strconv.Itoa(i)
 			ops := []v3.Op{}
 			for _, k := range keys {
 				ops = append(ops, v3.OpPut(k, s))
