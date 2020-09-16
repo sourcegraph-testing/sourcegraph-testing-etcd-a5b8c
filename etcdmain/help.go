@@ -15,7 +15,6 @@
 package etcdmain
 
 import (
-	"fmt"
 	"strconv"
 
 	"go.etcd.io/etcd/v3/embed"
@@ -162,8 +161,8 @@ Security:
 Auth:
   --auth-token 'simple'
     Specify a v3 authentication token type and its options ('simple' or 'jwt').
-  --bcrypt-cost ` + fmt.Sprintf("%d", bcrypt.DefaultCost) + `
-    Specify the cost / strength of the bcrypt algorithm for hashing auth passwords. Valid values are between ` + fmt.Sprintf("%d", bcrypt.MinCost) + ` and ` + fmt.Sprintf("%d", bcrypt.MaxCost) + `.
+  --bcrypt-cost ` + strconv.Itoa(bcrypt.DefaultCost) + `
+    Specify the cost / strength of the bcrypt algorithm for hashing auth passwords. Valid values are between ` + strconv.Itoa(bcrypt.MinCost) + ` and ` + strconv.Itoa(bcrypt.MaxCost) + `.
 
 Profiling and Monitoring:
   --enable-pprof 'false'
