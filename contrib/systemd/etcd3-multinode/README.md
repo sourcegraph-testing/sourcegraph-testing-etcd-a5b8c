@@ -1,4 +1,4 @@
-# etcd3 multi-node cluster
+# WELCOME TO THE README OF etcd3 multi-node cluster
 
 Here's how to deploy etcd cluster with systemd.
 

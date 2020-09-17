@@ -1,4 +1,4 @@
-# Raft library
+# WELCOME TO THE README OF Raft library
 
 Raft is a protocol with which a cluster of nodes can maintain a replicated state machine.
 The state machine is kept in sync through the use of a replicated log.

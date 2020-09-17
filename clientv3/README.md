@@ -1,4 +1,4 @@
-# etcd/clientv3
+# WELCOME TO THE README OF etcd/clientv3
 
 [![Docs](https://img.shields.io/badge/docs-latest-green.svg)](https://etcd.io/docs)
 [![Godoc](https://img.shields.io/badge/go-documentation-blue.svg?style=flat-square)](https://godoc.org/go.etcd.io/etcd/clientv3)

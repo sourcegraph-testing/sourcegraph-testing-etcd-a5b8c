@@ -1,4 +1,4 @@
-# etcd on Kubernetes
+# WELCOME TO THE README OF etcd on Kubernetes
 
 This is an example setting up etcd as a set of pods and services running on top of kubernetes. Using:
 

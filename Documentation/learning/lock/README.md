@@ -1,4 +1,4 @@
-# What is this?
+# WELCOME TO THE README OF What is this?
 This directory provides an executable example of the scenarios described in [the article by Martin Kleppmann][fencing].
 
 Generally speaking, a lease-based lock service cannot provide mutual exclusion to processes. This is because such a lease mechanism depends on the physical clock of both the lock service and client processes. Many factors (e.g. stop-the-world GC pause of a language runtime) can cause false expiration of a granted lease as depicted in the below figure: ![unsafe lock][unsafe-lock]

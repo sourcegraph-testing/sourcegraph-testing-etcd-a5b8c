@@ -1,4 +1,4 @@
-# raftexample
+# WELCOME TO THE README OF raftexample
 
 raftexample is an example usage of etcd's [raft library](../../raft). It provides a simple REST API for a key-value store cluster backed by the [Raft][raft] consensus algorithm.
 
