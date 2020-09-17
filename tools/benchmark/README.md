@@ -1,4 +1,4 @@
-# etcd/tools/benchmark
+# WELCOME TO THE README OF etcd/tools/benchmark
 
 `etcd/tools/benchmark` is the official benchmarking tool for etcd clusters.
 

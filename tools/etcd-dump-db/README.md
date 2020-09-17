@@ -1,4 +1,4 @@
-### etcd-dump-db
+### WELCOME TO THE README OF etcd-dump-db
 
 etcd-dump-db inspects etcd db files.
 

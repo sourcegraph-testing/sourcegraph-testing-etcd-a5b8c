@@ -1,4 +1,4 @@
-# ./hack/patch/cherrypick.sh
+# WELCOME TO THE README OF ./hack/patch/cherrypick.sh
 
 Handles cherry-picks of PR(s) from etcd master to a stable etcd release branch automatically.
 

@@ -1,4 +1,4 @@
-### etcd-dump-logs
+### WELCOME TO THE README OF etcd-dump-logs
 
 etcd-dump-logs dumps the log from data directory.
 

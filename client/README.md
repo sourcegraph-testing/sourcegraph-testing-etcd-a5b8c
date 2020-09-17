@@ -1,4 +1,4 @@
-# etcd/client
+# WELCOME TO THE README OF etcd/client
 
 etcd/client is the Go client library for etcd.
 

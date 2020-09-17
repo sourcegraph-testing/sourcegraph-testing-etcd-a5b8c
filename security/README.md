@@ -1,4 +1,4 @@
-## Security Announcements
+## WELCOME TO THE README OF Security Announcements
 
 Join the [etcd-dev](https://groups.google.com/forum/?hl=en#!forum/etcd-dev) group for emails about security and major announcements.
 
