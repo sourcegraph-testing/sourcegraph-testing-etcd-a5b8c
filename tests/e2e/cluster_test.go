@@ -19,6 +19,7 @@ import (
 	"io/ioutil"
 	"net/url"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 
@@ -237,7 +238,7 @@ func (cfg *etcdProcessClusterConfig) etcdServerProcessConfigs() []*etcdServerPro
 			"--initial-advertise-peer-urls", purl.String(),
 			"--initial-cluster-token", cfg.initialToken,
 			"--data-dir", dataDirPath,
-			"--snapshot-count", fmt.Sprintf("%d", cfg.snapshotCount),
+			"--snapshot-count", strconv.Itoa(cfg.snapshotCount),
 		}
 		args = addV2Args(args)
 		if cfg.forceNewCluster {
@@ -245,7 +246,7 @@ func (cfg *etcdProcessClusterConfig) etcdServerProcessConfigs() []*etcdServerPro
 		}
 		if cfg.quotaBackendBytes > 0 {
 			args = append(args,
-				"--quota-backend-bytes", fmt.Sprintf("%d", cfg.quotaBackendBytes),
+				"--quota-backend-bytes", strconv.Itoa(cfg.quotaBackendBytes),
 			)
 		}
 		if cfg.noStrictReconfig {

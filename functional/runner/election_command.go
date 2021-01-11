@@ -18,6 +18,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"strconv"
 
 	"go.etcd.io/etcd/v3/clientv3/concurrency"
 
@@ -51,7 +52,7 @@ func runElectionFunc(cmd *cobra.Command, args []string) {
 	eps := endpointsFromFlag(cmd)
 
 	for i := range rcs {
-		v := fmt.Sprintf("%d", i)
+		v := strconv.Itoa(i)
 		observedLeader := ""
 		validateWaiters := 0
 		var rcNextc chan struct{}

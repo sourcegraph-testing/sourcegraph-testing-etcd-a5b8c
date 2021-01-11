@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"log"
 	"math/rand"
+	"strconv"
 	"sync"
 
 	"go.etcd.io/etcd/v3/clientv3"
@@ -61,8 +62,8 @@ func ExampleSTM_apply() {
 		fromInt, toInt = fromInt-xfer, toInt+xfer
 
 		// write back
-		stm.Put(fromK, fmt.Sprintf("%d", fromInt))
-		stm.Put(toK, fmt.Sprintf("%d", toInt))
+		stm.Put(fromK, strconv.Itoa(fromInt))
+		stm.Put(toK, strconv.Itoa(toInt))
 		return nil
 	}
 
