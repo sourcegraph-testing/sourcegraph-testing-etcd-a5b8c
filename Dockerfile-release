@@ -1,4 +1,4 @@
-FROM k8s.gcr.io/debian-base:latest
+FROM k8s.gcr.io/debian-base:latest@sha256:b83f361fc79e041804fea636a4cb2ff7c7ceb15c5d42c17b5ebbc04e646030ef
 
 ADD etcd /usr/local/bin/
 ADD etcdctl /usr/local/bin/
