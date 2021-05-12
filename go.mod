@@ -47,3 +47,7 @@ require (
 	gopkg.in/yaml.v2 v2.2.2
 	sigs.k8s.io/yaml v1.1.0
 )
+
+replace (
+	go.uber.org/zap => github.com/sourcegraph-testing/zap v1.14.1
+)
