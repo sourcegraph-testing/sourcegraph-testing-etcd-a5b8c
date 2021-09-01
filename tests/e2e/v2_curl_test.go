@@ -18,6 +18,7 @@ import (
 	"fmt"
 	"math/rand"
 	"os"
+	"strconv"
 	"strings"
 	"testing"
 
@@ -170,7 +171,7 @@ func cURLPrefixArgs(clus *etcdProcessCluster, method string, req cURLReq) []stri
 		cmdArgs = append(cmdArgs, "-L", ep)
 	}
 	if req.timeout != 0 {
-		cmdArgs = append(cmdArgs, "-m", fmt.Sprintf("%d", req.timeout))
+		cmdArgs = append(cmdArgs, "-m", strconv.Itoa(req.timeout))
 	}
 
 	if req.header != "" {
