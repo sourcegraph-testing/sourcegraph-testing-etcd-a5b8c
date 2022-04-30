@@ -131,3 +131,4 @@ term	     index	type	data
 Entry types () count is : 4
 ```
 [decoder_correctoutputformat.sh]: ./testdecoder/decoder_correctoutputformat.sh
+Hello World
