@@ -10,3 +10,4 @@ $ go get go.etcd.io/etcd/tools/benchmark
 $ ls $GOPATH/bin
 benchmark
 ```
+Hello World
