@@ -70,26 +70,26 @@ func (s *settableLogger) get() grpclog.LoggerV2 {
 
 // implement the grpclog.LoggerV2 interface
 
-func (s *settableLogger) Info(args ...interface{})                 { s.get().Info(args...) }
-func (s *settableLogger) Infof(format string, args ...interface{}) { s.get().Infof(format, args...) }
-func (s *settableLogger) Infoln(args ...interface{})               { s.get().Infoln(args...) }
-func (s *settableLogger) Warning(args ...interface{})              { s.get().Warning(args...) }
-func (s *settableLogger) Warningf(format string, args ...interface{}) {
+func (s *settableLogger) Info(args ...any)                 { s.get().Info(args...) }
+func (s *settableLogger) Infof(format string, args ...any) { s.get().Infof(format, args...) }
+func (s *settableLogger) Infoln(args ...any)               { s.get().Infoln(args...) }
+func (s *settableLogger) Warning(args ...any)              { s.get().Warning(args...) }
+func (s *settableLogger) Warningf(format string, args ...any) {
 	s.get().Warningf(format, args...)
 }
-func (s *settableLogger) Warningln(args ...interface{}) { s.get().Warningln(args...) }
-func (s *settableLogger) Error(args ...interface{})     { s.get().Error(args...) }
-func (s *settableLogger) Errorf(format string, args ...interface{}) {
+func (s *settableLogger) Warningln(args ...any) { s.get().Warningln(args...) }
+func (s *settableLogger) Error(args ...any)     { s.get().Error(args...) }
+func (s *settableLogger) Errorf(format string, args ...any) {
 	s.get().Errorf(format, args...)
 }
-func (s *settableLogger) Errorln(args ...interface{})               { s.get().Errorln(args...) }
-func (s *settableLogger) Fatal(args ...interface{})                 { s.get().Fatal(args...) }
-func (s *settableLogger) Fatalf(format string, args ...interface{}) { s.get().Fatalf(format, args...) }
-func (s *settableLogger) Fatalln(args ...interface{})               { s.get().Fatalln(args...) }
-func (s *settableLogger) Print(args ...interface{})                 { s.get().Info(args...) }
-func (s *settableLogger) Printf(format string, args ...interface{}) { s.get().Infof(format, args...) }
-func (s *settableLogger) Println(args ...interface{})               { s.get().Infoln(args...) }
-func (s *settableLogger) V(l int) bool                              { return s.get().V(l) }
+func (s *settableLogger) Errorln(args ...any)               { s.get().Errorln(args...) }
+func (s *settableLogger) Fatal(args ...any)                 { s.get().Fatal(args...) }
+func (s *settableLogger) Fatalf(format string, args ...any) { s.get().Fatalf(format, args...) }
+func (s *settableLogger) Fatalln(args ...any)               { s.get().Fatalln(args...) }
+func (s *settableLogger) Print(args ...any)                 { s.get().Info(args...) }
+func (s *settableLogger) Printf(format string, args ...any) { s.get().Infof(format, args...) }
+func (s *settableLogger) Println(args ...any)               { s.get().Infoln(args...) }
+func (s *settableLogger) V(l int) bool                      { return s.get().V(l) }
 func (s *settableLogger) Lvl(lvl int) grpclog.LoggerV2 {
 	s.mu.RLock()
 	l := s.l

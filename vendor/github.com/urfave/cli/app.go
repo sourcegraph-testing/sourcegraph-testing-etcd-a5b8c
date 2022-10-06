@@ -63,7 +63,7 @@ type App struct {
 	// The action to execute when no subcommands are specified
 	// Expects a `cli.ActionFunc` but will accept the *deprecated* signature of `func(*cli.Context) {}`
 	// *Note*: support for the deprecated `Action` signature will be removed in a future version
-	Action interface{}
+	Action any
 
 	// Execute this function if the proper command cannot be found
 	CommandNotFound CommandNotFoundFunc
@@ -84,7 +84,7 @@ type App struct {
 	// ErrWriter writes error output
 	ErrWriter io.Writer
 	// Other custom info
-	Metadata map[string]interface{}
+	Metadata map[string]any
 	// Carries a function which returns app specific info.
 	ExtraInfo func() map[string]string
 	// CustomAppHelpTemplate the text template for app help topic.
@@ -162,7 +162,7 @@ func (a *App) Setup() {
 	sort.Sort(a.categories)
 
 	if a.Metadata == nil {
-		a.Metadata = make(map[string]interface{})
+		a.Metadata = make(map[string]any)
 	}
 
 	if a.Writer == nil {
@@ -483,7 +483,7 @@ func (a Author) String() string {
 // HandleAction attempts to figure out which Action signature was used.  If
 // it's an ActionFunc or a func with the legacy signature for Action, the func
 // is run!
-func HandleAction(action interface{}, context *Context) (err error) {
+func HandleAction(action any, context *Context) (err error) {
 	if a, ok := action.(ActionFunc); ok {
 		return a(context)
 	} else if a, ok := action.(func(*Context) error); ok {

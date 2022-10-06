@@ -47,7 +47,7 @@ type bufferPool struct {
 func newBufferPool() *bufferPool {
 	return &bufferPool{
 		pool: sync.Pool{
-			New: func() interface{} {
+			New: func() any {
 				return new(bytes.Buffer)
 			},
 		},
@@ -571,7 +571,7 @@ type ConnectOptions struct {
 // TargetInfo contains the information of the target such as network address and metadata.
 type TargetInfo struct {
 	Addr      string
-	Metadata  interface{}
+	Metadata  any
 	Authority string
 }
 
@@ -708,7 +708,7 @@ type ServerTransport interface {
 }
 
 // connectionErrorf creates an ConnectionError with the specified error description.
-func connectionErrorf(temp bool, e error, format string, a ...interface{}) ConnectionError {
+func connectionErrorf(temp bool, e error, format string, a ...any) ConnectionError {
 	return ConnectionError{
 		Desc: fmt.Sprintf(format, a...),
 		temp: temp,

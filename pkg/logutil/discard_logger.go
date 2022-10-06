@@ -28,18 +28,18 @@ func NewDiscardLogger() Logger { return &discardLogger{} }
 
 type discardLogger struct{}
 
-func (l *discardLogger) Info(args ...interface{})                    {}
-func (l *discardLogger) Infoln(args ...interface{})                  {}
-func (l *discardLogger) Infof(format string, args ...interface{})    {}
-func (l *discardLogger) Warning(args ...interface{})                 {}
-func (l *discardLogger) Warningln(args ...interface{})               {}
-func (l *discardLogger) Warningf(format string, args ...interface{}) {}
-func (l *discardLogger) Error(args ...interface{})                   {}
-func (l *discardLogger) Errorln(args ...interface{})                 {}
-func (l *discardLogger) Errorf(format string, args ...interface{})   {}
-func (l *discardLogger) Fatal(args ...interface{})                   { log.Fatal(args...) }
-func (l *discardLogger) Fatalln(args ...interface{})                 { log.Fatalln(args...) }
-func (l *discardLogger) Fatalf(format string, args ...interface{})   { log.Fatalf(format, args...) }
+func (l *discardLogger) Info(args ...any)                    {}
+func (l *discardLogger) Infoln(args ...any)                  {}
+func (l *discardLogger) Infof(format string, args ...any)    {}
+func (l *discardLogger) Warning(args ...any)                 {}
+func (l *discardLogger) Warningln(args ...any)               {}
+func (l *discardLogger) Warningf(format string, args ...any) {}
+func (l *discardLogger) Error(args ...any)                   {}
+func (l *discardLogger) Errorln(args ...any)                 {}
+func (l *discardLogger) Errorf(format string, args ...any)   {}
+func (l *discardLogger) Fatal(args ...any)                   { log.Fatal(args...) }
+func (l *discardLogger) Fatalln(args ...any)                 { log.Fatalln(args...) }
+func (l *discardLogger) Fatalf(format string, args ...any)   { log.Fatalf(format, args...) }
 func (l *discardLogger) V(lvl int) bool {
 	return false
 }

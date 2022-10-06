@@ -43,12 +43,12 @@ const (
 
 var (
 	bufPool = sync.Pool{
-		New: func() interface{} {
+		New: func() any {
 			return bytes.NewBuffer(make([]byte, 0, initialBufSize))
 		},
 	}
 	numBufPool = sync.Pool{
-		New: func() interface{} {
+		New: func() any {
 			b := make([]byte, 0, initialNumBufSize)
 			return &b
 		},

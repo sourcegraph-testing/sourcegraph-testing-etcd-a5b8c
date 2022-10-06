@@ -49,7 +49,7 @@ func (field *UnsafeStructField) Anonymous() bool {
 	return field.StructField.Anonymous
 }
 
-func (field *UnsafeStructField) Set(obj interface{}, value interface{}) {
+func (field *UnsafeStructField) Set(obj any, value any) {
 	objEFace := unpackEFace(obj)
 	assertType("StructField.SetIndex argument 1", field.structType.ptrRType, objEFace.rtype)
 	valueEFace := unpackEFace(value)
@@ -62,7 +62,7 @@ func (field *UnsafeStructField) UnsafeSet(obj unsafe.Pointer, value unsafe.Point
 	typedmemmove(field.rtype, fieldPtr, value)
 }
 
-func (field *UnsafeStructField) Get(obj interface{}) interface{} {
+func (field *UnsafeStructField) Get(obj any) any {
 	objEFace := unpackEFace(obj)
 	assertType("StructField.GetIndex argument 1", field.structType.ptrRType, objEFace.rtype)
 	value := field.UnsafeGet(objEFace.data)

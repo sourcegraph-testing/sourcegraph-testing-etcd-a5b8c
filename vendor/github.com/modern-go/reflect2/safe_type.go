@@ -10,7 +10,7 @@ type safeType struct {
 	cfg *frozenConfig
 }
 
-func (type2 *safeType) New() interface{} {
+func (type2 *safeType) New() any {
 	return reflect.New(type2.Type).Interface()
 }
 
@@ -26,7 +26,7 @@ func (type2 *safeType) Type1() reflect.Type {
 	return type2.Type
 }
 
-func (type2 *safeType) PackEFace(ptr unsafe.Pointer) interface{} {
+func (type2 *safeType) PackEFace(ptr unsafe.Pointer) any {
 	panic("does not support unsafe operation")
 }
 
@@ -38,11 +38,11 @@ func (type2 *safeType) RType() uintptr {
 	panic("does not support unsafe operation")
 }
 
-func (type2 *safeType) Indirect(obj interface{}) interface{} {
+func (type2 *safeType) Indirect(obj any) any {
 	return reflect.Indirect(reflect.ValueOf(obj)).Interface()
 }
 
-func (type2 *safeType) UnsafeIndirect(ptr unsafe.Pointer) interface{} {
+func (type2 *safeType) UnsafeIndirect(ptr unsafe.Pointer) any {
 	panic("does not support unsafe operation")
 }
 
@@ -54,7 +54,7 @@ func (type2 *safeType) IsNullable() bool {
 	return IsNullable(type2.Kind())
 }
 
-func (type2 *safeType) IsNil(obj interface{}) bool {
+func (type2 *safeType) IsNil(obj any) bool {
 	if obj == nil {
 		return true
 	}
@@ -65,7 +65,7 @@ func (type2 *safeType) UnsafeIsNil(ptr unsafe.Pointer) bool {
 	panic("does not support unsafe operation")
 }
 
-func (type2 *safeType) Set(obj interface{}, val interface{}) {
+func (type2 *safeType) Set(obj any, val any) {
 	reflect.ValueOf(obj).Elem().Set(reflect.ValueOf(val).Elem())
 }
 

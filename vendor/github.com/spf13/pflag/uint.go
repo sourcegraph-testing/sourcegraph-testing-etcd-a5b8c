@@ -22,7 +22,7 @@ func (i *uintValue) Type() string {
 
 func (i *uintValue) String() string { return strconv.FormatUint(uint64(*i), 10) }
 
-func uintConv(sval string) (interface{}, error) {
+func uintConv(sval string) (any, error) {
 	v, err := strconv.ParseUint(sval, 0, 0)
 	if err != nil {
 		return 0, err

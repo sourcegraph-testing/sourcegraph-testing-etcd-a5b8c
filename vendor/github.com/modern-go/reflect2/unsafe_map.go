@@ -19,7 +19,7 @@ func newUnsafeMapType(cfg *frozenConfig, type1 reflect.Type) MapType {
 	}
 }
 
-func (type2 *UnsafeMapType) IsNil(obj interface{}) bool {
+func (type2 *UnsafeMapType) IsNil(obj any) bool {
 	if obj == nil {
 		return true
 	}
@@ -39,13 +39,13 @@ func (type2 *UnsafeMapType) LikePtr() bool {
 	return true
 }
 
-func (type2 *UnsafeMapType) Indirect(obj interface{}) interface{} {
+func (type2 *UnsafeMapType) Indirect(obj any) any {
 	objEFace := unpackEFace(obj)
 	assertType("MapType.Indirect argument 1", type2.ptrRType, objEFace.rtype)
 	return type2.UnsafeIndirect(objEFace.data)
 }
 
-func (type2 *UnsafeMapType) UnsafeIndirect(ptr unsafe.Pointer) interface{} {
+func (type2 *UnsafeMapType) UnsafeIndirect(ptr unsafe.Pointer) any {
 	return packEFace(type2.rtype, *(*unsafe.Pointer)(ptr))
 }
 
@@ -53,7 +53,7 @@ func (type2 *UnsafeMapType) Key() Type {
 	return type2.cfg.Type2(type2.Type.Key())
 }
 
-func (type2 *UnsafeMapType) MakeMap(cap int) interface{} {
+func (type2 *UnsafeMapType) MakeMap(cap int) any {
 	return packEFace(type2.ptrRType, type2.UnsafeMakeMap(cap))
 }
 
@@ -62,7 +62,7 @@ func (type2 *UnsafeMapType) UnsafeMakeMap(cap int) unsafe.Pointer {
 	return unsafe.Pointer(&m)
 }
 
-func (type2 *UnsafeMapType) SetIndex(obj interface{}, key interface{}, elem interface{}) {
+func (type2 *UnsafeMapType) SetIndex(obj any, key any, elem any) {
 	objEFace := unpackEFace(obj)
 	assertType("MapType.SetIndex argument 1", type2.ptrRType, objEFace.rtype)
 	keyEFace := unpackEFace(key)
@@ -76,7 +76,7 @@ func (type2 *UnsafeMapType) UnsafeSetIndex(obj unsafe.Pointer, key unsafe.Pointe
 	mapassign(type2.rtype, *(*unsafe.Pointer)(obj), key, elem)
 }
 
-func (type2 *UnsafeMapType) TryGetIndex(obj interface{}, key interface{}) (interface{}, bool) {
+func (type2 *UnsafeMapType) TryGetIndex(obj any, key any) (any, bool) {
 	objEFace := unpackEFace(obj)
 	assertType("MapType.TryGetIndex argument 1", type2.ptrRType, objEFace.rtype)
 	keyEFace := unpackEFace(key)
@@ -88,7 +88,7 @@ func (type2 *UnsafeMapType) TryGetIndex(obj interface{}, key interface{}) (inter
 	return packEFace(type2.pElemRType, elemPtr), true
 }
 
-func (type2 *UnsafeMapType) GetIndex(obj interface{}, key interface{}) interface{} {
+func (type2 *UnsafeMapType) GetIndex(obj any, key any) any {
 	objEFace := unpackEFace(obj)
 	assertType("MapType.GetIndex argument 1", type2.ptrRType, objEFace.rtype)
 	keyEFace := unpackEFace(key)
@@ -101,7 +101,7 @@ func (type2 *UnsafeMapType) UnsafeGetIndex(obj unsafe.Pointer, key unsafe.Pointe
 	return mapaccess(type2.rtype, *(*unsafe.Pointer)(obj), key)
 }
 
-func (type2 *UnsafeMapType) Iterate(obj interface{}) MapIterator {
+func (type2 *UnsafeMapType) Iterate(obj any) MapIterator {
 	objEFace := unpackEFace(obj)
 	assertType("MapType.Iterate argument 1", type2.ptrRType, objEFace.rtype)
 	return type2.UnsafeIterate(objEFace.data)
@@ -125,7 +125,7 @@ func (iter *UnsafeMapIterator) HasNext() bool {
 	return iter.key != nil
 }
 
-func (iter *UnsafeMapIterator) Next() (interface{}, interface{}) {
+func (iter *UnsafeMapIterator) Next() (any, any) {
 	key, elem := iter.UnsafeNext()
 	return packEFace(iter.pKeyRType, key), packEFace(iter.pElemRType, elem)
 }

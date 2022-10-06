@@ -138,7 +138,7 @@ type Error struct {
 func (ae Error) Error() string   { return ae.Errmsg }
 func (ae Error) HTTPStatus() int { return ae.Status }
 
-func authErr(hs int, s string, v ...interface{}) Error {
+func authErr(hs int, s string, v ...any) Error {
 	return Error{Status: hs, Errmsg: fmt.Sprintf("auth: "+s, v...)}
 }
 

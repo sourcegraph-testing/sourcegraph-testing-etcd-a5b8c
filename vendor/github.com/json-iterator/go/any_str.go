@@ -10,7 +10,7 @@ type stringAny struct {
 	val string
 }
 
-func (any *stringAny) Get(path ...interface{}) Any {
+func (any *stringAny) Get(path ...any) Any {
 	if len(path) == 0 {
 		return any
 	}
@@ -161,6 +161,6 @@ func (any *stringAny) WriteTo(stream *Stream) {
 	stream.WriteString(any.val)
 }
 
-func (any *stringAny) GetInterface() interface{} {
+func (any *stringAny) GetInterface() any {
 	return any.val
 }

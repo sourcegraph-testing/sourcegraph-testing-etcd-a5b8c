@@ -41,24 +41,24 @@ var (
 // testing framework. By convention, test files are typically located in a
 // sub-directory called "testdata". Each test file has the following format:
 //
-//   <command>[,<command>...] [arg | arg=val | arg=(val1, val2, ...)]...
-//   <input to the command>
-//   ----
-//   <expected results>
+//	<command>[,<command>...] [arg | arg=val | arg=(val1, val2, ...)]...
+//	<input to the command>
+//	----
+//	<expected results>
 //
 // The command input can contain blank lines. However, by default, the expected
 // results cannot contain blank lines. This alternate syntax allows the use of
 // blank lines:
 //
-//   <command>[,<command>...] [arg | arg=val | arg=(val1, val2, ...)]...
-//   <input to the command>
-//   ----
-//   ----
-//   <expected results>
+//	<command>[,<command>...] [arg | arg=val | arg=(val1, val2, ...)]...
+//	<input to the command>
+//	----
+//	----
+//	<expected results>
 //
-//   <more expected results>
-//   ----
-//   ----
+//	<more expected results>
+//	----
+//	----
 //
 // To execute data-driven tests, pass the path of the test file as well as a
 // function which can interpret and execute whatever commands are present in
@@ -161,27 +161,26 @@ func runTestInternal(
 //
 // This can be used in conjunction with RunTest. For example:
 //
-//    datadriven.Walk(t, path, func (t *testing.T, path string) {
-//      // initialize per-test state
-//      datadriven.RunTest(t, path, func (d *datadriven.TestData) {
-//       // ...
-//      }
-//    }
+//	 datadriven.Walk(t, path, func (t *testing.T, path string) {
+//	   // initialize per-test state
+//	   datadriven.RunTest(t, path, func (d *datadriven.TestData) {
+//	    // ...
+//	   }
+//	 }
 //
-//   Files:
-//     testdata/typing
-//     testdata/logprops/scan
-//     testdata/logprops/select
+//	Files:
+//	  testdata/typing
+//	  testdata/logprops/scan
+//	  testdata/logprops/select
 //
-//   If path is "testdata/typing", the function is called once and no subtests
-//   care created.
+//	If path is "testdata/typing", the function is called once and no subtests
+//	care created.
 //
-//   If path is "testdata/logprops", the function is called two times, in
-//   separate subtests /scan, /select.
+//	If path is "testdata/logprops", the function is called two times, in
+//	separate subtests /scan, /select.
 //
-//   If path is "testdata", the function is called three times, in subtest
-//   hierarchy /typing, /logprops/scan, /logprops/select.
-//
+//	If path is "testdata", the function is called three times, in subtest
+//	hierarchy /typing, /logprops/scan, /logprops/select.
 func Walk(t *testing.T, path string, f func(t *testing.T, path string)) {
 	finfo, err := os.Stat(path)
 	if err != nil {
@@ -221,7 +220,7 @@ type TestData struct {
 // destinations does not match that of the arguments, or a destination can not
 // be populated from its matching value, a fatal error results.
 //
-// For example, for a TestData originating from
+// # For example, for a TestData originating from
 //
 // cmd arg1=50 arg2=yoruba arg3=(50, 50, 50)
 //
@@ -232,7 +231,7 @@ type TestData struct {
 // td.ScanArgs(t, "arg1", &i1)
 // td.ScanArgs(t, "arg2", &s)
 // td.ScanArgs(t, "arg3", &i2, &i3, &i4)
-func (td *TestData) ScanArgs(t *testing.T, key string, dests ...interface{}) {
+func (td *TestData) ScanArgs(t *testing.T, key string, dests ...any) {
 	t.Helper()
 	var arg CmdArg
 	for i := range td.CmdArgs {
@@ -256,9 +255,9 @@ func (td *TestData) ScanArgs(t *testing.T, key string, dests ...interface{}) {
 
 // CmdArg contains information about an argument on the directive line. An
 // argument is specified in one of the following forms:
-//  - argument
-//  - argument=value
-//  - argument=(values, ...)
+//   - argument
+//   - argument=value
+//   - argument=(values, ...)
 type CmdArg struct {
 	Key  string
 	Vals []string
@@ -278,7 +277,7 @@ func (arg CmdArg) String() string {
 }
 
 // Scan attempts to parse the value at index i into the dest.
-func (arg CmdArg) Scan(t *testing.T, i int, dest interface{}) {
+func (arg CmdArg) Scan(t *testing.T, i int, dest any) {
 	if i < 0 || i >= len(arg.Vals) {
 		t.Fatalf("cannot scan index %d of key %s", i, arg.Key)
 	}
@@ -311,7 +310,7 @@ func (arg CmdArg) Scan(t *testing.T, i int, dest interface{}) {
 
 // Fatalf wraps a fatal testing error with test file position information, so
 // that it's easy to locate the source of the error.
-func (td TestData) Fatalf(tb testing.TB, format string, args ...interface{}) {
+func (td TestData) Fatalf(tb testing.TB, format string, args ...any) {
 	tb.Helper()
 	tb.Fatalf("%s: %s", td.Pos, fmt.Sprintf(format, args...))
 }

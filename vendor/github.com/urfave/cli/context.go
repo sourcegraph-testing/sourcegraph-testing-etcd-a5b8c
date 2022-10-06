@@ -157,7 +157,7 @@ func (c *Context) Parent() *Context {
 }
 
 // value returns the value of the flag coressponding to `name`
-func (c *Context) value(name string) interface{} {
+func (c *Context) value(name string) any {
 	return c.flagSet.Lookup(name).Value.(flag.Getter).Get()
 }
 

@@ -37,7 +37,7 @@ func (field *safeField) Anonymous() bool {
 	return field.StructField.Anonymous
 }
 
-func (field *safeField) Set(obj interface{}, value interface{}) {
+func (field *safeField) Set(obj any, value any) {
 	val := reflect.ValueOf(obj).Elem()
 	val.FieldByIndex(field.Index()).Set(reflect.ValueOf(value).Elem())
 }
@@ -46,7 +46,7 @@ func (field *safeField) UnsafeSet(obj unsafe.Pointer, value unsafe.Pointer) {
 	panic("unsafe operation is not supported")
 }
 
-func (field *safeField) Get(obj interface{}) interface{} {
+func (field *safeField) Get(obj any) any {
 	val := reflect.ValueOf(obj).Elem().FieldByIndex(field.Index())
 	ptr := reflect.New(val.Type())
 	ptr.Elem().Set(val)

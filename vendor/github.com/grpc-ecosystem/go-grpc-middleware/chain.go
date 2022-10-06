@@ -20,13 +20,13 @@ func ChainUnaryServer(interceptors ...grpc.UnaryServerInterceptor) grpc.UnarySer
 
 	if n > 1 {
 		lastI := n - 1
-		return func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (interface{}, error) {
+		return func(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (any, error) {
 			var (
 				chainHandler grpc.UnaryHandler
 				curI         int
 			)
 
-			chainHandler = func(currentCtx context.Context, currentReq interface{}) (interface{}, error) {
+			chainHandler = func(currentCtx context.Context, currentReq any) (any, error) {
 				if curI == lastI {
 					return handler(currentCtx, currentReq)
 				}
@@ -45,7 +45,7 @@ func ChainUnaryServer(interceptors ...grpc.UnaryServerInterceptor) grpc.UnarySer
 	}
 
 	// n == 0; Dummy interceptor maintained for backward compatibility to avoid returning nil.
-	return func(ctx context.Context, req interface{}, _ *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (interface{}, error) {
+	return func(ctx context.Context, req any, _ *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (any, error) {
 		return handler(ctx, req)
 	}
 }
@@ -60,13 +60,13 @@ func ChainStreamServer(interceptors ...grpc.StreamServerInterceptor) grpc.Stream
 
 	if n > 1 {
 		lastI := n - 1
-		return func(srv interface{}, stream grpc.ServerStream, info *grpc.StreamServerInfo, handler grpc.StreamHandler) error {
+		return func(srv any, stream grpc.ServerStream, info *grpc.StreamServerInfo, handler grpc.StreamHandler) error {
 			var (
 				chainHandler grpc.StreamHandler
 				curI         int
 			)
 
-			chainHandler = func(currentSrv interface{}, currentStream grpc.ServerStream) error {
+			chainHandler = func(currentSrv any, currentStream grpc.ServerStream) error {
 				if curI == lastI {
 					return handler(currentSrv, currentStream)
 				}
@@ -85,7 +85,7 @@ func ChainStreamServer(interceptors ...grpc.StreamServerInterceptor) grpc.Stream
 	}
 
 	// n == 0; Dummy interceptor maintained for backward compatibility to avoid returning nil.
-	return func(srv interface{}, stream grpc.ServerStream, _ *grpc.StreamServerInfo, handler grpc.StreamHandler) error {
+	return func(srv any, stream grpc.ServerStream, _ *grpc.StreamServerInfo, handler grpc.StreamHandler) error {
 		return handler(srv, stream)
 	}
 }
@@ -99,13 +99,13 @@ func ChainUnaryClient(interceptors ...grpc.UnaryClientInterceptor) grpc.UnaryCli
 
 	if n > 1 {
 		lastI := n - 1
-		return func(ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
+		return func(ctx context.Context, method string, req, reply any, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
 			var (
 				chainHandler grpc.UnaryInvoker
 				curI         int
 			)
 
-			chainHandler = func(currentCtx context.Context, currentMethod string, currentReq, currentRepl interface{}, currentConn *grpc.ClientConn, currentOpts ...grpc.CallOption) error {
+			chainHandler = func(currentCtx context.Context, currentMethod string, currentReq, currentRepl any, currentConn *grpc.ClientConn, currentOpts ...grpc.CallOption) error {
 				if curI == lastI {
 					return invoker(currentCtx, currentMethod, currentReq, currentRepl, currentConn, currentOpts...)
 				}
@@ -124,7 +124,7 @@ func ChainUnaryClient(interceptors ...grpc.UnaryClientInterceptor) grpc.UnaryCli
 	}
 
 	// n == 0; Dummy interceptor maintained for backward compatibility to avoid returning nil.
-	return func(ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
+	return func(ctx context.Context, method string, req, reply any, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
 		return invoker(ctx, method, req, reply, cc, opts...)
 	}
 }

@@ -32,7 +32,7 @@ func (s *stringArrayValue) String() string {
 	return "[" + str + "]"
 }
 
-func stringArrayConv(sval string) (interface{}, error) {
+func stringArrayConv(sval string) (any, error) {
 	sval = sval[1 : len(sval)-1]
 	// An empty string would cause a array with one (empty) string
 	if len(sval) == 0 {

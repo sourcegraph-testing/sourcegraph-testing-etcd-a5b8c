@@ -18,6 +18,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+//go:build go1.13
 // +build go1.13
 
 package multierr
@@ -29,7 +30,7 @@ import "errors"
 //
 // This function allows errors.As to traverse the values stored on the
 // multierr error.
-func (merr *multiError) As(target interface{}) bool {
+func (merr *multiError) As(target any) bool {
 	for _, err := range merr.Errors() {
 		if errors.As(err, target) {
 			return true

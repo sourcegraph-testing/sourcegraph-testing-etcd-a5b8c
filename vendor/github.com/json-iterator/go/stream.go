@@ -12,7 +12,7 @@ type Stream struct {
 	buf        []byte
 	Error      error
 	indention  int
-	Attachment interface{} // open for customized encoder
+	Attachment any // open for customized encoder
 }
 
 // NewStream create new stream instance.

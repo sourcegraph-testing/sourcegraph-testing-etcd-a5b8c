@@ -90,13 +90,13 @@ func (any *arrayLazyAny) ToString() string {
 	return *(*string)(unsafe.Pointer(&any.buf))
 }
 
-func (any *arrayLazyAny) ToVal(val interface{}) {
+func (any *arrayLazyAny) ToVal(val any) {
 	iter := any.cfg.BorrowIterator(any.buf)
 	defer any.cfg.ReturnIterator(iter)
 	iter.ReadVal(val)
 }
 
-func (any *arrayLazyAny) Get(path ...interface{}) Any {
+func (any *arrayLazyAny) Get(path ...any) Any {
 	if len(path) == 0 {
 		return any
 	}
@@ -146,7 +146,7 @@ func (any *arrayLazyAny) WriteTo(stream *Stream) {
 	stream.Write(any.buf)
 }
 
-func (any *arrayLazyAny) GetInterface() interface{} {
+func (any *arrayLazyAny) GetInterface() any {
 	iter := any.cfg.BorrowIterator(any.buf)
 	defer any.cfg.ReturnIterator(iter)
 	return iter.Read()
@@ -157,7 +157,7 @@ type arrayAny struct {
 	val reflect.Value
 }
 
-func wrapArray(val interface{}) *arrayAny {
+func wrapArray(val any) *arrayAny {
 	return &arrayAny{baseAny{}, reflect.ValueOf(val)}
 }
 
@@ -238,7 +238,7 @@ func (any *arrayAny) ToString() string {
 	return str
 }
 
-func (any *arrayAny) Get(path ...interface{}) Any {
+func (any *arrayAny) Get(path ...any) Any {
 	if len(path) == 0 {
 		return any
 	}
@@ -273,6 +273,6 @@ func (any *arrayAny) WriteTo(stream *Stream) {
 	stream.WriteVal(any.val)
 }
 
-func (any *arrayAny) GetInterface() interface{} {
+func (any *arrayAny) GetInterface() any {
 	return any.val.Interface()
 }

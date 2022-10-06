@@ -71,7 +71,7 @@ func (s *boolSliceValue) String() string {
 	return "[" + out + "]"
 }
 
-func boolSliceConv(val string) (interface{}, error) {
+func boolSliceConv(val string) (any, error) {
 	val = strings.Trim(val, "[]")
 	// Empty string would cause a slice with one (empty) entry
 	if len(val) == 0 {

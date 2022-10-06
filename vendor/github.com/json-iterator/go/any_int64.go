@@ -69,6 +69,6 @@ func (any *int64Any) Parse() *Iterator {
 	return nil
 }
 
-func (any *int64Any) GetInterface() interface{} {
+func (any *int64Any) GetInterface() any {
 	return any.val
 }

@@ -22,7 +22,7 @@ func (i *int32Value) Type() string {
 
 func (i *int32Value) String() string { return strconv.FormatInt(int64(*i), 10) }
 
-func int32Conv(sval string) (interface{}, error) {
+func int32Conv(sval string) (any, error) {
 	v, err := strconv.ParseInt(sval, 0, 32)
 	if err != nil {
 		return 0, err

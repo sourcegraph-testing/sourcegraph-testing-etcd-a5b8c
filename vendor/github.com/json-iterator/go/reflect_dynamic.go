@@ -23,7 +23,7 @@ type efaceDecoder struct {
 }
 
 func (decoder *efaceDecoder) Decode(ptr unsafe.Pointer, iter *Iterator) {
-	pObj := (*interface{})(ptr)
+	pObj := (*any)(ptr)
 	obj := *pObj
 	if obj == nil {
 		*pObj = iter.Read()

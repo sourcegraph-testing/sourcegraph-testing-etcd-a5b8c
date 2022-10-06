@@ -32,7 +32,7 @@ const _zapPackage = "go.uber.org/zap"
 
 var (
 	_stacktracePool = sync.Pool{
-		New: func() interface{} {
+		New: func() any {
 			return newProgramCounters(64)
 		},
 	}

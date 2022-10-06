@@ -33,29 +33,28 @@ var _ Logger = &defaultLogger{}
 //
 // For example:
 //
-//  var defaultLogger Logger
-//  g := grpclog.NewLoggerV2WithVerbosity(os.Stderr, os.Stderr, os.Stderr, 4)
-//  defaultLogger = NewLogger(g)
-//
+//	var defaultLogger Logger
+//	g := grpclog.NewLoggerV2WithVerbosity(os.Stderr, os.Stderr, os.Stderr, 4)
+//	defaultLogger = NewLogger(g)
 func NewLogger(g grpclog.LoggerV2) Logger { return &defaultLogger{g: g} }
 
 type defaultLogger struct {
 	g grpclog.LoggerV2
 }
 
-func (l *defaultLogger) Info(args ...interface{})                    { l.g.Info(args...) }
-func (l *defaultLogger) Infoln(args ...interface{})                  { l.g.Info(args...) }
-func (l *defaultLogger) Infof(format string, args ...interface{})    { l.g.Infof(format, args...) }
-func (l *defaultLogger) Warning(args ...interface{})                 { l.g.Warning(args...) }
-func (l *defaultLogger) Warningln(args ...interface{})               { l.g.Warning(args...) }
-func (l *defaultLogger) Warningf(format string, args ...interface{}) { l.g.Warningf(format, args...) }
-func (l *defaultLogger) Error(args ...interface{})                   { l.g.Error(args...) }
-func (l *defaultLogger) Errorln(args ...interface{})                 { l.g.Error(args...) }
-func (l *defaultLogger) Errorf(format string, args ...interface{})   { l.g.Errorf(format, args...) }
-func (l *defaultLogger) Fatal(args ...interface{})                   { l.g.Fatal(args...) }
-func (l *defaultLogger) Fatalln(args ...interface{})                 { l.g.Fatal(args...) }
-func (l *defaultLogger) Fatalf(format string, args ...interface{})   { l.g.Fatalf(format, args...) }
-func (l *defaultLogger) V(lvl int) bool                              { return l.g.V(lvl) }
+func (l *defaultLogger) Info(args ...any)                    { l.g.Info(args...) }
+func (l *defaultLogger) Infoln(args ...any)                  { l.g.Info(args...) }
+func (l *defaultLogger) Infof(format string, args ...any)    { l.g.Infof(format, args...) }
+func (l *defaultLogger) Warning(args ...any)                 { l.g.Warning(args...) }
+func (l *defaultLogger) Warningln(args ...any)               { l.g.Warning(args...) }
+func (l *defaultLogger) Warningf(format string, args ...any) { l.g.Warningf(format, args...) }
+func (l *defaultLogger) Error(args ...any)                   { l.g.Error(args...) }
+func (l *defaultLogger) Errorln(args ...any)                 { l.g.Error(args...) }
+func (l *defaultLogger) Errorf(format string, args ...any)   { l.g.Errorf(format, args...) }
+func (l *defaultLogger) Fatal(args ...any)                   { l.g.Fatal(args...) }
+func (l *defaultLogger) Fatalln(args ...any)                 { l.g.Fatal(args...) }
+func (l *defaultLogger) Fatalf(format string, args ...any)   { l.g.Fatalf(format, args...) }
+func (l *defaultLogger) V(lvl int) bool                      { return l.g.V(lvl) }
 func (l *defaultLogger) Lvl(lvl int) grpclog.LoggerV2 {
 	if l.g.V(lvl) {
 		return l

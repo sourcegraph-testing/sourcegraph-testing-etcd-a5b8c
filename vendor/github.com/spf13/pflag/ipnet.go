@@ -32,7 +32,7 @@ func newIPNetValue(val net.IPNet, p *net.IPNet) *ipNetValue {
 	return (*ipNetValue)(p)
 }
 
-func ipNetConv(sval string) (interface{}, error) {
+func ipNetConv(sval string) (any, error) {
 	_, n, err := net.ParseCIDR(strings.TrimSpace(sval))
 	if err == nil {
 		return *n, nil

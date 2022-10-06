@@ -121,7 +121,7 @@ type Address struct {
 	// to make load balancing decision.
 	//
 	// Deprecated: use Attributes instead.
-	Metadata interface{}
+	Metadata any
 }
 
 // BuildOption is a type alias of BuildOptions for legacy reasons.

@@ -105,15 +105,15 @@ func TestV2CreateUpdate(t *testing.T) {
 		relativeURL string
 		value       url.Values
 		wStatus     int
-		w           map[string]interface{}
+		w           map[string]any
 	}{
 		// key with ttl
 		{
 			"/v2/keys/ttl/foo",
 			url.Values(map[string][]string{"value": {"XXX"}, "ttl": {"20"}}),
 			http.StatusCreated,
-			map[string]interface{}{
-				"node": map[string]interface{}{
+			map[string]any{
+				"node": map[string]any{
 					"value": "XXX",
 					"ttl":   float64(20),
 				},
@@ -124,7 +124,7 @@ func TestV2CreateUpdate(t *testing.T) {
 			"/v2/keys/ttl/foo",
 			url.Values(map[string][]string{"value": {"XXX"}, "ttl": {"bad_ttl"}}),
 			http.StatusBadRequest,
-			map[string]interface{}{
+			map[string]any{
 				"errorCode": float64(202),
 				"message":   "The given TTL in POST form is not a number",
 			},
@@ -134,8 +134,8 @@ func TestV2CreateUpdate(t *testing.T) {
 			"/v2/keys/create/foo",
 			url.Values(map[string][]string{"value": {"XXX"}, "prevExist": {"false"}}),
 			http.StatusCreated,
-			map[string]interface{}{
-				"node": map[string]interface{}{
+			map[string]any{
+				"node": map[string]any{
 					"value": "XXX",
 				},
 			},
@@ -145,7 +145,7 @@ func TestV2CreateUpdate(t *testing.T) {
 			"/v2/keys/create/foo",
 			url.Values(map[string][]string{"value": {"XXX"}, "prevExist": {"false"}}),
 			http.StatusPreconditionFailed,
-			map[string]interface{}{
+			map[string]any{
 				"errorCode": float64(105),
 				"message":   "Key already exists",
 				"cause":     "/create/foo",
@@ -156,8 +156,8 @@ func TestV2CreateUpdate(t *testing.T) {
 			"/v2/keys/create/foo",
 			url.Values(map[string][]string{"value": {"YYY"}, "prevExist": {"true"}, "ttl": {"20"}}),
 			http.StatusOK,
-			map[string]interface{}{
-				"node": map[string]interface{}{
+			map[string]any{
+				"node": map[string]any{
 					"value": "YYY",
 					"ttl":   float64(20),
 				},
@@ -169,8 +169,8 @@ func TestV2CreateUpdate(t *testing.T) {
 			"/v2/keys/create/foo",
 			url.Values(map[string][]string{"value": {"ZZZ"}, "prevExist": {"true"}}),
 			http.StatusOK,
-			map[string]interface{}{
-				"node": map[string]interface{}{
+			map[string]any{
+				"node": map[string]any{
 					"value": "ZZZ",
 				},
 				"action": "update",
@@ -181,7 +181,7 @@ func TestV2CreateUpdate(t *testing.T) {
 			"/v2/keys/nonexist",
 			url.Values(map[string][]string{"value": {"XXX"}, "prevExist": {"true"}}),
 			http.StatusNotFound,
-			map[string]interface{}{
+			map[string]any{
 				"errorCode": float64(100),
 				"message":   "Key not found",
 				"cause":     "/nonexist",
@@ -192,21 +192,21 @@ func TestV2CreateUpdate(t *testing.T) {
 			"/v2/keys/create/novalue",
 			url.Values(map[string][]string{"value": {"XXX"}, "prevExist": {"false"}, "noValueOnSuccess": {"true"}}),
 			http.StatusCreated,
-			map[string]interface{}{},
+			map[string]any{},
 		},
 		// update with no value on success
 		{
 			"/v2/keys/create/novalue",
 			url.Values(map[string][]string{"value": {"XXX"}, "prevExist": {"true"}, "noValueOnSuccess": {"true"}}),
 			http.StatusOK,
-			map[string]interface{}{},
+			map[string]any{},
 		},
 		// created key failed with no value on success
 		{
 			"/v2/keys/create/foo",
 			url.Values(map[string][]string{"value": {"XXX"}, "prevExist": {"false"}, "noValueOnSuccess": {"true"}}),
 			http.StatusPreconditionFailed,
-			map[string]interface{}{
+			map[string]any{
 				"errorCode": float64(105),
 				"message":   "Key already exists",
 				"cause":     "/create/foo",
@@ -241,7 +241,7 @@ func TestV2CAS(t *testing.T) {
 		relativeURL string
 		value       url.Values
 		wStatus     int
-		w           map[string]interface{}
+		w           map[string]any
 	}{
 		{
 			"/v2/keys/cas/foo",
@@ -253,8 +253,8 @@ func TestV2CAS(t *testing.T) {
 			"/v2/keys/cas/foo",
 			url.Values(map[string][]string{"value": {"YYY"}, "prevIndex": {"4"}}),
 			http.StatusOK,
-			map[string]interface{}{
-				"node": map[string]interface{}{
+			map[string]any{
+				"node": map[string]any{
 					"value":         "YYY",
 					"modifiedIndex": float64(5),
 				},
@@ -265,7 +265,7 @@ func TestV2CAS(t *testing.T) {
 			"/v2/keys/cas/foo",
 			url.Values(map[string][]string{"value": {"YYY"}, "prevIndex": {"10"}}),
 			http.StatusPreconditionFailed,
-			map[string]interface{}{
+			map[string]any{
 				"errorCode": float64(101),
 				"message":   "Compare failed",
 				"cause":     "[10 != 5]",
@@ -276,7 +276,7 @@ func TestV2CAS(t *testing.T) {
 			"/v2/keys/cas/foo",
 			url.Values(map[string][]string{"value": {"YYY"}, "prevIndex": {"bad_index"}}),
 			http.StatusBadRequest,
-			map[string]interface{}{
+			map[string]any{
 				"errorCode": float64(203),
 				"message":   "The given index in POST form is not a number",
 			},
@@ -285,8 +285,8 @@ func TestV2CAS(t *testing.T) {
 			"/v2/keys/cas/foo",
 			url.Values(map[string][]string{"value": {"ZZZ"}, "prevValue": {"YYY"}}),
 			http.StatusOK,
-			map[string]interface{}{
-				"node": map[string]interface{}{
+			map[string]any{
+				"node": map[string]any{
 					"value": "ZZZ",
 				},
 				"action": "compareAndSwap",
@@ -296,7 +296,7 @@ func TestV2CAS(t *testing.T) {
 			"/v2/keys/cas/foo",
 			url.Values(map[string][]string{"value": {"XXX"}, "prevValue": {"bad_value"}}),
 			http.StatusPreconditionFailed,
-			map[string]interface{}{
+			map[string]any{
 				"errorCode": float64(101),
 				"message":   "Compare failed",
 				"cause":     "[bad_value != ZZZ]",
@@ -307,7 +307,7 @@ func TestV2CAS(t *testing.T) {
 			"/v2/keys/cas/foo",
 			url.Values(map[string][]string{"value": {"XXX"}, "prevValue": {""}}),
 			http.StatusBadRequest,
-			map[string]interface{}{
+			map[string]any{
 				"errorCode": float64(201),
 			},
 		},
@@ -315,7 +315,7 @@ func TestV2CAS(t *testing.T) {
 			"/v2/keys/cas/foo",
 			url.Values(map[string][]string{"value": {"XXX"}, "prevValue": {"bad_value"}, "prevIndex": {"100"}}),
 			http.StatusPreconditionFailed,
-			map[string]interface{}{
+			map[string]any{
 				"errorCode": float64(101),
 				"message":   "Compare failed",
 				"cause":     "[bad_value != ZZZ] [100 != 6]",
@@ -325,7 +325,7 @@ func TestV2CAS(t *testing.T) {
 			"/v2/keys/cas/foo",
 			url.Values(map[string][]string{"value": {"XXX"}, "prevValue": {"ZZZ"}, "prevIndex": {"100"}}),
 			http.StatusPreconditionFailed,
-			map[string]interface{}{
+			map[string]any{
 				"errorCode": float64(101),
 				"message":   "Compare failed",
 				"cause":     "[100 != 6]",
@@ -335,7 +335,7 @@ func TestV2CAS(t *testing.T) {
 			"/v2/keys/cas/foo",
 			url.Values(map[string][]string{"value": {"XXX"}, "prevValue": {"bad_value"}, "prevIndex": {"6"}}),
 			http.StatusPreconditionFailed,
-			map[string]interface{}{
+			map[string]any{
 				"errorCode": float64(101),
 				"message":   "Compare failed",
 				"cause":     "[bad_value != ZZZ]",
@@ -345,7 +345,7 @@ func TestV2CAS(t *testing.T) {
 			"/v2/keys/cas/foo",
 			url.Values(map[string][]string{"value": {"YYY"}, "prevIndex": {"6"}, "noValueOnSuccess": {"true"}}),
 			http.StatusOK,
-			map[string]interface{}{
+			map[string]any{
 				"action": "compareAndSwap",
 			},
 		},
@@ -353,7 +353,7 @@ func TestV2CAS(t *testing.T) {
 			"/v2/keys/cas/foo",
 			url.Values(map[string][]string{"value": {"YYY"}, "prevIndex": {"10"}, "noValueOnSuccess": {"true"}}),
 			http.StatusPreconditionFailed,
-			map[string]interface{}{
+			map[string]any{
 				"errorCode": float64(101),
 				"message":   "Compare failed",
 				"cause":     "[10 != 7]",
@@ -406,16 +406,16 @@ func TestV2Delete(t *testing.T) {
 	tests := []struct {
 		relativeURL string
 		wStatus     int
-		w           map[string]interface{}
+		w           map[string]any
 	}{
 		{
 			"/v2/keys/foo",
 			http.StatusOK,
-			map[string]interface{}{
-				"node": map[string]interface{}{
+			map[string]any{
+				"node": map[string]any{
 					"key": "/foo",
 				},
-				"prevNode": map[string]interface{}{
+				"prevNode": map[string]any{
 					"key":   "/foo",
 					"value": "XXX",
 				},
@@ -425,7 +425,7 @@ func TestV2Delete(t *testing.T) {
 		{
 			"/v2/keys/emptydir",
 			http.StatusForbidden,
-			map[string]interface{}{
+			map[string]any{
 				"errorCode": float64(102),
 				"message":   "Not a file",
 				"cause":     "/emptydir",
@@ -439,7 +439,7 @@ func TestV2Delete(t *testing.T) {
 		{
 			"/v2/keys/foodir?dir=true",
 			http.StatusForbidden,
-			map[string]interface{}{
+			map[string]any{
 				"errorCode": float64(108),
 				"message":   "Directory not empty",
 				"cause":     "/foodir",
@@ -448,12 +448,12 @@ func TestV2Delete(t *testing.T) {
 		{
 			"/v2/keys/foodir?recursive=true",
 			http.StatusOK,
-			map[string]interface{}{
-				"node": map[string]interface{}{
+			map[string]any{
+				"node": map[string]any{
 					"key": "/foodir",
 					"dir": true,
 				},
-				"prevNode": map[string]interface{}{
+				"prevNode": map[string]any{
 					"key": "/foodir",
 					"dir": true,
 				},
@@ -502,12 +502,12 @@ func TestV2CAD(t *testing.T) {
 	tests := []struct {
 		relativeURL string
 		wStatus     int
-		w           map[string]interface{}
+		w           map[string]any
 	}{
 		{
 			"/v2/keys/foo?prevIndex=100",
 			http.StatusPreconditionFailed,
-			map[string]interface{}{
+			map[string]any{
 				"errorCode": float64(101),
 				"message":   "Compare failed",
 				"cause":     "[100 != 4]",
@@ -516,7 +516,7 @@ func TestV2CAD(t *testing.T) {
 		{
 			"/v2/keys/foo?prevIndex=bad_index",
 			http.StatusBadRequest,
-			map[string]interface{}{
+			map[string]any{
 				"errorCode": float64(203),
 				"message":   "The given index in POST form is not a number",
 			},
@@ -524,8 +524,8 @@ func TestV2CAD(t *testing.T) {
 		{
 			"/v2/keys/foo?prevIndex=4",
 			http.StatusOK,
-			map[string]interface{}{
-				"node": map[string]interface{}{
+			map[string]any{
+				"node": map[string]any{
 					"key":           "/foo",
 					"modifiedIndex": float64(6),
 				},
@@ -535,7 +535,7 @@ func TestV2CAD(t *testing.T) {
 		{
 			"/v2/keys/foovalue?prevValue=YYY",
 			http.StatusPreconditionFailed,
-			map[string]interface{}{
+			map[string]any{
 				"errorCode": float64(101),
 				"message":   "Compare failed",
 				"cause":     "[YYY != XXX]",
@@ -544,7 +544,7 @@ func TestV2CAD(t *testing.T) {
 		{
 			"/v2/keys/foovalue?prevValue=",
 			http.StatusBadRequest,
-			map[string]interface{}{
+			map[string]any{
 				"errorCode": float64(201),
 				"cause":     `"prevValue" cannot be empty`,
 			},
@@ -552,8 +552,8 @@ func TestV2CAD(t *testing.T) {
 		{
 			"/v2/keys/foovalue?prevValue=XXX",
 			http.StatusOK,
-			map[string]interface{}{
-				"node": map[string]interface{}{
+			map[string]any{
+				"node": map[string]any{
 					"key":           "/foovalue",
 					"modifiedIndex": float64(7),
 				},
@@ -589,14 +589,14 @@ func TestV2Unique(t *testing.T) {
 		relativeURL string
 		value       url.Values
 		wStatus     int
-		w           map[string]interface{}
+		w           map[string]any
 	}{
 		{
 			"/v2/keys/foo",
 			url.Values(map[string][]string{"value": {"XXX"}}),
 			http.StatusCreated,
-			map[string]interface{}{
-				"node": map[string]interface{}{
+			map[string]any{
+				"node": map[string]any{
 					"key":   "/foo/00000000000000000004",
 					"value": "XXX",
 				},
@@ -607,8 +607,8 @@ func TestV2Unique(t *testing.T) {
 			"/v2/keys/foo",
 			url.Values(map[string][]string{"value": {"XXX"}}),
 			http.StatusCreated,
-			map[string]interface{}{
-				"node": map[string]interface{}{
+			map[string]any{
+				"node": map[string]any{
 					"key":   "/foo/00000000000000000005",
 					"value": "XXX",
 				},
@@ -619,8 +619,8 @@ func TestV2Unique(t *testing.T) {
 			"/v2/keys/bar",
 			url.Values(map[string][]string{"value": {"XXX"}}),
 			http.StatusCreated,
-			map[string]interface{}{
-				"node": map[string]interface{}{
+			map[string]any{
+				"node": map[string]any{
 					"key":   "/bar/00000000000000000006",
 					"value": "XXX",
 				},
@@ -663,13 +663,13 @@ func TestV2Get(t *testing.T) {
 	tests := []struct {
 		relativeURL string
 		wStatus     int
-		w           map[string]interface{}
+		w           map[string]any
 	}{
 		{
 			"/v2/keys/foo/bar/zar",
 			http.StatusOK,
-			map[string]interface{}{
-				"node": map[string]interface{}{
+			map[string]any{
+				"node": map[string]any{
 					"key":   "/foo/bar/zar",
 					"value": "XXX",
 				},
@@ -679,12 +679,12 @@ func TestV2Get(t *testing.T) {
 		{
 			"/v2/keys/foo",
 			http.StatusOK,
-			map[string]interface{}{
-				"node": map[string]interface{}{
+			map[string]any{
+				"node": map[string]any{
 					"key": "/foo",
 					"dir": true,
-					"nodes": []interface{}{
-						map[string]interface{}{
+					"nodes": []any{
+						map[string]any{
 							"key":           "/foo/bar",
 							"dir":           true,
 							"createdIndex":  float64(4),
@@ -698,18 +698,18 @@ func TestV2Get(t *testing.T) {
 		{
 			"/v2/keys/foo?recursive=true",
 			http.StatusOK,
-			map[string]interface{}{
-				"node": map[string]interface{}{
+			map[string]any{
+				"node": map[string]any{
 					"key": "/foo",
 					"dir": true,
-					"nodes": []interface{}{
-						map[string]interface{}{
+					"nodes": []any{
+						map[string]any{
 							"key":           "/foo/bar",
 							"dir":           true,
 							"createdIndex":  float64(4),
 							"modifiedIndex": float64(4),
-							"nodes": []interface{}{
-								map[string]interface{}{
+							"nodes": []any{
+								map[string]any{
 									"key":           "/foo/bar/zar",
 									"value":         "XXX",
 									"createdIndex":  float64(4),
@@ -761,13 +761,13 @@ func TestV2QuorumGet(t *testing.T) {
 	tests := []struct {
 		relativeURL string
 		wStatus     int
-		w           map[string]interface{}
+		w           map[string]any
 	}{
 		{
 			"/v2/keys/foo/bar/zar",
 			http.StatusOK,
-			map[string]interface{}{
-				"node": map[string]interface{}{
+			map[string]any{
+				"node": map[string]any{
 					"key":   "/foo/bar/zar",
 					"value": "XXX",
 				},
@@ -777,12 +777,12 @@ func TestV2QuorumGet(t *testing.T) {
 		{
 			"/v2/keys/foo",
 			http.StatusOK,
-			map[string]interface{}{
-				"node": map[string]interface{}{
+			map[string]any{
+				"node": map[string]any{
 					"key": "/foo",
 					"dir": true,
-					"nodes": []interface{}{
-						map[string]interface{}{
+					"nodes": []any{
+						map[string]any{
 							"key":           "/foo/bar",
 							"dir":           true,
 							"createdIndex":  float64(4),
@@ -796,18 +796,18 @@ func TestV2QuorumGet(t *testing.T) {
 		{
 			"/v2/keys/foo?recursive=true",
 			http.StatusOK,
-			map[string]interface{}{
-				"node": map[string]interface{}{
+			map[string]any{
+				"node": map[string]any{
 					"key": "/foo",
 					"dir": true,
-					"nodes": []interface{}{
-						map[string]interface{}{
+					"nodes": []any{
+						map[string]any{
 							"key":           "/foo/bar",
 							"dir":           true,
 							"createdIndex":  float64(4),
 							"modifiedIndex": float64(4),
-							"nodes": []interface{}{
-								map[string]interface{}{
+							"nodes": []any{
+								map[string]any{
 									"key":           "/foo/bar/zar",
 									"value":         "XXX",
 									"createdIndex":  float64(4),
@@ -863,8 +863,8 @@ func TestV2Watch(t *testing.T) {
 	resp.Body.Close()
 
 	body := tc.ReadBodyJSON(watchResp)
-	w := map[string]interface{}{
-		"node": map[string]interface{}{
+	w := map[string]any{
+		"node": map[string]any{
 			"key":           "/foo/bar",
 			"value":         "XXX",
 			"modifiedIndex": float64(4),
@@ -886,7 +886,7 @@ func TestV2WatchWithIndex(t *testing.T) {
 	u := cl.URL(0)
 	tc := NewTestClient()
 
-	var body map[string]interface{}
+	var body map[string]any
 	c := make(chan bool, 1)
 	go func() {
 		resp, err := tc.Get(fmt.Sprintf("%s%s", u, "/v2/keys/foo/bar?wait=true&waitIndex=5"))
@@ -931,8 +931,8 @@ func TestV2WatchWithIndex(t *testing.T) {
 		t.Fatal("cannot get watch result")
 	}
 
-	w := map[string]interface{}{
-		"node": map[string]interface{}{
+	w := map[string]any{
+		"node": map[string]any{
 			"key":           "/foo/bar",
 			"value":         "XXX",
 			"modifiedIndex": float64(5),
@@ -953,7 +953,7 @@ func TestV2WatchKeyInDir(t *testing.T) {
 	u := cl.URL(0)
 	tc := NewTestClient()
 
-	var body map[string]interface{}
+	var body map[string]any
 	c := make(chan bool)
 
 	// Create an expiring directory
@@ -994,8 +994,8 @@ func TestV2WatchKeyInDir(t *testing.T) {
 		t.Fatal("timed out waiting for watch result")
 	}
 
-	w := map[string]interface{}{
-		"node": map[string]interface{}{
+	w := map[string]any{
+		"node": map[string]any{
 			"key": "/keyindir",
 		},
 		"action": "expire",
@@ -1048,11 +1048,11 @@ func TestV2Head(t *testing.T) {
 	}
 }
 
-func checkBody(body map[string]interface{}, w map[string]interface{}) error {
+func checkBody(body map[string]any, w map[string]any) error {
 	if body["node"] != nil {
 		if w["node"] != nil {
-			wn := w["node"].(map[string]interface{})
-			n := body["node"].(map[string]interface{})
+			wn := w["node"].(map[string]any)
+			n := body["node"].(map[string]any)
 			for k := range n {
 				if wn[k] == nil {
 					delete(n, k)
@@ -1061,8 +1061,8 @@ func checkBody(body map[string]interface{}, w map[string]interface{}) error {
 			body["node"] = n
 		}
 		if w["prevNode"] != nil {
-			wn := w["prevNode"].(map[string]interface{})
-			n := body["prevNode"].(map[string]interface{})
+			wn := w["prevNode"].(map[string]any)
+			n := body["prevNode"].(map[string]any)
 			for k := range n {
 				if wn[k] == nil {
 					delete(n, k)
@@ -1102,8 +1102,8 @@ func (t *testHttpClient) ReadBody(resp *http.Response) []byte {
 }
 
 // Reads the body from the response and parses it as JSON.
-func (t *testHttpClient) ReadBodyJSON(resp *http.Response) map[string]interface{} {
-	m := make(map[string]interface{})
+func (t *testHttpClient) ReadBodyJSON(resp *http.Response) map[string]any {
+	m := make(map[string]any)
 	b := t.ReadBody(resp)
 	if err := json.Unmarshal(b, &m); err != nil {
 		panic(fmt.Sprintf("HTTP body JSON parse error: %v: %s", err, string(b)))

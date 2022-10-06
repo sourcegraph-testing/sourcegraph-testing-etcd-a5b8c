@@ -7,7 +7,7 @@ type invalidAny struct {
 	err error
 }
 
-func newInvalidAny(path []interface{}) *invalidAny {
+func newInvalidAny(path []any) *invalidAny {
 	return &invalidAny{baseAny{}, fmt.Errorf("%v not found", path)}
 }
 
@@ -66,7 +66,7 @@ func (any *invalidAny) ToString() string {
 func (any *invalidAny) WriteTo(stream *Stream) {
 }
 
-func (any *invalidAny) Get(path ...interface{}) Any {
+func (any *invalidAny) Get(path ...any) Any {
 	if any.err == nil {
 		return &invalidAny{baseAny{}, fmt.Errorf("get %v from invalid", path)}
 	}
@@ -77,6 +77,6 @@ func (any *invalidAny) Parse() *Iterator {
 	return nil
 }
 
-func (any *invalidAny) GetInterface() interface{} {
+func (any *invalidAny) GetInterface() any {
 	return nil
 }

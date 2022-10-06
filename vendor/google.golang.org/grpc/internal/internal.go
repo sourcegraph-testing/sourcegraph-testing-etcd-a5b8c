@@ -29,9 +29,9 @@ import (
 
 var (
 	// WithResolverBuilder is set by dialoptions.go
-	WithResolverBuilder interface{} // func (resolver.Builder) grpc.DialOption
+	WithResolverBuilder any // func (resolver.Builder) grpc.DialOption
 	// WithHealthCheckFunc is set by dialoptions.go
-	WithHealthCheckFunc interface{} // func (HealthChecker) DialOption
+	WithHealthCheckFunc any // func (HealthChecker) DialOption
 	// HealthCheckFunc is used to provide client-side LB channel health checking
 	HealthCheckFunc HealthChecker
 	// BalancerUnregister is exported by package balancer to unregister a balancer.
@@ -43,13 +43,13 @@ var (
 	// pointer to the wrapped Status proto for a given status.Status without a
 	// call to proto.Clone(). The returned Status proto should not be mutated by
 	// the caller.
-	StatusRawProto interface{} // func (*status.Status) *spb.Status
+	StatusRawProto any // func (*status.Status) *spb.Status
 	// NewRequestInfoContext creates a new context based on the argument context attaching
 	// the passed in RequestInfo to the new context.
-	NewRequestInfoContext interface{} // func(context.Context, credentials.RequestInfo) context.Context
+	NewRequestInfoContext any // func(context.Context, credentials.RequestInfo) context.Context
 	// ParseServiceConfigForTesting is for creating a fake
 	// ClientConn for resolver testing only
-	ParseServiceConfigForTesting interface{} // func(string) *serviceconfig.ParseResult
+	ParseServiceConfigForTesting any // func(string) *serviceconfig.ParseResult
 )
 
 // HealthChecker defines the signature of the client-side LB channel health checking function.
@@ -60,7 +60,7 @@ var (
 //
 // The health checking protocol is defined at:
 // https://github.com/grpc/grpc/blob/master/doc/health-checking.md
-type HealthChecker func(ctx context.Context, newStream func(string) (interface{}, error), setConnectivityState func(connectivity.State, error), serviceName string) error
+type HealthChecker func(ctx context.Context, newStream func(string) (any, error), setConnectivityState func(connectivity.State, error), serviceName string) error
 
 const (
 	// CredsBundleModeFallback switches GoogleDefaultCreds to fallback mode.

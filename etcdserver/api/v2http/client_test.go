@@ -111,35 +111,35 @@ type serverRecorder struct {
 }
 
 func (s *serverRecorder) Do(_ context.Context, r etcdserverpb.Request) (etcdserver.Response, error) {
-	s.actions = append(s.actions, action{name: "Do", params: []interface{}{r}})
+	s.actions = append(s.actions, action{name: "Do", params: []any{r}})
 	return etcdserver.Response{}, nil
 }
 func (s *serverRecorder) Process(_ context.Context, m raftpb.Message) error {
-	s.actions = append(s.actions, action{name: "Process", params: []interface{}{m}})
+	s.actions = append(s.actions, action{name: "Process", params: []any{m}})
 	return nil
 }
 func (s *serverRecorder) AddMember(_ context.Context, m membership.Member) ([]*membership.Member, error) {
-	s.actions = append(s.actions, action{name: "AddMember", params: []interface{}{m}})
+	s.actions = append(s.actions, action{name: "AddMember", params: []any{m}})
 	return nil, nil
 }
 func (s *serverRecorder) RemoveMember(_ context.Context, id uint64) ([]*membership.Member, error) {
-	s.actions = append(s.actions, action{name: "RemoveMember", params: []interface{}{id}})
+	s.actions = append(s.actions, action{name: "RemoveMember", params: []any{id}})
 	return nil, nil
 }
 
 func (s *serverRecorder) UpdateMember(_ context.Context, m membership.Member) ([]*membership.Member, error) {
-	s.actions = append(s.actions, action{name: "UpdateMember", params: []interface{}{m}})
+	s.actions = append(s.actions, action{name: "UpdateMember", params: []any{m}})
 	return nil, nil
 }
 
 func (s *serverRecorder) PromoteMember(_ context.Context, id uint64) ([]*membership.Member, error) {
-	s.actions = append(s.actions, action{name: "PromoteMember", params: []interface{}{id}})
+	s.actions = append(s.actions, action{name: "PromoteMember", params: []any{id}})
 	return nil, nil
 }
 
 type action struct {
 	name   string
-	params []interface{}
+	params []any
 }
 
 // flushingRecorder provides a channel to allow users to block until the Recorder is Flushed()
@@ -810,7 +810,7 @@ func TestServeMembersCreate(t *testing.T) {
 		},
 	}
 
-	wactions := []action{{name: "AddMember", params: []interface{}{wm}}}
+	wactions := []action{{name: "AddMember", params: []any{wm}}}
 	if !reflect.DeepEqual(s.actions, wactions) {
 		t.Errorf("actions = %+v, want %+v", s.actions, wactions)
 	}
@@ -844,7 +844,7 @@ func TestServeMembersDelete(t *testing.T) {
 	if g != "" {
 		t.Errorf("got body=%q, want %q", g, "")
 	}
-	wactions := []action{{name: "RemoveMember", params: []interface{}{uint64(0xBEEF)}}}
+	wactions := []action{{name: "RemoveMember", params: []any{uint64(0xBEEF)}}}
 	if !reflect.DeepEqual(s.actions, wactions) {
 		t.Errorf("actions = %+v, want %+v", s.actions, wactions)
 	}
@@ -887,7 +887,7 @@ func TestServeMembersUpdate(t *testing.T) {
 		},
 	}
 
-	wactions := []action{{name: "UpdateMember", params: []interface{}{wm}}}
+	wactions := []action{{name: "UpdateMember", params: []any{wm}}}
 	if !reflect.DeepEqual(s.actions, wactions) {
 		t.Errorf("actions = %+v, want %+v", s.actions, wactions)
 	}

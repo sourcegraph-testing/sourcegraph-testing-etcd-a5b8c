@@ -22,7 +22,7 @@ func (n Number) Int64() (int64, error) {
 	return strconv.ParseInt(string(n), 10, 64)
 }
 
-func CastJsonNumber(val interface{}) (string, bool) {
+func CastJsonNumber(val any) (string, bool) {
 	switch typedVal := val.(type) {
 	case json.Number:
 		return string(typedVal), true

@@ -27,14 +27,14 @@ import "time"
 // helpful in tests.
 type MapObjectEncoder struct {
 	// Fields contains the entire encoded log context.
-	Fields map[string]interface{}
+	Fields map[string]any
 	// cur is a pointer to the namespace we're currently writing to.
-	cur map[string]interface{}
+	cur map[string]any
 }
 
 // NewMapObjectEncoder creates a new map-backed ObjectEncoder.
 func NewMapObjectEncoder() *MapObjectEncoder {
-	m := make(map[string]interface{})
+	m := make(map[string]any)
 	return &MapObjectEncoder{
 		Fields: m,
 		cur:    m,
@@ -43,7 +43,7 @@ func NewMapObjectEncoder() *MapObjectEncoder {
 
 // AddArray implements ObjectEncoder.
 func (m *MapObjectEncoder) AddArray(key string, v ArrayMarshaler) error {
-	arr := &sliceArrayEncoder{elems: make([]interface{}, 0)}
+	arr := &sliceArrayEncoder{elems: make([]any, 0)}
 	err := v.MarshalLogArray(arr)
 	m.cur[key] = arr.elems
 	return err
@@ -120,14 +120,14 @@ func (m *MapObjectEncoder) AddUint8(k string, v uint8) { m.cur[k] = v }
 func (m *MapObjectEncoder) AddUintptr(k string, v uintptr) { m.cur[k] = v }
 
 // AddReflected implements ObjectEncoder.
-func (m *MapObjectEncoder) AddReflected(k string, v interface{}) error {
+func (m *MapObjectEncoder) AddReflected(k string, v any) error {
 	m.cur[k] = v
 	return nil
 }
 
 // OpenNamespace implements ObjectEncoder.
 func (m *MapObjectEncoder) OpenNamespace(k string) {
-	ns := make(map[string]interface{})
+	ns := make(map[string]any)
 	m.cur[k] = ns
 	m.cur = ns
 }
@@ -135,7 +135,7 @@ func (m *MapObjectEncoder) OpenNamespace(k string) {
 // sliceArrayEncoder is an ArrayEncoder backed by a simple []interface{}. Like
 // the MapObjectEncoder, it's not designed for production use.
 type sliceArrayEncoder struct {
-	elems []interface{}
+	elems []any
 }
 
 func (s *sliceArrayEncoder) AppendArray(v ArrayMarshaler) error {
@@ -152,7 +152,7 @@ func (s *sliceArrayEncoder) AppendObject(v ObjectMarshaler) error {
 	return err
 }
 
-func (s *sliceArrayEncoder) AppendReflected(v interface{}) error {
+func (s *sliceArrayEncoder) AppendReflected(v any) error {
 	s.elems = append(s.elems, v)
 	return nil
 }

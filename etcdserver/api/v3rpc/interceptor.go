@@ -42,7 +42,7 @@ type streamsMap struct {
 }
 
 func newUnaryInterceptor(s *etcdserver.EtcdServer) grpc.UnaryServerInterceptor {
-	return func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (interface{}, error) {
+	return func(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (any, error) {
 		if !api.IsCapabilityEnabled(api.V3rpcCapability) {
 			return nil, rpctypes.ErrGRPCNotCapable
 		}
@@ -71,7 +71,7 @@ func newUnaryInterceptor(s *etcdserver.EtcdServer) grpc.UnaryServerInterceptor {
 }
 
 func newLogUnaryInterceptor(s *etcdserver.EtcdServer) grpc.UnaryServerInterceptor {
-	return func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (interface{}, error) {
+	return func(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (any, error) {
 		startTime := time.Now()
 		resp, err := handler(ctx, req)
 		lg := s.Logger()
@@ -82,7 +82,7 @@ func newLogUnaryInterceptor(s *etcdserver.EtcdServer) grpc.UnaryServerIntercepto
 	}
 }
 
-func logUnaryRequestStats(ctx context.Context, lg *zap.Logger, info *grpc.UnaryServerInfo, startTime time.Time, req interface{}, resp interface{}) {
+func logUnaryRequestStats(ctx context.Context, lg *zap.Logger, info *grpc.UnaryServerInfo, startTime time.Time, req any, resp any) {
 	duration := time.Since(startTime)
 	remote := "No remote client info."
 	peerInfo, ok := peer.FromContext(ctx)
@@ -179,7 +179,7 @@ func logGenericRequestStats(lg *zap.Logger, startTime time.Time, duration time.D
 func newStreamInterceptor(s *etcdserver.EtcdServer) grpc.StreamServerInterceptor {
 	smap := monitorLeader(s)
 
-	return func(srv interface{}, ss grpc.ServerStream, info *grpc.StreamServerInfo, handler grpc.StreamHandler) error {
+	return func(srv any, ss grpc.ServerStream, info *grpc.StreamServerInfo, handler grpc.StreamHandler) error {
 		if !api.IsCapabilityEnabled(api.V3rpcCapability) {
 			return rpctypes.ErrGRPCNotCapable
 		}

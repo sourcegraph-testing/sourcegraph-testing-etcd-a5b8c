@@ -2,21 +2,23 @@
 // source: v3election.proto
 
 /*
-	Package v3electionpb is a generated protocol buffer package.
+Package v3electionpb is a generated protocol buffer package.
 
-	It is generated from these files:
-		v3election.proto
+It is generated from these files:
 
-	It has these top-level messages:
-		CampaignRequest
-		CampaignResponse
-		LeaderKey
-		LeaderRequest
-		LeaderResponse
-		ResignRequest
-		ResignResponse
-		ProclaimRequest
-		ProclaimResponse
+	v3election.proto
+
+It has these top-level messages:
+
+	CampaignRequest
+	CampaignResponse
+	LeaderKey
+	LeaderRequest
+	LeaderResponse
+	ResignRequest
+	ResignResponse
+	ProclaimRequest
+	ProclaimResponse
 */
 package v3electionpb
 
@@ -418,7 +420,7 @@ func RegisterElectionServer(s *grpc.Server, srv ElectionServer) {
 	s.RegisterService(&_Election_serviceDesc, srv)
 }
 
-func _Election_Campaign_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Election_Campaign_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(CampaignRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -430,13 +432,13 @@ func _Election_Campaign_Handler(srv interface{}, ctx context.Context, dec func(i
 		Server:     srv,
 		FullMethod: "/v3electionpb.Election/Campaign",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(ElectionServer).Campaign(ctx, req.(*CampaignRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Election_Proclaim_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Election_Proclaim_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(ProclaimRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -448,13 +450,13 @@ func _Election_Proclaim_Handler(srv interface{}, ctx context.Context, dec func(i
 		Server:     srv,
 		FullMethod: "/v3electionpb.Election/Proclaim",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(ElectionServer).Proclaim(ctx, req.(*ProclaimRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Election_Leader_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Election_Leader_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(LeaderRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -466,13 +468,13 @@ func _Election_Leader_Handler(srv interface{}, ctx context.Context, dec func(int
 		Server:     srv,
 		FullMethod: "/v3electionpb.Election/Leader",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(ElectionServer).Leader(ctx, req.(*LeaderRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Election_Observe_Handler(srv interface{}, stream grpc.ServerStream) error {
+func _Election_Observe_Handler(srv any, stream grpc.ServerStream) error {
 	m := new(LeaderRequest)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
@@ -493,7 +495,7 @@ func (x *electionObserveServer) Send(m *LeaderResponse) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func _Election_Resign_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Election_Resign_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(ResignRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -505,7 +507,7 @@ func _Election_Resign_Handler(srv interface{}, ctx context.Context, dec func(int
 		Server:     srv,
 		FullMethod: "/v3electionpb.Election/Resign",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(ElectionServer).Resign(ctx, req.(*ResignRequest))
 	}
 	return interceptor(ctx, in, info, handler)

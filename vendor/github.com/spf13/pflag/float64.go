@@ -22,7 +22,7 @@ func (f *float64Value) Type() string {
 
 func (f *float64Value) String() string { return strconv.FormatFloat(float64(*f), 'g', -1, 64) }
 
-func float64Conv(sval string) (interface{}, error) {
+func float64Conv(sval string) (any, error) {
 	return strconv.ParseFloat(sval, 64)
 }
 

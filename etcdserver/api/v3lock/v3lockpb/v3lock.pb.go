@@ -2,16 +2,18 @@
 // source: v3lock.proto
 
 /*
-	Package v3lockpb is a generated protocol buffer package.
+Package v3lockpb is a generated protocol buffer package.
 
-	It is generated from these files:
-		v3lock.proto
+It is generated from these files:
 
-	It has these top-level messages:
-		LockRequest
-		LockResponse
-		UnlockRequest
-		UnlockResponse
+	v3lock.proto
+
+It has these top-level messages:
+
+	LockRequest
+	LockResponse
+	UnlockRequest
+	UnlockResponse
 */
 package v3lockpb
 
@@ -211,7 +213,7 @@ func RegisterLockServer(s *grpc.Server, srv LockServer) {
 	s.RegisterService(&_Lock_serviceDesc, srv)
 }
 
-func _Lock_Lock_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Lock_Lock_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(LockRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -223,13 +225,13 @@ func _Lock_Lock_Handler(srv interface{}, ctx context.Context, dec func(interface
 		Server:     srv,
 		FullMethod: "/v3lockpb.Lock/Lock",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(LockServer).Lock(ctx, req.(*LockRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Lock_Unlock_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Lock_Unlock_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(UnlockRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -241,7 +243,7 @@ func _Lock_Unlock_Handler(srv interface{}, ctx context.Context, dec func(interfa
 		Server:     srv,
 		FullMethod: "/v3lockpb.Lock/Unlock",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(LockServer).Unlock(ctx, req.(*UnlockRequest))
 	}
 	return interceptor(ctx, in, info, handler)

@@ -10,7 +10,7 @@ import (
 )
 
 type resolveMapItem struct {
-	value interface{}
+	value any
 	tag   string
 }
 
@@ -30,7 +30,7 @@ func init() {
 	t[int('.')] = '.' // Float (potentially in map)
 
 	var resolveMapList = []struct {
-		v   interface{}
+		v   any
 		tag string
 		l   []string
 	}{
@@ -83,7 +83,7 @@ func resolvableTag(tag string) bool {
 
 var yamlStyleFloat = regexp.MustCompile(`^[-+]?[0-9]*\.?[0-9]+([eE][-+][0-9]+)?$`)
 
-func resolve(tag string, in string) (rtag string, out interface{}) {
+func resolve(tag string, in string) (rtag string, out any) {
 	if !resolvableTag(tag) {
 		return tag, in
 	}
@@ -180,7 +180,7 @@ func resolve(tag string, in string) (rtag string, out interface{}) {
 					return yaml_INT_TAG, uintv
 				}
 			} else if strings.HasPrefix(plain, "-0b") {
-				intv, err := strconv.ParseInt("-" + plain[3:], 2, 64)
+				intv, err := strconv.ParseInt("-"+plain[3:], 2, 64)
 				if err == nil {
 					if true || intv == int64(int(intv)) {
 						return yaml_INT_TAG, int(intv)

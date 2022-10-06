@@ -220,20 +220,20 @@ func (f GenericFlag) GetName() string {
 
 // Generic looks up the value of a local GenericFlag, returns
 // nil if not found
-func (c *Context) Generic(name string) interface{} {
+func (c *Context) Generic(name string) any {
 	return lookupGeneric(name, c.flagSet)
 }
 
 // GlobalGeneric looks up the value of a global GenericFlag, returns
 // nil if not found
-func (c *Context) GlobalGeneric(name string) interface{} {
+func (c *Context) GlobalGeneric(name string) any {
 	if fs := lookupGlobalFlagSet(name, c); fs != nil {
 		return lookupGeneric(name, fs)
 	}
 	return nil
 }
 
-func lookupGeneric(name string, set *flag.FlagSet) interface{} {
+func lookupGeneric(name string, set *flag.FlagSet) any {
 	f := set.Lookup(name)
 	if f != nil {
 		parsed, err := f.Value, error(nil)

@@ -35,8 +35,8 @@ type Proxy struct {
 
 // Logger collects log messages.
 type Logger interface {
-	Warnln(...interface{})
-	Debugln(...interface{})
+	Warnln(...any)
+	Debugln(...any)
 }
 
 func (p *Proxy) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -85,9 +85,12 @@ func WithLogger(logger Logger) Option {
 // The cookie name is specified by the TokenCookieName value.
 //
 // example:
-//   Sec-Websocket-Protocol: Bearer, foobar
+//
+//	Sec-Websocket-Protocol: Bearer, foobar
+//
 // is converted to:
-//   Authorization: Bearer foobar
+//
+//	Authorization: Bearer foobar
 //
 // Method can be overwritten with the MethodOverrideParam get parameter in the requested URL
 func WebsocketProxy(h http.Handler, opts ...Option) http.Handler {

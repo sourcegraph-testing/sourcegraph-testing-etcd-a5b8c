@@ -30,9 +30,9 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /*
-	The code generator for the plugin for the Google protocol buffer compiler.
-	It generates Go code from the protocol buffer description files read by the
-	main routine.
+The code generator for the plugin for the Google protocol buffer compiler.
+It generates Go code from the protocol buffer description files read by the
+main routine.
 */
 package generator
 
@@ -980,17 +980,17 @@ func (g *Generator) ObjectNamed(typeName string) Object {
 type AnnotatedAtoms struct {
 	source string
 	path   string
-	atoms  []interface{}
+	atoms  []any
 }
 
 // Annotate records the file name and proto AST path of a list of atoms
 // so that a later call to P can emit a link from each atom to its origin.
-func Annotate(file *FileDescriptor, path string, atoms ...interface{}) *AnnotatedAtoms {
+func Annotate(file *FileDescriptor, path string, atoms ...any) *AnnotatedAtoms {
 	return &AnnotatedAtoms{source: *file.Name, path: path, atoms: atoms}
 }
 
 // printAtom prints the (atomic, non-annotation) argument to the generated output.
-func (g *Generator) printAtom(v interface{}) {
+func (g *Generator) printAtom(v any) {
 	switch v := v.(type) {
 	case string:
 		g.WriteString(v)
@@ -1023,7 +1023,7 @@ func (g *Generator) printAtom(v interface{}) {
 // handling indirections because they may be *string, etc.  Any inputs of type AnnotatedAtoms may emit
 // annotations in a .meta file in addition to outputting the atoms themselves (if g.annotateCode
 // is true).
-func (g *Generator) P(str ...interface{}) {
+func (g *Generator) P(str ...any) {
 	if !g.writeOutput {
 		return
 	}
@@ -1061,7 +1061,7 @@ func (g *Generator) P(str ...interface{}) {
 
 // addInitf stores the given statement to be printed inside the file's init function.
 // The statement is given as a format specifier and arguments.
-func (g *Generator) addInitf(stmt string, a ...interface{}) {
+func (g *Generator) addInitf(stmt string, a ...any) {
 	g.init = append(g.init, fmt.Sprintf(stmt, a...))
 }
 
@@ -1452,6 +1452,7 @@ func (g *Generator) generateEnum(enum *EnumDescriptor) {
 // The tag is a string like "varint,2,opt,name=fieldname,def=7" that
 // identifies details of the field for the protocol buffer marshaling and unmarshaling
 // code.  The fields are:
+//
 //	wire encoding
 //	protocol tag number
 //	opt,req,rep for optional, required, or repeated
@@ -1460,6 +1461,7 @@ func (g *Generator) generateEnum(enum *EnumDescriptor) {
 //	enum= the name of the enum type if it is an enum-typed field.
 //	proto3 if this field is in a proto3 message
 //	def= string representation of the default value, if any.
+//
 // The default value must be in a representation that can be used at run-time
 // to generate the default value. Thus bools become 0 and 1, for instance.
 func (g *Generator) goTag(message *Descriptor, field *descriptor.FieldDescriptorProto, wiretype string) string {
@@ -2264,7 +2266,7 @@ func (g *Generator) generateMessage(message *Descriptor) {
 			of := oneofField{
 				fieldCommon: fieldCommon{
 					goName:     fname,
-					getterName: "Get"+fname,
+					getterName: "Get" + fname,
 					goType:     dname,
 					tags:       tag,
 					protoName:  odp.GetName(),

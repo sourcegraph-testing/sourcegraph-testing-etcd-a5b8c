@@ -26,7 +26,7 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
-var _errArrayElemPool = sync.Pool{New: func() interface{} {
+var _errArrayElemPool = sync.Pool{New: func() any {
 	return &errArrayElem{}
 }}
 

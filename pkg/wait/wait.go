@@ -27,28 +27,28 @@ type Wait interface {
 	// Register waits returns a chan that waits on the given ID.
 	// The chan will be triggered when Trigger is called with
 	// the same ID.
-	Register(id uint64) <-chan interface{}
+	Register(id uint64) <-chan any
 	// Trigger triggers the waiting chans with the given ID.
-	Trigger(id uint64, x interface{})
+	Trigger(id uint64, x any)
 	IsRegistered(id uint64) bool
 }
 
 type list struct {
 	l sync.RWMutex
-	m map[uint64]chan interface{}
+	m map[uint64]chan any
 }
 
 // New creates a Wait.
 func New() Wait {
-	return &list{m: make(map[uint64]chan interface{})}
+	return &list{m: make(map[uint64]chan any)}
 }
 
-func (w *list) Register(id uint64) <-chan interface{} {
+func (w *list) Register(id uint64) <-chan any {
 	w.l.Lock()
 	defer w.l.Unlock()
 	ch := w.m[id]
 	if ch == nil {
-		ch = make(chan interface{}, 1)
+		ch = make(chan any, 1)
 		w.m[id] = ch
 	} else {
 		log.Panicf("dup id %x", id)
@@ -56,7 +56,7 @@ func (w *list) Register(id uint64) <-chan interface{} {
 	return ch
 }
 
-func (w *list) Trigger(id uint64, x interface{}) {
+func (w *list) Trigger(id uint64, x any) {
 	w.l.Lock()
 	ch := w.m[id]
 	delete(w.m, id)
@@ -75,17 +75,17 @@ func (w *list) IsRegistered(id uint64) bool {
 }
 
 type waitWithResponse struct {
-	ch <-chan interface{}
+	ch <-chan any
 }
 
-func NewWithResponse(ch <-chan interface{}) Wait {
+func NewWithResponse(ch <-chan any) Wait {
 	return &waitWithResponse{ch: ch}
 }
 
-func (w *waitWithResponse) Register(id uint64) <-chan interface{} {
+func (w *waitWithResponse) Register(id uint64) <-chan any {
 	return w.ch
 }
-func (w *waitWithResponse) Trigger(id uint64, x interface{}) {}
+func (w *waitWithResponse) Trigger(id uint64, x any) {}
 func (w *waitWithResponse) IsRegistered(id uint64) bool {
 	panic("waitWithResponse.IsRegistered() shouldn't be called")
 }

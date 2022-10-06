@@ -42,17 +42,17 @@ func (customNumberDecoder) Decode(ptr unsafe.Pointer, iter *jsoniter.Iterator) {
 		iter.ReadVal(&number)
 		i64, err := strconv.ParseInt(string(number), 10, 64)
 		if err == nil {
-			*(*interface{})(ptr) = i64
+			*(*any)(ptr) = i64
 			return
 		}
 		f64, err := strconv.ParseFloat(string(number), 64)
 		if err == nil {
-			*(*interface{})(ptr) = f64
+			*(*any)(ptr) = f64
 			return
 		}
 		iter.ReportError("DecodeNumber", err.Error())
 	default:
-		*(*interface{})(ptr) = iter.Read()
+		*(*any)(ptr) = iter.Read()
 	}
 }
 

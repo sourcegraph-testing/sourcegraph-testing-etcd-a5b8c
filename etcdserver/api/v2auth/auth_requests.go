@@ -132,13 +132,13 @@ func (s *store) requestResource(res string, quorum bool) (etcdserver.Response, e
 	return s.server.Do(ctx, rr)
 }
 
-func (s *store) updateResource(res string, value interface{}) (etcdserver.Response, error) {
+func (s *store) updateResource(res string, value any) (etcdserver.Response, error) {
 	return s.setResource(res, value, true)
 }
-func (s *store) createResource(res string, value interface{}) (etcdserver.Response, error) {
+func (s *store) createResource(res string, value any) (etcdserver.Response, error) {
 	return s.setResource(res, value, false)
 }
-func (s *store) setResource(res string, value interface{}, prevexist bool) (etcdserver.Response, error) {
+func (s *store) setResource(res string, value any, prevexist bool) (etcdserver.Response, error) {
 	err := s.ensureAuthDirectories()
 	if err != nil {
 		return etcdserver.Response{}, err

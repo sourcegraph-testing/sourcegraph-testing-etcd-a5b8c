@@ -3,15 +3,15 @@ package concurrent
 import (
 	"context"
 	"fmt"
+	"reflect"
 	"runtime"
 	"runtime/debug"
 	"sync"
 	"time"
-	"reflect"
 )
 
 // HandlePanic logs goroutine panic by default
-var HandlePanic = func(recovered interface{}, funcName string) {
+var HandlePanic = func(recovered any, funcName string) {
 	ErrorLogger.Println(fmt.Sprintf("%s panic: %v", funcName, recovered))
 	ErrorLogger.Println(string(debug.Stack()))
 }
@@ -23,7 +23,7 @@ type UnboundedExecutor struct {
 	cancel                context.CancelFunc
 	activeGoroutinesMutex *sync.Mutex
 	activeGoroutines      map[string]int
-	HandlePanic           func(recovered interface{}, funcName string)
+	HandlePanic           func(recovered any, funcName string)
 }
 
 // GlobalUnboundedExecutor has the life cycle of the program itself

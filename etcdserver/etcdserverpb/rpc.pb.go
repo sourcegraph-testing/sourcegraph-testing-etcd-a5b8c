@@ -104,7 +104,9 @@ var RangeRequest_SortTarget_value = map[string]int32{
 func (x RangeRequest_SortTarget) String() string {
 	return proto.EnumName(RangeRequest_SortTarget_name, int32(x))
 }
-func (RangeRequest_SortTarget) EnumDescriptor() ([]byte, []int) { return fileDescriptorRpc, []int{1, 1} }
+func (RangeRequest_SortTarget) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptorRpc, []int{1, 1}
+}
 
 type Compare_CompareResult int32
 
@@ -713,8 +715,8 @@ func (m *RequestOp) GetRequestTxn() *TxnRequest {
 }
 
 // XXX_OneofFuncs is for the internal use of the proto package.
-func (*RequestOp) XXX_OneofFuncs() (func(msg proto.Message, b *proto.Buffer) error, func(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error), func(msg proto.Message) (n int), []interface{}) {
-	return _RequestOp_OneofMarshaler, _RequestOp_OneofUnmarshaler, _RequestOp_OneofSizer, []interface{}{
+func (*RequestOp) XXX_OneofFuncs() (func(msg proto.Message, b *proto.Buffer) error, func(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error), func(msg proto.Message) (n int), []any) {
+	return _RequestOp_OneofMarshaler, _RequestOp_OneofUnmarshaler, _RequestOp_OneofSizer, []any{
 		(*RequestOp_RequestRange)(nil),
 		(*RequestOp_RequestPut)(nil),
 		(*RequestOp_RequestDeleteRange)(nil),
@@ -900,8 +902,8 @@ func (m *ResponseOp) GetResponseTxn() *TxnResponse {
 }
 
 // XXX_OneofFuncs is for the internal use of the proto package.
-func (*ResponseOp) XXX_OneofFuncs() (func(msg proto.Message, b *proto.Buffer) error, func(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error), func(msg proto.Message) (n int), []interface{}) {
-	return _ResponseOp_OneofMarshaler, _ResponseOp_OneofUnmarshaler, _ResponseOp_OneofSizer, []interface{}{
+func (*ResponseOp) XXX_OneofFuncs() (func(msg proto.Message, b *proto.Buffer) error, func(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error), func(msg proto.Message) (n int), []any) {
+	return _ResponseOp_OneofMarshaler, _ResponseOp_OneofUnmarshaler, _ResponseOp_OneofSizer, []any{
 		(*ResponseOp_ResponseRange)(nil),
 		(*ResponseOp_ResponsePut)(nil),
 		(*ResponseOp_ResponseDeleteRange)(nil),
@@ -1134,8 +1136,8 @@ func (m *Compare) GetRangeEnd() []byte {
 }
 
 // XXX_OneofFuncs is for the internal use of the proto package.
-func (*Compare) XXX_OneofFuncs() (func(msg proto.Message, b *proto.Buffer) error, func(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error), func(msg proto.Message) (n int), []interface{}) {
-	return _Compare_OneofMarshaler, _Compare_OneofUnmarshaler, _Compare_OneofSizer, []interface{}{
+func (*Compare) XXX_OneofFuncs() (func(msg proto.Message, b *proto.Buffer) error, func(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error), func(msg proto.Message) (n int), []any) {
+	return _Compare_OneofMarshaler, _Compare_OneofUnmarshaler, _Compare_OneofSizer, []any{
 		(*Compare_Version)(nil),
 		(*Compare_CreateRevision)(nil),
 		(*Compare_ModRevision)(nil),
@@ -1567,8 +1569,8 @@ func (m *WatchRequest) GetProgressRequest() *WatchProgressRequest {
 }
 
 // XXX_OneofFuncs is for the internal use of the proto package.
-func (*WatchRequest) XXX_OneofFuncs() (func(msg proto.Message, b *proto.Buffer) error, func(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error), func(msg proto.Message) (n int), []interface{}) {
-	return _WatchRequest_OneofMarshaler, _WatchRequest_OneofUnmarshaler, _WatchRequest_OneofSizer, []interface{}{
+func (*WatchRequest) XXX_OneofFuncs() (func(msg proto.Message, b *proto.Buffer) error, func(msg proto.Message, tag, wire int, b *proto.Buffer) (bool, error), func(msg proto.Message) (n int), []any) {
+	return _WatchRequest_OneofMarshaler, _WatchRequest_OneofUnmarshaler, _WatchRequest_OneofSizer, []any{
 		(*WatchRequest_CreateRequest)(nil),
 		(*WatchRequest_CancelRequest)(nil),
 		(*WatchRequest_ProgressRequest)(nil),
@@ -3669,7 +3671,7 @@ func RegisterKVServer(s *grpc.Server, srv KVServer) {
 	s.RegisterService(&_KV_serviceDesc, srv)
 }
 
-func _KV_Range_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _KV_Range_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(RangeRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -3681,13 +3683,13 @@ func _KV_Range_Handler(srv interface{}, ctx context.Context, dec func(interface{
 		Server:     srv,
 		FullMethod: "/etcdserverpb.KV/Range",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(KVServer).Range(ctx, req.(*RangeRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _KV_Put_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _KV_Put_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(PutRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -3699,13 +3701,13 @@ func _KV_Put_Handler(srv interface{}, ctx context.Context, dec func(interface{})
 		Server:     srv,
 		FullMethod: "/etcdserverpb.KV/Put",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(KVServer).Put(ctx, req.(*PutRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _KV_DeleteRange_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _KV_DeleteRange_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(DeleteRangeRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -3717,13 +3719,13 @@ func _KV_DeleteRange_Handler(srv interface{}, ctx context.Context, dec func(inte
 		Server:     srv,
 		FullMethod: "/etcdserverpb.KV/DeleteRange",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(KVServer).DeleteRange(ctx, req.(*DeleteRangeRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _KV_Txn_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _KV_Txn_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(TxnRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -3735,13 +3737,13 @@ func _KV_Txn_Handler(srv interface{}, ctx context.Context, dec func(interface{})
 		Server:     srv,
 		FullMethod: "/etcdserverpb.KV/Txn",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(KVServer).Txn(ctx, req.(*TxnRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _KV_Compact_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _KV_Compact_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(CompactionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -3753,7 +3755,7 @@ func _KV_Compact_Handler(srv interface{}, ctx context.Context, dec func(interfac
 		Server:     srv,
 		FullMethod: "/etcdserverpb.KV/Compact",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(KVServer).Compact(ctx, req.(*CompactionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
@@ -3853,7 +3855,7 @@ func RegisterWatchServer(s *grpc.Server, srv WatchServer) {
 	s.RegisterService(&_Watch_serviceDesc, srv)
 }
 
-func _Watch_Watch_Handler(srv interface{}, stream grpc.ServerStream) error {
+func _Watch_Watch_Handler(srv any, stream grpc.ServerStream) error {
 	return srv.(WatchServer).Watch(&watchWatchServer{stream})
 }
 
@@ -4009,7 +4011,7 @@ func RegisterLeaseServer(s *grpc.Server, srv LeaseServer) {
 	s.RegisterService(&_Lease_serviceDesc, srv)
 }
 
-func _Lease_LeaseGrant_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Lease_LeaseGrant_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(LeaseGrantRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -4021,13 +4023,13 @@ func _Lease_LeaseGrant_Handler(srv interface{}, ctx context.Context, dec func(in
 		Server:     srv,
 		FullMethod: "/etcdserverpb.Lease/LeaseGrant",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(LeaseServer).LeaseGrant(ctx, req.(*LeaseGrantRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Lease_LeaseRevoke_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Lease_LeaseRevoke_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(LeaseRevokeRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -4039,13 +4041,13 @@ func _Lease_LeaseRevoke_Handler(srv interface{}, ctx context.Context, dec func(i
 		Server:     srv,
 		FullMethod: "/etcdserverpb.Lease/LeaseRevoke",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(LeaseServer).LeaseRevoke(ctx, req.(*LeaseRevokeRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Lease_LeaseKeepAlive_Handler(srv interface{}, stream grpc.ServerStream) error {
+func _Lease_LeaseKeepAlive_Handler(srv any, stream grpc.ServerStream) error {
 	return srv.(LeaseServer).LeaseKeepAlive(&leaseLeaseKeepAliveServer{stream})
 }
 
@@ -4071,7 +4073,7 @@ func (x *leaseLeaseKeepAliveServer) Recv() (*LeaseKeepAliveRequest, error) {
 	return m, nil
 }
 
-func _Lease_LeaseTimeToLive_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Lease_LeaseTimeToLive_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(LeaseTimeToLiveRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -4083,13 +4085,13 @@ func _Lease_LeaseTimeToLive_Handler(srv interface{}, ctx context.Context, dec fu
 		Server:     srv,
 		FullMethod: "/etcdserverpb.Lease/LeaseTimeToLive",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(LeaseServer).LeaseTimeToLive(ctx, req.(*LeaseTimeToLiveRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Lease_LeaseLeases_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Lease_LeaseLeases_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(LeaseLeasesRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -4101,7 +4103,7 @@ func _Lease_LeaseLeases_Handler(srv interface{}, ctx context.Context, dec func(i
 		Server:     srv,
 		FullMethod: "/etcdserverpb.Lease/LeaseLeases",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(LeaseServer).LeaseLeases(ctx, req.(*LeaseLeasesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
@@ -4226,7 +4228,7 @@ func RegisterClusterServer(s *grpc.Server, srv ClusterServer) {
 	s.RegisterService(&_Cluster_serviceDesc, srv)
 }
 
-func _Cluster_MemberAdd_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Cluster_MemberAdd_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(MemberAddRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -4238,13 +4240,13 @@ func _Cluster_MemberAdd_Handler(srv interface{}, ctx context.Context, dec func(i
 		Server:     srv,
 		FullMethod: "/etcdserverpb.Cluster/MemberAdd",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(ClusterServer).MemberAdd(ctx, req.(*MemberAddRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Cluster_MemberRemove_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Cluster_MemberRemove_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(MemberRemoveRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -4256,13 +4258,13 @@ func _Cluster_MemberRemove_Handler(srv interface{}, ctx context.Context, dec fun
 		Server:     srv,
 		FullMethod: "/etcdserverpb.Cluster/MemberRemove",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(ClusterServer).MemberRemove(ctx, req.(*MemberRemoveRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Cluster_MemberUpdate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Cluster_MemberUpdate_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(MemberUpdateRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -4274,13 +4276,13 @@ func _Cluster_MemberUpdate_Handler(srv interface{}, ctx context.Context, dec fun
 		Server:     srv,
 		FullMethod: "/etcdserverpb.Cluster/MemberUpdate",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(ClusterServer).MemberUpdate(ctx, req.(*MemberUpdateRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Cluster_MemberList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Cluster_MemberList_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(MemberListRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -4292,13 +4294,13 @@ func _Cluster_MemberList_Handler(srv interface{}, ctx context.Context, dec func(
 		Server:     srv,
 		FullMethod: "/etcdserverpb.Cluster/MemberList",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(ClusterServer).MemberList(ctx, req.(*MemberListRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Cluster_MemberPromote_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Cluster_MemberPromote_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(MemberPromoteRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -4310,7 +4312,7 @@ func _Cluster_MemberPromote_Handler(srv interface{}, ctx context.Context, dec fu
 		Server:     srv,
 		FullMethod: "/etcdserverpb.Cluster/MemberPromote",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(ClusterServer).MemberPromote(ctx, req.(*MemberPromoteRequest))
 	}
 	return interceptor(ctx, in, info, handler)
@@ -4506,7 +4508,7 @@ func RegisterMaintenanceServer(s *grpc.Server, srv MaintenanceServer) {
 	s.RegisterService(&_Maintenance_serviceDesc, srv)
 }
 
-func _Maintenance_Alarm_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Maintenance_Alarm_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(AlarmRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -4518,13 +4520,13 @@ func _Maintenance_Alarm_Handler(srv interface{}, ctx context.Context, dec func(i
 		Server:     srv,
 		FullMethod: "/etcdserverpb.Maintenance/Alarm",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(MaintenanceServer).Alarm(ctx, req.(*AlarmRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Maintenance_Status_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Maintenance_Status_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(StatusRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -4536,13 +4538,13 @@ func _Maintenance_Status_Handler(srv interface{}, ctx context.Context, dec func(
 		Server:     srv,
 		FullMethod: "/etcdserverpb.Maintenance/Status",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(MaintenanceServer).Status(ctx, req.(*StatusRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Maintenance_Defragment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Maintenance_Defragment_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(DefragmentRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -4554,13 +4556,13 @@ func _Maintenance_Defragment_Handler(srv interface{}, ctx context.Context, dec f
 		Server:     srv,
 		FullMethod: "/etcdserverpb.Maintenance/Defragment",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(MaintenanceServer).Defragment(ctx, req.(*DefragmentRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Maintenance_Hash_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Maintenance_Hash_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(HashRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -4572,13 +4574,13 @@ func _Maintenance_Hash_Handler(srv interface{}, ctx context.Context, dec func(in
 		Server:     srv,
 		FullMethod: "/etcdserverpb.Maintenance/Hash",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(MaintenanceServer).Hash(ctx, req.(*HashRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Maintenance_HashKV_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Maintenance_HashKV_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(HashKVRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -4590,13 +4592,13 @@ func _Maintenance_HashKV_Handler(srv interface{}, ctx context.Context, dec func(
 		Server:     srv,
 		FullMethod: "/etcdserverpb.Maintenance/HashKV",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(MaintenanceServer).HashKV(ctx, req.(*HashKVRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Maintenance_Snapshot_Handler(srv interface{}, stream grpc.ServerStream) error {
+func _Maintenance_Snapshot_Handler(srv any, stream grpc.ServerStream) error {
 	m := new(SnapshotRequest)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
@@ -4617,7 +4619,7 @@ func (x *maintenanceSnapshotServer) Send(m *SnapshotResponse) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func _Maintenance_MoveLeader_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Maintenance_MoveLeader_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(MoveLeaderRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -4629,13 +4631,13 @@ func _Maintenance_MoveLeader_Handler(srv interface{}, ctx context.Context, dec f
 		Server:     srv,
 		FullMethod: "/etcdserverpb.Maintenance/MoveLeader",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(MaintenanceServer).MoveLeader(ctx, req.(*MoveLeaderRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Maintenance_Downgrade_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Maintenance_Downgrade_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(DowngradeRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -4647,7 +4649,7 @@ func _Maintenance_Downgrade_Handler(srv interface{}, ctx context.Context, dec fu
 		Server:     srv,
 		FullMethod: "/etcdserverpb.Maintenance/Downgrade",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(MaintenanceServer).Downgrade(ctx, req.(*DowngradeRequest))
 	}
 	return interceptor(ctx, in, info, handler)
@@ -4939,7 +4941,7 @@ func RegisterAuthServer(s *grpc.Server, srv AuthServer) {
 	s.RegisterService(&_Auth_serviceDesc, srv)
 }
 
-func _Auth_AuthEnable_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Auth_AuthEnable_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(AuthEnableRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -4951,13 +4953,13 @@ func _Auth_AuthEnable_Handler(srv interface{}, ctx context.Context, dec func(int
 		Server:     srv,
 		FullMethod: "/etcdserverpb.Auth/AuthEnable",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(AuthServer).AuthEnable(ctx, req.(*AuthEnableRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Auth_AuthDisable_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Auth_AuthDisable_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(AuthDisableRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -4969,13 +4971,13 @@ func _Auth_AuthDisable_Handler(srv interface{}, ctx context.Context, dec func(in
 		Server:     srv,
 		FullMethod: "/etcdserverpb.Auth/AuthDisable",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(AuthServer).AuthDisable(ctx, req.(*AuthDisableRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Auth_AuthStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Auth_AuthStatus_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(AuthStatusRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -4987,13 +4989,13 @@ func _Auth_AuthStatus_Handler(srv interface{}, ctx context.Context, dec func(int
 		Server:     srv,
 		FullMethod: "/etcdserverpb.Auth/AuthStatus",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(AuthServer).AuthStatus(ctx, req.(*AuthStatusRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Auth_Authenticate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Auth_Authenticate_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(AuthenticateRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -5005,13 +5007,13 @@ func _Auth_Authenticate_Handler(srv interface{}, ctx context.Context, dec func(i
 		Server:     srv,
 		FullMethod: "/etcdserverpb.Auth/Authenticate",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(AuthServer).Authenticate(ctx, req.(*AuthenticateRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Auth_UserAdd_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Auth_UserAdd_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(AuthUserAddRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -5023,13 +5025,13 @@ func _Auth_UserAdd_Handler(srv interface{}, ctx context.Context, dec func(interf
 		Server:     srv,
 		FullMethod: "/etcdserverpb.Auth/UserAdd",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(AuthServer).UserAdd(ctx, req.(*AuthUserAddRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Auth_UserGet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Auth_UserGet_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(AuthUserGetRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -5041,13 +5043,13 @@ func _Auth_UserGet_Handler(srv interface{}, ctx context.Context, dec func(interf
 		Server:     srv,
 		FullMethod: "/etcdserverpb.Auth/UserGet",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(AuthServer).UserGet(ctx, req.(*AuthUserGetRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Auth_UserList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Auth_UserList_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(AuthUserListRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -5059,13 +5061,13 @@ func _Auth_UserList_Handler(srv interface{}, ctx context.Context, dec func(inter
 		Server:     srv,
 		FullMethod: "/etcdserverpb.Auth/UserList",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(AuthServer).UserList(ctx, req.(*AuthUserListRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Auth_UserDelete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Auth_UserDelete_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(AuthUserDeleteRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -5077,13 +5079,13 @@ func _Auth_UserDelete_Handler(srv interface{}, ctx context.Context, dec func(int
 		Server:     srv,
 		FullMethod: "/etcdserverpb.Auth/UserDelete",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(AuthServer).UserDelete(ctx, req.(*AuthUserDeleteRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Auth_UserChangePassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Auth_UserChangePassword_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(AuthUserChangePasswordRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -5095,13 +5097,13 @@ func _Auth_UserChangePassword_Handler(srv interface{}, ctx context.Context, dec 
 		Server:     srv,
 		FullMethod: "/etcdserverpb.Auth/UserChangePassword",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(AuthServer).UserChangePassword(ctx, req.(*AuthUserChangePasswordRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Auth_UserGrantRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Auth_UserGrantRole_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(AuthUserGrantRoleRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -5113,13 +5115,13 @@ func _Auth_UserGrantRole_Handler(srv interface{}, ctx context.Context, dec func(
 		Server:     srv,
 		FullMethod: "/etcdserverpb.Auth/UserGrantRole",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(AuthServer).UserGrantRole(ctx, req.(*AuthUserGrantRoleRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Auth_UserRevokeRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Auth_UserRevokeRole_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(AuthUserRevokeRoleRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -5131,13 +5133,13 @@ func _Auth_UserRevokeRole_Handler(srv interface{}, ctx context.Context, dec func
 		Server:     srv,
 		FullMethod: "/etcdserverpb.Auth/UserRevokeRole",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(AuthServer).UserRevokeRole(ctx, req.(*AuthUserRevokeRoleRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Auth_RoleAdd_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Auth_RoleAdd_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(AuthRoleAddRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -5149,13 +5151,13 @@ func _Auth_RoleAdd_Handler(srv interface{}, ctx context.Context, dec func(interf
 		Server:     srv,
 		FullMethod: "/etcdserverpb.Auth/RoleAdd",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(AuthServer).RoleAdd(ctx, req.(*AuthRoleAddRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Auth_RoleGet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Auth_RoleGet_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(AuthRoleGetRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -5167,13 +5169,13 @@ func _Auth_RoleGet_Handler(srv interface{}, ctx context.Context, dec func(interf
 		Server:     srv,
 		FullMethod: "/etcdserverpb.Auth/RoleGet",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(AuthServer).RoleGet(ctx, req.(*AuthRoleGetRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Auth_RoleList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Auth_RoleList_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(AuthRoleListRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -5185,13 +5187,13 @@ func _Auth_RoleList_Handler(srv interface{}, ctx context.Context, dec func(inter
 		Server:     srv,
 		FullMethod: "/etcdserverpb.Auth/RoleList",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(AuthServer).RoleList(ctx, req.(*AuthRoleListRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Auth_RoleDelete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Auth_RoleDelete_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(AuthRoleDeleteRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -5203,13 +5205,13 @@ func _Auth_RoleDelete_Handler(srv interface{}, ctx context.Context, dec func(int
 		Server:     srv,
 		FullMethod: "/etcdserverpb.Auth/RoleDelete",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(AuthServer).RoleDelete(ctx, req.(*AuthRoleDeleteRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Auth_RoleGrantPermission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Auth_RoleGrantPermission_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(AuthRoleGrantPermissionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -5221,13 +5223,13 @@ func _Auth_RoleGrantPermission_Handler(srv interface{}, ctx context.Context, dec
 		Server:     srv,
 		FullMethod: "/etcdserverpb.Auth/RoleGrantPermission",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(AuthServer).RoleGrantPermission(ctx, req.(*AuthRoleGrantPermissionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Auth_RoleRevokePermission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Auth_RoleRevokePermission_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(AuthRoleRevokePermissionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -5239,7 +5241,7 @@ func _Auth_RoleRevokePermission_Handler(srv interface{}, ctx context.Context, de
 		Server:     srv,
 		FullMethod: "/etcdserverpb.Auth/RoleRevokePermission",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(AuthServer).RoleRevokePermission(ctx, req.(*AuthRoleRevokePermissionRequest))
 	}
 	return interceptor(ctx, in, info, handler)

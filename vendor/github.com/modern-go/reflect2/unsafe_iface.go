@@ -15,7 +15,7 @@ type itab struct {
 	rtype  unsafe.Pointer
 }
 
-func IFaceToEFace(ptr unsafe.Pointer) interface{} {
+func IFaceToEFace(ptr unsafe.Pointer) any {
 	iface := (*iface)(ptr)
 	if iface.itab == nil {
 		return nil
@@ -33,17 +33,17 @@ func newUnsafeIFaceType(cfg *frozenConfig, type1 reflect.Type) *UnsafeIFaceType 
 	}
 }
 
-func (type2 *UnsafeIFaceType) Indirect(obj interface{}) interface{} {
+func (type2 *UnsafeIFaceType) Indirect(obj any) any {
 	objEFace := unpackEFace(obj)
 	assertType("Type.Indirect argument 1", type2.ptrRType, objEFace.rtype)
 	return type2.UnsafeIndirect(objEFace.data)
 }
 
-func (type2 *UnsafeIFaceType) UnsafeIndirect(ptr unsafe.Pointer) interface{} {
+func (type2 *UnsafeIFaceType) UnsafeIndirect(ptr unsafe.Pointer) any {
 	return IFaceToEFace(ptr)
 }
 
-func (type2 *UnsafeIFaceType) IsNil(obj interface{}) bool {
+func (type2 *UnsafeIFaceType) IsNil(obj any) bool {
 	if obj == nil {
 		return true
 	}

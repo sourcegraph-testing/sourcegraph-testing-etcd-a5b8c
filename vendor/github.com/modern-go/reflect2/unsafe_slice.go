@@ -29,7 +29,7 @@ func newUnsafeSliceType(cfg *frozenConfig, type1 reflect.Type) SliceType {
 	}
 }
 
-func (type2 *UnsafeSliceType) Set(obj interface{}, val interface{}) {
+func (type2 *UnsafeSliceType) Set(obj any, val any) {
 	objEFace := unpackEFace(obj)
 	assertType("Type.Set argument 1", type2.ptrRType, objEFace.rtype)
 	valEFace := unpackEFace(val)
@@ -41,7 +41,7 @@ func (type2 *UnsafeSliceType) UnsafeSet(ptr unsafe.Pointer, val unsafe.Pointer) 
 	*(*sliceHeader)(ptr) = *(*sliceHeader)(val)
 }
 
-func (type2 *UnsafeSliceType) IsNil(obj interface{}) bool {
+func (type2 *UnsafeSliceType) IsNil(obj any) bool {
 	if obj == nil {
 		return true
 	}
@@ -57,7 +57,7 @@ func (type2 *UnsafeSliceType) UnsafeIsNil(ptr unsafe.Pointer) bool {
 	return (*sliceHeader)(ptr).Data == nil
 }
 
-func (type2 *UnsafeSliceType) SetNil(obj interface{}) {
+func (type2 *UnsafeSliceType) SetNil(obj any) {
 	objEFace := unpackEFace(obj)
 	assertType("SliceType.SetNil argument 1", type2.ptrRType, objEFace.rtype)
 	type2.UnsafeSetNil(objEFace.data)
@@ -70,7 +70,7 @@ func (type2 *UnsafeSliceType) UnsafeSetNil(ptr unsafe.Pointer) {
 	header.Data = nil
 }
 
-func (type2 *UnsafeSliceType) MakeSlice(length int, cap int) interface{} {
+func (type2 *UnsafeSliceType) MakeSlice(length int, cap int) any {
 	return packEFace(type2.ptrRType, type2.UnsafeMakeSlice(length, cap))
 }
 
@@ -79,7 +79,7 @@ func (type2 *UnsafeSliceType) UnsafeMakeSlice(length int, cap int) unsafe.Pointe
 	return unsafe.Pointer(header)
 }
 
-func (type2 *UnsafeSliceType) LengthOf(obj interface{}) int {
+func (type2 *UnsafeSliceType) LengthOf(obj any) int {
 	objEFace := unpackEFace(obj)
 	assertType("SliceType.Len argument 1", type2.ptrRType, objEFace.rtype)
 	return type2.UnsafeLengthOf(objEFace.data)
@@ -90,7 +90,7 @@ func (type2 *UnsafeSliceType) UnsafeLengthOf(obj unsafe.Pointer) int {
 	return header.Len
 }
 
-func (type2 *UnsafeSliceType) SetIndex(obj interface{}, index int, elem interface{}) {
+func (type2 *UnsafeSliceType) SetIndex(obj any, index int, elem any) {
 	objEFace := unpackEFace(obj)
 	assertType("SliceType.SetIndex argument 1", type2.ptrRType, objEFace.rtype)
 	elemEFace := unpackEFace(elem)
@@ -104,7 +104,7 @@ func (type2 *UnsafeSliceType) UnsafeSetIndex(obj unsafe.Pointer, index int, elem
 	typedmemmove(type2.elemRType, elemPtr, elem)
 }
 
-func (type2 *UnsafeSliceType) GetIndex(obj interface{}, index int) interface{} {
+func (type2 *UnsafeSliceType) GetIndex(obj any, index int) any {
 	objEFace := unpackEFace(obj)
 	assertType("SliceType.GetIndex argument 1", type2.ptrRType, objEFace.rtype)
 	elemPtr := type2.UnsafeGetIndex(objEFace.data, index)
@@ -116,7 +116,7 @@ func (type2 *UnsafeSliceType) UnsafeGetIndex(obj unsafe.Pointer, index int) unsa
 	return arrayAt(header.Data, index, type2.elemSize, "i < s.Len")
 }
 
-func (type2 *UnsafeSliceType) Append(obj interface{}, elem interface{}) {
+func (type2 *UnsafeSliceType) Append(obj any, elem any) {
 	objEFace := unpackEFace(obj)
 	assertType("SliceType.Append argument 1", type2.ptrRType, objEFace.rtype)
 	elemEFace := unpackEFace(elem)
@@ -131,7 +131,7 @@ func (type2 *UnsafeSliceType) UnsafeAppend(obj unsafe.Pointer, elem unsafe.Point
 	type2.UnsafeSetIndex(obj, oldLen, elem)
 }
 
-func (type2 *UnsafeSliceType) Cap(obj interface{}) int {
+func (type2 *UnsafeSliceType) Cap(obj any) int {
 	objEFace := unpackEFace(obj)
 	assertType("SliceType.Cap argument 1", type2.ptrRType, objEFace.rtype)
 	return type2.UnsafeCap(objEFace.data)
@@ -141,7 +141,7 @@ func (type2 *UnsafeSliceType) UnsafeCap(ptr unsafe.Pointer) int {
 	return (*sliceHeader)(ptr).Cap
 }
 
-func (type2 *UnsafeSliceType) Grow(obj interface{}, newLength int) {
+func (type2 *UnsafeSliceType) Grow(obj any, newLength int) {
 	objEFace := unpackEFace(obj)
 	assertType("SliceType.Grow argument 1", type2.ptrRType, objEFace.rtype)
 	type2.UnsafeGrow(objEFace.data, newLength)

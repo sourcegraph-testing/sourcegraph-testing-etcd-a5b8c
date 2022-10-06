@@ -317,7 +317,7 @@ func Uintptrp(key string, val *uintptr) Field {
 //
 // If encoding fails (e.g., trying to serialize a map[int]string to JSON), Reflect
 // includes the error message in the final log output.
-func Reflect(key string, val interface{}) Field {
+func Reflect(key string, val any) Field {
 	return Field{Key: key, Type: zapcore.ReflectType, Interface: val}
 }
 
@@ -393,7 +393,7 @@ func Object(key string, val zapcore.ObjectMarshaler) Field {
 // Since byte/uint8 and rune/int32 are aliases, Any can't differentiate between
 // them. To minimize surprises, []byte values are treated as binary blobs, byte
 // values are treated as uint8, and runes are always treated as integers.
-func Any(key string, value interface{}) Field {
+func Any(key string, value any) Field {
 	switch val := value.(type) {
 	case zapcore.ObjectMarshaler:
 		return Object(key, val)

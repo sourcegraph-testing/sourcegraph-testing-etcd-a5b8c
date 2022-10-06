@@ -23,7 +23,7 @@ const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 // `NullValue` is a singleton enumeration to represent the null value for the
 // `Value` type union.
 //
-//  The JSON representation for `NullValue` is JSON `null`.
+//	The JSON representation for `NullValue` is JSON `null`.
 type NullValue int32
 
 const (
@@ -238,8 +238,8 @@ func (m *Value) GetListValue() *ListValue {
 }
 
 // XXX_OneofWrappers is for the internal use of the proto package.
-func (*Value) XXX_OneofWrappers() []interface{} {
-	return []interface{}{
+func (*Value) XXX_OneofWrappers() []any {
+	return []any{
 		(*Value_NullValue)(nil),
 		(*Value_NumberValue)(nil),
 		(*Value_StringValue)(nil),

@@ -36,53 +36,53 @@ func V(l int) bool {
 }
 
 // Info logs to the INFO log.
-func Info(args ...interface{}) {
+func Info(args ...any) {
 	logger.Info(args...)
 }
 
 // Infof logs to the INFO log. Arguments are handled in the manner of fmt.Printf.
-func Infof(format string, args ...interface{}) {
+func Infof(format string, args ...any) {
 	logger.Infof(format, args...)
 }
 
 // Infoln logs to the INFO log. Arguments are handled in the manner of fmt.Println.
-func Infoln(args ...interface{}) {
+func Infoln(args ...any) {
 	logger.Infoln(args...)
 }
 
 // Warning logs to the WARNING log.
-func Warning(args ...interface{}) {
+func Warning(args ...any) {
 	logger.Warning(args...)
 }
 
 // Warningf logs to the WARNING log. Arguments are handled in the manner of fmt.Printf.
-func Warningf(format string, args ...interface{}) {
+func Warningf(format string, args ...any) {
 	logger.Warningf(format, args...)
 }
 
 // Warningln logs to the WARNING log. Arguments are handled in the manner of fmt.Println.
-func Warningln(args ...interface{}) {
+func Warningln(args ...any) {
 	logger.Warningln(args...)
 }
 
 // Error logs to the ERROR log.
-func Error(args ...interface{}) {
+func Error(args ...any) {
 	logger.Error(args...)
 }
 
 // Errorf logs to the ERROR log. Arguments are handled in the manner of fmt.Printf.
-func Errorf(format string, args ...interface{}) {
+func Errorf(format string, args ...any) {
 	logger.Errorf(format, args...)
 }
 
 // Errorln logs to the ERROR log. Arguments are handled in the manner of fmt.Println.
-func Errorln(args ...interface{}) {
+func Errorln(args ...any) {
 	logger.Errorln(args...)
 }
 
 // Fatal logs to the FATAL log. Arguments are handled in the manner of fmt.Print.
 // It calls os.Exit() with exit code 1.
-func Fatal(args ...interface{}) {
+func Fatal(args ...any) {
 	logger.Fatal(args...)
 	// Make sure fatal logs will exit.
 	os.Exit(1)
@@ -90,7 +90,7 @@ func Fatal(args ...interface{}) {
 
 // Fatalf logs to the FATAL log. Arguments are handled in the manner of fmt.Printf.
 // It calls os.Exit() with exit code 1.
-func Fatalf(format string, args ...interface{}) {
+func Fatalf(format string, args ...any) {
 	logger.Fatalf(format, args...)
 	// Make sure fatal logs will exit.
 	os.Exit(1)
@@ -98,7 +98,7 @@ func Fatalf(format string, args ...interface{}) {
 
 // Fatalln logs to the FATAL log. Arguments are handled in the manner of fmt.Println.
 // It calle os.Exit()) with exit code 1.
-func Fatalln(args ...interface{}) {
+func Fatalln(args ...any) {
 	logger.Fatalln(args...)
 	// Make sure fatal logs will exit.
 	os.Exit(1)
@@ -107,20 +107,20 @@ func Fatalln(args ...interface{}) {
 // Print prints to the logger. Arguments are handled in the manner of fmt.Print.
 //
 // Deprecated: use Info.
-func Print(args ...interface{}) {
+func Print(args ...any) {
 	logger.Info(args...)
 }
 
 // Printf prints to the logger. Arguments are handled in the manner of fmt.Printf.
 //
 // Deprecated: use Infof.
-func Printf(format string, args ...interface{}) {
+func Printf(format string, args ...any) {
 	logger.Infof(format, args...)
 }
 
 // Println prints to the logger. Arguments are handled in the manner of fmt.Println.
 //
 // Deprecated: use Infoln.
-func Println(args ...interface{}) {
+func Println(args ...any) {
 	logger.Infoln(args...)
 }

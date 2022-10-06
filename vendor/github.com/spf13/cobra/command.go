@@ -1056,17 +1056,17 @@ main:
 }
 
 // Print is a convenience method to Print to the defined output, fallback to Stderr if not set.
-func (c *Command) Print(i ...interface{}) {
+func (c *Command) Print(i ...any) {
 	fmt.Fprint(c.OutOrStderr(), i...)
 }
 
 // Println is a convenience method to Println to the defined output, fallback to Stderr if not set.
-func (c *Command) Println(i ...interface{}) {
+func (c *Command) Println(i ...any) {
 	c.Print(fmt.Sprintln(i...))
 }
 
 // Printf is a convenience method to Printf to the defined output, fallback to Stderr if not set.
-func (c *Command) Printf(format string, i ...interface{}) {
+func (c *Command) Printf(format string, i ...any) {
 	c.Print(fmt.Sprintf(format, i...))
 }
 

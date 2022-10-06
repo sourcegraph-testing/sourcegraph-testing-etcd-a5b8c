@@ -64,6 +64,6 @@ func (any *nilAny) Parse() *Iterator {
 	return nil
 }
 
-func (any *nilAny) GetInterface() interface{} {
+func (any *nilAny) GetInterface() any {
 	return nil
 }

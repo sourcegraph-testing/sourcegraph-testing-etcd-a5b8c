@@ -110,10 +110,10 @@ var helpSubcommand = Command{
 }
 
 // Prints help for the App or Command
-type helpPrinter func(w io.Writer, templ string, data interface{})
+type helpPrinter func(w io.Writer, templ string, data any)
 
 // Prints help for the App or Command with custom template function.
-type helpPrinterCustom func(w io.Writer, templ string, data interface{}, customFunc map[string]interface{})
+type helpPrinterCustom func(w io.Writer, templ string, data any, customFunc map[string]any)
 
 // HelpPrinter is a function that writes the help output. If not set a default
 // is used. The function signature is:
@@ -139,11 +139,11 @@ func ShowAppHelp(c *Context) (err error) {
 		HelpPrinter(c.App.Writer, AppHelpTemplate, c.App)
 		return
 	}
-	customAppData := func() map[string]interface{} {
+	customAppData := func() map[string]any {
 		if c.App.ExtraInfo == nil {
 			return nil
 		}
-		return map[string]interface{}{
+		return map[string]any{
 			"ExtraInfo": c.App.ExtraInfo,
 		}
 	}
@@ -226,7 +226,7 @@ func ShowCommandCompletions(ctx *Context, command string) {
 	}
 }
 
-func printHelpCustom(out io.Writer, templ string, data interface{}, customFunc map[string]interface{}) {
+func printHelpCustom(out io.Writer, templ string, data any, customFunc map[string]any) {
 	funcMap := template.FuncMap{
 		"join": strings.Join,
 	}
@@ -250,7 +250,7 @@ func printHelpCustom(out io.Writer, templ string, data interface{}, customFunc m
 	w.Flush()
 }
 
-func printHelp(out io.Writer, templ string, data interface{}) {
+func printHelp(out io.Writer, templ string, data any) {
 	printHelpCustom(out, templ, data, nil)
 }
 

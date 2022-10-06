@@ -26,17 +26,17 @@ type Any interface {
 	ToFloat32() float32
 	ToFloat64() float64
 	ToString() string
-	ToVal(val interface{})
-	Get(path ...interface{}) Any
+	ToVal(val any)
+	Get(path ...any) Any
 	Size() int
 	Keys() []string
-	GetInterface() interface{}
+	GetInterface() any
 	WriteTo(stream *Stream)
 }
 
 type baseAny struct{}
 
-func (any *baseAny) Get(path ...interface{}) Any {
+func (any *baseAny) Get(path ...any) Any {
 	return &invalidAny{baseAny{}, fmt.Errorf("GetIndex %v from simple value", path)}
 }
 
@@ -48,7 +48,7 @@ func (any *baseAny) Keys() []string {
 	return []string{}
 }
 
-func (any *baseAny) ToVal(obj interface{}) {
+func (any *baseAny) ToVal(obj any) {
 	panic("not implemented")
 }
 
@@ -83,7 +83,7 @@ func WrapString(val string) Any {
 }
 
 // Wrap turn a go object into Any interface
-func Wrap(val interface{}) Any {
+func Wrap(val any) Any {
 	if val == nil {
 		return &nilAny{}
 	}
@@ -227,7 +227,7 @@ func locateArrayElement(iter *Iterator, target int) []byte {
 	return found
 }
 
-func locatePath(iter *Iterator, path []interface{}) Any {
+func locatePath(iter *Iterator, path []any) Any {
 	for i, pathKeyObj := range path {
 		switch pathKey := pathKeyObj.(type) {
 		case string:

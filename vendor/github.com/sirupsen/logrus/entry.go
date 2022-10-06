@@ -32,7 +32,7 @@ const (
 
 func init() {
 	bufferPool = &sync.Pool{
-		New: func() interface{} {
+		New: func() any {
 			return new(bytes.Buffer)
 		},
 	}
@@ -107,7 +107,7 @@ func (entry *Entry) WithContext(ctx context.Context) *Entry {
 }
 
 // Add a single field to the Entry.
-func (entry *Entry) WithField(key string, value interface{}) *Entry {
+func (entry *Entry) WithField(key string, value any) *Entry {
 	return entry.WithFields(Fields{key: value})
 }
 
@@ -263,137 +263,137 @@ func (entry *Entry) write() {
 	}
 }
 
-func (entry *Entry) Log(level Level, args ...interface{}) {
+func (entry *Entry) Log(level Level, args ...any) {
 	if entry.Logger.IsLevelEnabled(level) {
 		entry.log(level, fmt.Sprint(args...))
 	}
 }
 
-func (entry *Entry) Trace(args ...interface{}) {
+func (entry *Entry) Trace(args ...any) {
 	entry.Log(TraceLevel, args...)
 }
 
-func (entry *Entry) Debug(args ...interface{}) {
+func (entry *Entry) Debug(args ...any) {
 	entry.Log(DebugLevel, args...)
 }
 
-func (entry *Entry) Print(args ...interface{}) {
+func (entry *Entry) Print(args ...any) {
 	entry.Info(args...)
 }
 
-func (entry *Entry) Info(args ...interface{}) {
+func (entry *Entry) Info(args ...any) {
 	entry.Log(InfoLevel, args...)
 }
 
-func (entry *Entry) Warn(args ...interface{}) {
+func (entry *Entry) Warn(args ...any) {
 	entry.Log(WarnLevel, args...)
 }
 
-func (entry *Entry) Warning(args ...interface{}) {
+func (entry *Entry) Warning(args ...any) {
 	entry.Warn(args...)
 }
 
-func (entry *Entry) Error(args ...interface{}) {
+func (entry *Entry) Error(args ...any) {
 	entry.Log(ErrorLevel, args...)
 }
 
-func (entry *Entry) Fatal(args ...interface{}) {
+func (entry *Entry) Fatal(args ...any) {
 	entry.Log(FatalLevel, args...)
 	entry.Logger.Exit(1)
 }
 
-func (entry *Entry) Panic(args ...interface{}) {
+func (entry *Entry) Panic(args ...any) {
 	entry.Log(PanicLevel, args...)
 	panic(fmt.Sprint(args...))
 }
 
 // Entry Printf family functions
 
-func (entry *Entry) Logf(level Level, format string, args ...interface{}) {
+func (entry *Entry) Logf(level Level, format string, args ...any) {
 	if entry.Logger.IsLevelEnabled(level) {
 		entry.Log(level, fmt.Sprintf(format, args...))
 	}
 }
 
-func (entry *Entry) Tracef(format string, args ...interface{}) {
+func (entry *Entry) Tracef(format string, args ...any) {
 	entry.Logf(TraceLevel, format, args...)
 }
 
-func (entry *Entry) Debugf(format string, args ...interface{}) {
+func (entry *Entry) Debugf(format string, args ...any) {
 	entry.Logf(DebugLevel, format, args...)
 }
 
-func (entry *Entry) Infof(format string, args ...interface{}) {
+func (entry *Entry) Infof(format string, args ...any) {
 	entry.Logf(InfoLevel, format, args...)
 }
 
-func (entry *Entry) Printf(format string, args ...interface{}) {
+func (entry *Entry) Printf(format string, args ...any) {
 	entry.Infof(format, args...)
 }
 
-func (entry *Entry) Warnf(format string, args ...interface{}) {
+func (entry *Entry) Warnf(format string, args ...any) {
 	entry.Logf(WarnLevel, format, args...)
 }
 
-func (entry *Entry) Warningf(format string, args ...interface{}) {
+func (entry *Entry) Warningf(format string, args ...any) {
 	entry.Warnf(format, args...)
 }
 
-func (entry *Entry) Errorf(format string, args ...interface{}) {
+func (entry *Entry) Errorf(format string, args ...any) {
 	entry.Logf(ErrorLevel, format, args...)
 }
 
-func (entry *Entry) Fatalf(format string, args ...interface{}) {
+func (entry *Entry) Fatalf(format string, args ...any) {
 	entry.Logf(FatalLevel, format, args...)
 	entry.Logger.Exit(1)
 }
 
-func (entry *Entry) Panicf(format string, args ...interface{}) {
+func (entry *Entry) Panicf(format string, args ...any) {
 	entry.Logf(PanicLevel, format, args...)
 }
 
 // Entry Println family functions
 
-func (entry *Entry) Logln(level Level, args ...interface{}) {
+func (entry *Entry) Logln(level Level, args ...any) {
 	if entry.Logger.IsLevelEnabled(level) {
 		entry.Log(level, entry.sprintlnn(args...))
 	}
 }
 
-func (entry *Entry) Traceln(args ...interface{}) {
+func (entry *Entry) Traceln(args ...any) {
 	entry.Logln(TraceLevel, args...)
 }
 
-func (entry *Entry) Debugln(args ...interface{}) {
+func (entry *Entry) Debugln(args ...any) {
 	entry.Logln(DebugLevel, args...)
 }
 
-func (entry *Entry) Infoln(args ...interface{}) {
+func (entry *Entry) Infoln(args ...any) {
 	entry.Logln(InfoLevel, args...)
 }
 
-func (entry *Entry) Println(args ...interface{}) {
+func (entry *Entry) Println(args ...any) {
 	entry.Infoln(args...)
 }
 
-func (entry *Entry) Warnln(args ...interface{}) {
+func (entry *Entry) Warnln(args ...any) {
 	entry.Logln(WarnLevel, args...)
 }
 
-func (entry *Entry) Warningln(args ...interface{}) {
+func (entry *Entry) Warningln(args ...any) {
 	entry.Warnln(args...)
 }
 
-func (entry *Entry) Errorln(args ...interface{}) {
+func (entry *Entry) Errorln(args ...any) {
 	entry.Logln(ErrorLevel, args...)
 }
 
-func (entry *Entry) Fatalln(args ...interface{}) {
+func (entry *Entry) Fatalln(args ...any) {
 	entry.Logln(FatalLevel, args...)
 	entry.Logger.Exit(1)
 }
 
-func (entry *Entry) Panicln(args ...interface{}) {
+func (entry *Entry) Panicln(args ...any) {
 	entry.Logln(PanicLevel, args...)
 }
 
@@ -401,7 +401,7 @@ func (entry *Entry) Panicln(args ...interface{}) {
 // fmt.Sprintln where spaces are always added between operands, regardless of
 // their type. Instead of vendoring the Sprintln implementation to spare a
 // string allocation, we do the simplest thing.
-func (entry *Entry) sprintlnn(args ...interface{}) string {
+func (entry *Entry) sprintlnn(args ...any) string {
 	msg := fmt.Sprintln(args...)
 	return msg[:len(msg)-1]
 }

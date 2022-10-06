@@ -12,7 +12,7 @@ import (
 // FieldMaskFromRequestBody creates a FieldMask printing all complete paths from the JSON body.
 func FieldMaskFromRequestBody(r io.Reader) (*field_mask.FieldMask, error) {
 	fm := &field_mask.FieldMask{}
-	var root interface{}
+	var root any
 	if err := json.NewDecoder(r).Decode(&root); err != nil {
 		if err == io.EOF {
 			return fm, nil
@@ -26,7 +26,7 @@ func FieldMaskFromRequestBody(r io.Reader) (*field_mask.FieldMask, error) {
 		item := queue[0]
 		queue = queue[1:]
 
-		if m, ok := item.node.(map[string]interface{}); ok {
+		if m, ok := item.node.(map[string]any); ok {
 			// if the item is an object, then enqueue all of its children
 			for k, v := range m {
 				queue = append(queue, fieldMaskPathItem{path: append(item.path, generator.CamelCase(k)), node: v})
@@ -46,7 +46,7 @@ type fieldMaskPathItem struct {
 	path []string
 
 	// a generic decoded json object the current item to inspect for further path extraction
-	node interface{}
+	node any
 }
 
 // CamelCaseFieldMask updates the given FieldMask by converting all of its paths to CamelCase, using the same heuristic

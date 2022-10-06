@@ -20,7 +20,7 @@ import (
 	"testing"
 )
 
-func AssertEqual(t *testing.T, e, a interface{}, msg ...string) {
+func AssertEqual(t *testing.T, e, a any, msg ...string) {
 	if (e == nil || a == nil) && (isNil(e) && isNil(a)) {
 		return
 	}
@@ -35,11 +35,11 @@ func AssertEqual(t *testing.T, e, a interface{}, msg ...string) {
 	FatalStack(t, s)
 }
 
-func AssertNil(t *testing.T, v interface{}) {
+func AssertNil(t *testing.T, v any) {
 	AssertEqual(t, nil, v)
 }
 
-func AssertNotNil(t *testing.T, v interface{}) {
+func AssertNotNil(t *testing.T, v any) {
 	if v == nil {
 		t.Fatalf("expected non-nil, got %+v", v)
 	}
@@ -53,7 +53,7 @@ func AssertFalse(t *testing.T, v bool, msg ...string) {
 	AssertEqual(t, false, v, msg...)
 }
 
-func isNil(v interface{}) bool {
+func isNil(v any) bool {
 	if v == nil {
 		return true
 	}

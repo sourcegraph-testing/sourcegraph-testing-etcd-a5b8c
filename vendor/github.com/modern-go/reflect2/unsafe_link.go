@@ -13,6 +13,7 @@ func unsafe_NewArray(rtype unsafe.Pointer, length int) unsafe.Pointer
 
 // typedslicecopy copies a slice of elemType values from src to dst,
 // returning the number of elements copied.
+//
 //go:linkname typedslicecopy reflect.typedslicecopy
 //go:noescape
 func typedslicecopy(elemType unsafe.Pointer, dst, src sliceHeader) int
@@ -27,6 +28,7 @@ func mapaccess(rtype unsafe.Pointer, m unsafe.Pointer, key unsafe.Pointer) (val 
 
 // m escapes into the return value, but the caller of mapiterinit
 // doesn't let the return value escape.
+//
 //go:noescape
 //go:linkname mapiterinit reflect.mapiterinit
 func mapiterinit(rtype unsafe.Pointer, m unsafe.Pointer) *hiter
@@ -36,7 +38,7 @@ func mapiterinit(rtype unsafe.Pointer, m unsafe.Pointer) *hiter
 func mapiternext(it *hiter)
 
 //go:linkname ifaceE2I reflect.ifaceE2I
-func ifaceE2I(rtype unsafe.Pointer, src interface{}, dst unsafe.Pointer)
+func ifaceE2I(rtype unsafe.Pointer, src any, dst unsafe.Pointer)
 
 // A hash iteration structure.
 // If you modify hiter, also change cmd/internal/gc/reflect.go to indicate

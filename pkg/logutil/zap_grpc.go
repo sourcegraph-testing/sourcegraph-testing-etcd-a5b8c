@@ -45,60 +45,60 @@ type zapGRPCLogger struct {
 	sugar *zap.SugaredLogger
 }
 
-func (zl *zapGRPCLogger) Info(args ...interface{}) {
+func (zl *zapGRPCLogger) Info(args ...any) {
 	if !zl.lg.Core().Enabled(zapcore.DebugLevel) {
 		return
 	}
 	zl.sugar.Info(args...)
 }
 
-func (zl *zapGRPCLogger) Infoln(args ...interface{}) {
+func (zl *zapGRPCLogger) Infoln(args ...any) {
 	if !zl.lg.Core().Enabled(zapcore.DebugLevel) {
 		return
 	}
 	zl.sugar.Info(args...)
 }
 
-func (zl *zapGRPCLogger) Infof(format string, args ...interface{}) {
+func (zl *zapGRPCLogger) Infof(format string, args ...any) {
 	if !zl.lg.Core().Enabled(zapcore.DebugLevel) {
 		return
 	}
 	zl.sugar.Infof(format, args...)
 }
 
-func (zl *zapGRPCLogger) Warning(args ...interface{}) {
+func (zl *zapGRPCLogger) Warning(args ...any) {
 	zl.sugar.Warn(args...)
 }
 
-func (zl *zapGRPCLogger) Warningln(args ...interface{}) {
+func (zl *zapGRPCLogger) Warningln(args ...any) {
 	zl.sugar.Warn(args...)
 }
 
-func (zl *zapGRPCLogger) Warningf(format string, args ...interface{}) {
+func (zl *zapGRPCLogger) Warningf(format string, args ...any) {
 	zl.sugar.Warnf(format, args...)
 }
 
-func (zl *zapGRPCLogger) Error(args ...interface{}) {
+func (zl *zapGRPCLogger) Error(args ...any) {
 	zl.sugar.Error(args...)
 }
 
-func (zl *zapGRPCLogger) Errorln(args ...interface{}) {
+func (zl *zapGRPCLogger) Errorln(args ...any) {
 	zl.sugar.Error(args...)
 }
 
-func (zl *zapGRPCLogger) Errorf(format string, args ...interface{}) {
+func (zl *zapGRPCLogger) Errorf(format string, args ...any) {
 	zl.sugar.Errorf(format, args...)
 }
 
-func (zl *zapGRPCLogger) Fatal(args ...interface{}) {
+func (zl *zapGRPCLogger) Fatal(args ...any) {
 	zl.sugar.Fatal(args...)
 }
 
-func (zl *zapGRPCLogger) Fatalln(args ...interface{}) {
+func (zl *zapGRPCLogger) Fatalln(args ...any) {
 	zl.sugar.Fatal(args...)
 }
 
-func (zl *zapGRPCLogger) Fatalf(format string, args ...interface{}) {
+func (zl *zapGRPCLogger) Fatalf(format string, args ...any) {
 	zl.sugar.Fatalf(format, args...)
 }
 

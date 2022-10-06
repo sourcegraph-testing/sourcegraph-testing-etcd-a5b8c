@@ -250,7 +250,7 @@ func testV3CurlAuth(cx ctlCtx) {
 		cURLRes, err := proc.ExpectFunc(lineFunc)
 		testutil.AssertNil(cx.t, err)
 
-		authRes := make(map[string]interface{})
+		authRes := make(map[string]any)
 		testutil.AssertNil(cx.t, json.Unmarshal([]byte(cURLRes), &authRes))
 
 		token, ok := authRes[rpctypes.TokenFieldNameGRPC].(string)

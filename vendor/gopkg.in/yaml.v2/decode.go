@@ -234,7 +234,7 @@ type decoder struct {
 var (
 	mapItemType    = reflect.TypeOf(MapItem{})
 	durationType   = reflect.TypeOf(time.Duration(0))
-	defaultMapType = reflect.TypeOf(map[interface{}]interface{}{})
+	defaultMapType = reflect.TypeOf(map[any]any{})
 	ifaceType      = defaultMapType.Elem()
 	timeType       = reflect.TypeOf(time.Time{})
 	ptrTimeType    = reflect.TypeOf(&time.Time{})
@@ -263,7 +263,7 @@ func (d *decoder) terror(n *node, tag string, out reflect.Value) {
 
 func (d *decoder) callUnmarshaler(n *node, u Unmarshaler) (good bool) {
 	terrlen := len(d.terrors)
-	err := u.UnmarshalYAML(func(v interface{}) (err error) {
+	err := u.UnmarshalYAML(func(v any) (err error) {
 		defer handleErr(&err)
 		d.unmarshal(n, reflect.ValueOf(v))
 		if len(d.terrors) > terrlen {
@@ -368,7 +368,7 @@ func resetMap(out reflect.Value) {
 
 func (d *decoder) scalar(n *node, out reflect.Value) bool {
 	var tag string
-	var resolved interface{}
+	var resolved any
 	if n.tag == "" && !n.implicit {
 		tag = yaml_STR_TAG
 		resolved = n.value
@@ -533,7 +533,7 @@ func (d *decoder) scalar(n *node, out reflect.Value) bool {
 	return false
 }
 
-func settableValueOf(i interface{}) reflect.Value {
+func settableValueOf(i any) reflect.Value {
 	v := reflect.ValueOf(i)
 	sv := reflect.New(v.Type()).Elem()
 	sv.Set(v)
@@ -554,7 +554,7 @@ func (d *decoder) sequence(n *node, out reflect.Value) (good bool) {
 	case reflect.Interface:
 		// No type hints. Will have to use a generic sequence.
 		iface = out
-		out = settableValueOf(make([]interface{}, l))
+		out = settableValueOf(make([]any, l))
 	default:
 		d.terror(n, yaml_SEQ_TAG, out)
 		return false

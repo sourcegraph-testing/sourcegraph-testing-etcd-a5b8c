@@ -9,15 +9,15 @@ import (
 type Type interface {
 	Kind() reflect.Kind
 	// New return pointer to data of this type
-	New() interface{}
+	New() any
 	// UnsafeNew return the allocated space pointed by unsafe.Pointer
 	UnsafeNew() unsafe.Pointer
 	// PackEFace cast a unsafe pointer to object represented pointer
-	PackEFace(ptr unsafe.Pointer) interface{}
+	PackEFace(ptr unsafe.Pointer) any
 	// Indirect dereference object represented pointer to this type
-	Indirect(obj interface{}) interface{}
+	Indirect(obj any) any
 	// UnsafeIndirect dereference pointer to this type
-	UnsafeIndirect(ptr unsafe.Pointer) interface{}
+	UnsafeIndirect(ptr unsafe.Pointer) any
 	// Type1 returns reflect.Type
 	Type1() reflect.Type
 	Implements(thatType Type) bool
@@ -26,9 +26,9 @@ type Type interface {
 	// interface{} of this type has pointer like behavior
 	LikePtr() bool
 	IsNullable() bool
-	IsNil(obj interface{}) bool
+	IsNil(obj any) bool
 	UnsafeIsNil(ptr unsafe.Pointer) bool
-	Set(obj interface{}, val interface{})
+	Set(obj any, val any)
 	UnsafeSet(ptr unsafe.Pointer, val unsafe.Pointer)
 	AssignableTo(anotherType Type) bool
 }
@@ -36,9 +36,9 @@ type Type interface {
 type ListType interface {
 	Type
 	Elem() Type
-	SetIndex(obj interface{}, index int, elem interface{})
+	SetIndex(obj any, index int, elem any)
 	UnsafeSetIndex(obj unsafe.Pointer, index int, elem unsafe.Pointer)
-	GetIndex(obj interface{}, index int) interface{}
+	GetIndex(obj any, index int) any
 	UnsafeGetIndex(obj unsafe.Pointer, index int) unsafe.Pointer
 }
 
@@ -49,17 +49,17 @@ type ArrayType interface {
 
 type SliceType interface {
 	ListType
-	MakeSlice(length int, cap int) interface{}
+	MakeSlice(length int, cap int) any
 	UnsafeMakeSlice(length int, cap int) unsafe.Pointer
-	Grow(obj interface{}, newLength int)
+	Grow(obj any, newLength int)
 	UnsafeGrow(ptr unsafe.Pointer, newLength int)
-	Append(obj interface{}, elem interface{})
+	Append(obj any, elem any)
 	UnsafeAppend(obj unsafe.Pointer, elem unsafe.Pointer)
-	LengthOf(obj interface{}) int
+	LengthOf(obj any) int
 	UnsafeLengthOf(ptr unsafe.Pointer) int
-	SetNil(obj interface{})
+	SetNil(obj any)
 	UnsafeSetNil(ptr unsafe.Pointer)
-	Cap(obj interface{}) int
+	Cap(obj any) int
 	UnsafeCap(ptr unsafe.Pointer) int
 }
 
@@ -80,9 +80,9 @@ type StructField interface {
 	Tag() reflect.StructTag
 	Index() []int
 	Anonymous() bool
-	Set(obj interface{}, value interface{})
+	Set(obj any, value any)
 	UnsafeSet(obj unsafe.Pointer, value unsafe.Pointer)
-	Get(obj interface{}) interface{}
+	Get(obj any) any
 	UnsafeGet(obj unsafe.Pointer) unsafe.Pointer
 }
 
@@ -90,20 +90,20 @@ type MapType interface {
 	Type
 	Key() Type
 	Elem() Type
-	MakeMap(cap int) interface{}
+	MakeMap(cap int) any
 	UnsafeMakeMap(cap int) unsafe.Pointer
-	SetIndex(obj interface{}, key interface{}, elem interface{})
+	SetIndex(obj any, key any, elem any)
 	UnsafeSetIndex(obj unsafe.Pointer, key unsafe.Pointer, elem unsafe.Pointer)
-	TryGetIndex(obj interface{}, key interface{}) (interface{}, bool)
-	GetIndex(obj interface{}, key interface{}) interface{}
+	TryGetIndex(obj any, key any) (any, bool)
+	GetIndex(obj any, key any) any
 	UnsafeGetIndex(obj unsafe.Pointer, key unsafe.Pointer) unsafe.Pointer
-	Iterate(obj interface{}) MapIterator
+	Iterate(obj any) MapIterator
 	UnsafeIterate(obj unsafe.Pointer) MapIterator
 }
 
 type MapIterator interface {
 	HasNext() bool
-	Next() (key interface{}, elem interface{})
+	Next() (key any, elem any)
 	UnsafeNext() (key unsafe.Pointer, elem unsafe.Pointer)
 }
 
@@ -121,7 +121,7 @@ type Config struct {
 }
 
 type API interface {
-	TypeOf(obj interface{}) Type
+	TypeOf(obj any) Type
 	Type2(type1 reflect.Type) Type
 }
 
@@ -136,11 +136,11 @@ type frozenConfig struct {
 func (cfg Config) Froze() *frozenConfig {
 	return &frozenConfig{
 		useSafeImplementation: cfg.UseSafeImplementation,
-		cache: concurrent.NewMap(),
+		cache:                 concurrent.NewMap(),
 	}
 }
 
-func (cfg *frozenConfig) TypeOf(obj interface{}) Type {
+func (cfg *frozenConfig) TypeOf(obj any) Type {
 	cacheKey := uintptr(unpackEFace(obj).rtype)
 	typeObj, found := cfg.cache.Load(cacheKey)
 	if found {
@@ -207,11 +207,11 @@ func (cfg *frozenConfig) wrapType(type1 reflect.Type) Type {
 	}
 }
 
-func TypeOf(obj interface{}) Type {
+func TypeOf(obj any) Type {
 	return ConfigUnsafe.TypeOf(obj)
 }
 
-func TypeOfPtr(obj interface{}) PtrType {
+func TypeOfPtr(obj any) PtrType {
 	return TypeOf(obj).(PtrType)
 }
 
@@ -226,15 +226,15 @@ func PtrTo(typ Type) Type {
 	return Type2(reflect.PtrTo(typ.Type1()))
 }
 
-func PtrOf(obj interface{}) unsafe.Pointer {
+func PtrOf(obj any) unsafe.Pointer {
 	return unpackEFace(obj).data
 }
 
-func RTypeOf(obj interface{}) uintptr {
+func RTypeOf(obj any) uintptr {
 	return uintptr(unpackEFace(obj).rtype)
 }
 
-func IsNil(obj interface{}) bool {
+func IsNil(obj any) bool {
 	if obj == nil {
 		return true
 	}
@@ -281,6 +281,7 @@ func likePtrType(typ reflect.Type) bool {
 // output depends on the input.  noescape is inlined and currently
 // compiles down to zero instructions.
 // USE CAREFULLY!
+//
 //go:nosplit
 func NoEscape(p unsafe.Pointer) unsafe.Pointer {
 	x := uintptr(p)
@@ -291,8 +292,8 @@ func UnsafeCastString(str string) []byte {
 	stringHeader := (*reflect.StringHeader)(unsafe.Pointer(&str))
 	sliceHeader := &reflect.SliceHeader{
 		Data: stringHeader.Data,
-		Cap: stringHeader.Len,
-		Len: stringHeader.Len,
+		Cap:  stringHeader.Len,
+		Len:  stringHeader.Len,
 	}
 	return *(*[]byte)(unsafe.Pointer(sliceHeader))
 }

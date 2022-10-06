@@ -35,7 +35,7 @@ func (p *jsonPrinter) EndpointStatus(r []epStatus) { printJSON(r) }
 func (p *jsonPrinter) EndpointHashKV(r []epHashKV) { printJSON(r) }
 func (p *jsonPrinter) DBStatus(r snapshot.Status)  { printJSON(r) }
 
-func printJSON(v interface{}) {
+func printJSON(v any) {
 	b, err := json.Marshal(v)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)

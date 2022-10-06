@@ -24,7 +24,7 @@ func (d *durationValue) Type() string {
 
 func (d *durationValue) String() string { return (*time.Duration)(d).String() }
 
-func durationConv(sval string) (interface{}, error) {
+func durationConv(sval string) (any, error) {
 	return time.ParseDuration(sval)
 }
 

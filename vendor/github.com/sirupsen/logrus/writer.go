@@ -21,7 +21,7 @@ func (entry *Entry) Writer() *io.PipeWriter {
 func (entry *Entry) WriterLevel(level Level) *io.PipeWriter {
 	reader, writer := io.Pipe()
 
-	var printFunc func(args ...interface{})
+	var printFunc func(args ...any)
 
 	switch level {
 	case TraceLevel:
@@ -48,7 +48,7 @@ func (entry *Entry) WriterLevel(level Level) *io.PipeWriter {
 	return writer
 }
 
-func (entry *Entry) writerScanner(reader *io.PipeReader, printFunc func(args ...interface{})) {
+func (entry *Entry) writerScanner(reader *io.PipeReader, printFunc func(args ...any)) {
 	scanner := bufio.NewScanner(reader)
 	for scanner.Scan() {
 		printFunc(scanner.Text())

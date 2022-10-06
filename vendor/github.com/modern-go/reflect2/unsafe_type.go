@@ -22,7 +22,7 @@ func newUnsafeType(cfg *frozenConfig, type1 reflect.Type) *unsafeType {
 	}
 }
 
-func (type2 *unsafeType) Set(obj interface{}, val interface{}) {
+func (type2 *unsafeType) Set(obj any, val any) {
 	objEFace := unpackEFace(obj)
 	assertType("Type.Set argument 1", type2.ptrRType, objEFace.rtype)
 	valEFace := unpackEFace(val)
@@ -34,7 +34,7 @@ func (type2 *unsafeType) UnsafeSet(ptr unsafe.Pointer, val unsafe.Pointer) {
 	typedmemmove(type2.rtype, ptr, val)
 }
 
-func (type2 *unsafeType) IsNil(obj interface{}) bool {
+func (type2 *unsafeType) IsNil(obj any) bool {
 	objEFace := unpackEFace(obj)
 	assertType("Type.IsNil argument 1", type2.ptrRType, objEFace.rtype)
 	return type2.UnsafeIsNil(objEFace.data)
@@ -48,11 +48,11 @@ func (type2 *unsafeType) UnsafeNew() unsafe.Pointer {
 	return unsafe_New(type2.rtype)
 }
 
-func (type2 *unsafeType) New() interface{} {
+func (type2 *unsafeType) New() any {
 	return packEFace(type2.ptrRType, type2.UnsafeNew())
 }
 
-func (type2 *unsafeType) PackEFace(ptr unsafe.Pointer) interface{} {
+func (type2 *unsafeType) PackEFace(ptr unsafe.Pointer) any {
 	return packEFace(type2.ptrRType, ptr)
 }
 
@@ -60,13 +60,13 @@ func (type2 *unsafeType) RType() uintptr {
 	return uintptr(type2.rtype)
 }
 
-func (type2 *unsafeType) Indirect(obj interface{}) interface{} {
+func (type2 *unsafeType) Indirect(obj any) any {
 	objEFace := unpackEFace(obj)
 	assertType("Type.Indirect argument 1", type2.ptrRType, objEFace.rtype)
 	return type2.UnsafeIndirect(objEFace.data)
 }
 
-func (type2 *unsafeType) UnsafeIndirect(obj unsafe.Pointer) interface{} {
+func (type2 *unsafeType) UnsafeIndirect(obj unsafe.Pointer) any {
 	return packEFace(type2.rtype, obj)
 }
 

@@ -83,7 +83,7 @@ func randomLeaseID() int64 {
 	return rand.New(rand.NewSource(time.Now().UnixNano())).Int63()
 }
 
-func dataMarshal(data interface{}) (d string, e error) {
+func dataMarshal(data any) (d string, e error) {
 	m, err := json.Marshal(data)
 	if err != nil {
 		return "", err

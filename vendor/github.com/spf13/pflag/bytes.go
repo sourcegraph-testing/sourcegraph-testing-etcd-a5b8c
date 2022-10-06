@@ -34,7 +34,7 @@ func newBytesHexValue(val []byte, p *[]byte) *bytesHexValue {
 	return (*bytesHexValue)(p)
 }
 
-func bytesHexConv(sval string) (interface{}, error) {
+func bytesHexConv(sval string) (any, error) {
 
 	bin, err := hex.DecodeString(sval)
 

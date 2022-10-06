@@ -29,8 +29,8 @@ import (
 )
 
 var _sliceEncoderPool = sync.Pool{
-	New: func() interface{} {
-		return &sliceArrayEncoder{elems: make([]interface{}, 0, 2)}
+	New: func() any {
+		return &sliceArrayEncoder{elems: make([]any, 0, 2)}
 	},
 }
 

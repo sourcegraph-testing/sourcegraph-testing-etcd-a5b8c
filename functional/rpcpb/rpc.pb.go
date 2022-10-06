@@ -1299,7 +1299,7 @@ func RegisterTransportServer(s *grpc.Server, srv TransportServer) {
 	s.RegisterService(&_Transport_serviceDesc, srv)
 }
 
-func _Transport_Transport_Handler(srv interface{}, stream grpc.ServerStream) error {
+func _Transport_Transport_Handler(srv any, stream grpc.ServerStream) error {
 	return srv.(TransportServer).Transport(&transportTransportServer{stream})
 }
 

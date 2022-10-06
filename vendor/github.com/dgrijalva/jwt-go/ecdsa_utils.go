@@ -23,7 +23,7 @@ func ParseECPrivateKeyFromPEM(key []byte) (*ecdsa.PrivateKey, error) {
 	}
 
 	// Parse the key
-	var parsedKey interface{}
+	var parsedKey any
 	if parsedKey, err = x509.ParseECPrivateKey(block.Bytes); err != nil {
 		return nil, err
 	}
@@ -48,7 +48,7 @@ func ParseECPublicKeyFromPEM(key []byte) (*ecdsa.PublicKey, error) {
 	}
 
 	// Parse the key
-	var parsedKey interface{}
+	var parsedKey any
 	if parsedKey, err = x509.ParsePKIXPublicKey(block.Bytes); err != nil {
 		if cert, err := x509.ParseCertificate(block.Bytes); err == nil {
 			parsedKey = cert.PublicKey

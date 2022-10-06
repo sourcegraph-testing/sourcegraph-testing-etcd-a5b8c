@@ -724,7 +724,7 @@ func (this *GeneratedCodeInfo_Annotation) GoString() string {
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
-func valueToGoStringDescriptor(v interface{}, typ string) string {
+func valueToGoStringDescriptor(v any, typ string) string {
 	rv := reflect.ValueOf(v)
 	if rv.IsNil() {
 		return "nil"

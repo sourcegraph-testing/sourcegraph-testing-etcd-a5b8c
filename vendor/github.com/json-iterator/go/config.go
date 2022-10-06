@@ -32,12 +32,12 @@ type Config struct {
 type API interface {
 	IteratorPool
 	StreamPool
-	MarshalToString(v interface{}) (string, error)
-	Marshal(v interface{}) ([]byte, error)
-	MarshalIndent(v interface{}, prefix, indent string) ([]byte, error)
-	UnmarshalFromString(str string, v interface{}) error
-	Unmarshal(data []byte, v interface{}) error
-	Get(data []byte, path ...interface{}) Any
+	MarshalToString(v any) (string, error)
+	Marshal(v any) ([]byte, error)
+	MarshalIndent(v any, prefix, indent string) ([]byte, error)
+	UnmarshalFromString(str string, v any) error
+	Unmarshal(data []byte, v any) error
+	Get(data []byte, path ...any) Any
 	NewEncoder(writer io.Writer) *Encoder
 	NewDecoder(reader io.Reader) *Decoder
 	Valid(data []byte) bool
@@ -136,12 +136,12 @@ func (cfg Config) Froze() API {
 		caseSensitive:                 cfg.CaseSensitive,
 	}
 	api.streamPool = &sync.Pool{
-		New: func() interface{} {
+		New: func() any {
 			return NewStream(api, nil, 512)
 		},
 	}
 	api.iteratorPool = &sync.Pool{
-		New: func() interface{} {
+		New: func() any {
 			return NewIterator(api)
 		},
 	}
@@ -198,16 +198,16 @@ func (cfg *frozenConfig) validateJsonRawMessage(extension EncoderExtension) {
 }
 
 func (cfg *frozenConfig) useNumber(extension DecoderExtension) {
-	extension[reflect2.TypeOfPtr((*interface{})(nil)).Elem()] = &funcDecoder{func(ptr unsafe.Pointer, iter *Iterator) {
-		exitingValue := *((*interface{})(ptr))
+	extension[reflect2.TypeOfPtr((*any)(nil)).Elem()] = &funcDecoder{func(ptr unsafe.Pointer, iter *Iterator) {
+		exitingValue := *((*any)(ptr))
 		if exitingValue != nil && reflect.TypeOf(exitingValue).Kind() == reflect.Ptr {
 			iter.ReadVal(exitingValue)
 			return
 		}
 		if iter.WhatIsNext() == NumberValue {
-			*((*interface{})(ptr)) = json.Number(iter.readNumberAsString())
+			*((*any)(ptr)) = json.Number(iter.readNumberAsString())
 		} else {
-			*((*interface{})(ptr)) = iter.Read()
+			*((*any)(ptr)) = iter.Read()
 		}
 	}}
 }
@@ -283,7 +283,7 @@ func (cfg *frozenConfig) cleanEncoders() {
 	*cfg = *(cfg.configBeforeFrozen.Froze().(*frozenConfig))
 }
 
-func (cfg *frozenConfig) MarshalToString(v interface{}) (string, error) {
+func (cfg *frozenConfig) MarshalToString(v any) (string, error) {
 	stream := cfg.BorrowStream(nil)
 	defer cfg.ReturnStream(stream)
 	stream.WriteVal(v)
@@ -293,7 +293,7 @@ func (cfg *frozenConfig) MarshalToString(v interface{}) (string, error) {
 	return string(stream.Buffer()), nil
 }
 
-func (cfg *frozenConfig) Marshal(v interface{}) ([]byte, error) {
+func (cfg *frozenConfig) Marshal(v any) ([]byte, error) {
 	stream := cfg.BorrowStream(nil)
 	defer cfg.ReturnStream(stream)
 	stream.WriteVal(v)
@@ -306,7 +306,7 @@ func (cfg *frozenConfig) Marshal(v interface{}) ([]byte, error) {
 	return copied, nil
 }
 
-func (cfg *frozenConfig) MarshalIndent(v interface{}, prefix, indent string) ([]byte, error) {
+func (cfg *frozenConfig) MarshalIndent(v any, prefix, indent string) ([]byte, error) {
 	if prefix != "" {
 		panic("prefix is not supported")
 	}
@@ -320,7 +320,7 @@ func (cfg *frozenConfig) MarshalIndent(v interface{}, prefix, indent string) ([]
 	return newCfg.frozeWithCacheReuse(cfg.extraExtensions).Marshal(v)
 }
 
-func (cfg *frozenConfig) UnmarshalFromString(str string, v interface{}) error {
+func (cfg *frozenConfig) UnmarshalFromString(str string, v any) error {
 	data := []byte(str)
 	iter := cfg.BorrowIterator(data)
 	defer cfg.ReturnIterator(iter)
@@ -336,13 +336,13 @@ func (cfg *frozenConfig) UnmarshalFromString(str string, v interface{}) error {
 	return iter.Error
 }
 
-func (cfg *frozenConfig) Get(data []byte, path ...interface{}) Any {
+func (cfg *frozenConfig) Get(data []byte, path ...any) Any {
 	iter := cfg.BorrowIterator(data)
 	defer cfg.ReturnIterator(iter)
 	return locatePath(iter, path)
 }
 
-func (cfg *frozenConfig) Unmarshal(data []byte, v interface{}) error {
+func (cfg *frozenConfig) Unmarshal(data []byte, v any) error {
 	iter := cfg.BorrowIterator(data)
 	defer cfg.ReturnIterator(iter)
 	iter.ReadVal(v)

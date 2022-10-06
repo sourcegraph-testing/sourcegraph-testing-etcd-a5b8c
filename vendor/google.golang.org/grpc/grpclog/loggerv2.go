@@ -29,35 +29,35 @@ import (
 // LoggerV2 does underlying logging work for grpclog.
 type LoggerV2 interface {
 	// Info logs to INFO log. Arguments are handled in the manner of fmt.Print.
-	Info(args ...interface{})
+	Info(args ...any)
 	// Infoln logs to INFO log. Arguments are handled in the manner of fmt.Println.
-	Infoln(args ...interface{})
+	Infoln(args ...any)
 	// Infof logs to INFO log. Arguments are handled in the manner of fmt.Printf.
-	Infof(format string, args ...interface{})
+	Infof(format string, args ...any)
 	// Warning logs to WARNING log. Arguments are handled in the manner of fmt.Print.
-	Warning(args ...interface{})
+	Warning(args ...any)
 	// Warningln logs to WARNING log. Arguments are handled in the manner of fmt.Println.
-	Warningln(args ...interface{})
+	Warningln(args ...any)
 	// Warningf logs to WARNING log. Arguments are handled in the manner of fmt.Printf.
-	Warningf(format string, args ...interface{})
+	Warningf(format string, args ...any)
 	// Error logs to ERROR log. Arguments are handled in the manner of fmt.Print.
-	Error(args ...interface{})
+	Error(args ...any)
 	// Errorln logs to ERROR log. Arguments are handled in the manner of fmt.Println.
-	Errorln(args ...interface{})
+	Errorln(args ...any)
 	// Errorf logs to ERROR log. Arguments are handled in the manner of fmt.Printf.
-	Errorf(format string, args ...interface{})
+	Errorf(format string, args ...any)
 	// Fatal logs to ERROR log. Arguments are handled in the manner of fmt.Print.
 	// gRPC ensures that all Fatal logs will exit with os.Exit(1).
 	// Implementations may also call os.Exit() with a non-zero exit code.
-	Fatal(args ...interface{})
+	Fatal(args ...any)
 	// Fatalln logs to ERROR log. Arguments are handled in the manner of fmt.Println.
 	// gRPC ensures that all Fatal logs will exit with os.Exit(1).
 	// Implementations may also call os.Exit() with a non-zero exit code.
-	Fatalln(args ...interface{})
+	Fatalln(args ...any)
 	// Fatalf logs to ERROR log. Arguments are handled in the manner of fmt.Printf.
 	// gRPC ensures that all Fatal logs will exit with os.Exit(1).
 	// Implementations may also call os.Exit() with a non-zero exit code.
-	Fatalf(format string, args ...interface{})
+	Fatalf(format string, args ...any)
 	// V reports whether verbosity level l is at least the requested verbose level.
 	V(l int) bool
 }
@@ -139,53 +139,53 @@ func newLoggerV2() LoggerV2 {
 	return NewLoggerV2WithVerbosity(infoW, warningW, errorW, v)
 }
 
-func (g *loggerT) Info(args ...interface{}) {
+func (g *loggerT) Info(args ...any) {
 	g.m[infoLog].Print(args...)
 }
 
-func (g *loggerT) Infoln(args ...interface{}) {
+func (g *loggerT) Infoln(args ...any) {
 	g.m[infoLog].Println(args...)
 }
 
-func (g *loggerT) Infof(format string, args ...interface{}) {
+func (g *loggerT) Infof(format string, args ...any) {
 	g.m[infoLog].Printf(format, args...)
 }
 
-func (g *loggerT) Warning(args ...interface{}) {
+func (g *loggerT) Warning(args ...any) {
 	g.m[warningLog].Print(args...)
 }
 
-func (g *loggerT) Warningln(args ...interface{}) {
+func (g *loggerT) Warningln(args ...any) {
 	g.m[warningLog].Println(args...)
 }
 
-func (g *loggerT) Warningf(format string, args ...interface{}) {
+func (g *loggerT) Warningf(format string, args ...any) {
 	g.m[warningLog].Printf(format, args...)
 }
 
-func (g *loggerT) Error(args ...interface{}) {
+func (g *loggerT) Error(args ...any) {
 	g.m[errorLog].Print(args...)
 }
 
-func (g *loggerT) Errorln(args ...interface{}) {
+func (g *loggerT) Errorln(args ...any) {
 	g.m[errorLog].Println(args...)
 }
 
-func (g *loggerT) Errorf(format string, args ...interface{}) {
+func (g *loggerT) Errorf(format string, args ...any) {
 	g.m[errorLog].Printf(format, args...)
 }
 
-func (g *loggerT) Fatal(args ...interface{}) {
+func (g *loggerT) Fatal(args ...any) {
 	g.m[fatalLog].Fatal(args...)
 	// No need to call os.Exit() again because log.Logger.Fatal() calls os.Exit().
 }
 
-func (g *loggerT) Fatalln(args ...interface{}) {
+func (g *loggerT) Fatalln(args ...any) {
 	g.m[fatalLog].Fatalln(args...)
 	// No need to call os.Exit() again because log.Logger.Fatal() calls os.Exit().
 }
 
-func (g *loggerT) Fatalf(format string, args ...interface{}) {
+func (g *loggerT) Fatalf(format string, args ...any) {
 	g.m[fatalLog].Fatalf(format, args...)
 	// No need to call os.Exit() again because log.Logger.Fatal() calls os.Exit().
 }

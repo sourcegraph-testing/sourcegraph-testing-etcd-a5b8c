@@ -38,7 +38,7 @@ type Address struct {
 	Addr string
 	// Metadata is the information associated with Addr, which may be used
 	// to make load balancing decision.
-	Metadata interface{}
+	Metadata any
 }
 
 // BalancerConfig specifies the configurations for Balancer.

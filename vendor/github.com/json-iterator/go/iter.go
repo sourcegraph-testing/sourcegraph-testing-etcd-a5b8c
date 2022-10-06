@@ -77,7 +77,7 @@ type Iterator struct {
 	captureStartedAt int
 	captured         []byte
 	Error            error
-	Attachment       interface{} // open for customized decoder
+	Attachment       any // open for customized decoder
 }
 
 // NewIterator creates an empty Iterator instance
@@ -282,7 +282,7 @@ func (iter *Iterator) unreadByte() {
 }
 
 // Read read the next JSON element as generic interface{}.
-func (iter *Iterator) Read() interface{} {
+func (iter *Iterator) Read() any {
 	valueType := iter.WhatIsNext()
 	switch valueType {
 	case StringValue:
@@ -298,18 +298,18 @@ func (iter *Iterator) Read() interface{} {
 	case BoolValue:
 		return iter.ReadBool()
 	case ArrayValue:
-		arr := []interface{}{}
+		arr := []any{}
 		iter.ReadArrayCB(func(iter *Iterator) bool {
-			var elem interface{}
+			var elem any
 			iter.ReadVal(&elem)
 			arr = append(arr, elem)
 			return true
 		})
 		return arr
 	case ObjectValue:
-		obj := map[string]interface{}{}
+		obj := map[string]any{}
 		iter.ReadMapCB(func(Iter *Iterator, field string) bool {
-			var elem interface{}
+			var elem any
 			iter.ReadVal(&elem)
 			obj[field] = elem
 			return true

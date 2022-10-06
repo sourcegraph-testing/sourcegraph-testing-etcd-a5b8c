@@ -58,7 +58,7 @@ You need to open cmd.exe and run it from there.
 
 // AddTemplateFunc adds a template function that's available to Usage and Help
 // template generation.
-func AddTemplateFunc(name string, tmplFunc interface{}) {
+func AddTemplateFunc(name string, tmplFunc any) {
 	templateFuncs[name] = tmplFunc
 }
 
@@ -81,7 +81,7 @@ func OnInitialize(y ...func()) {
 // Gt takes two types and checks whether the first type is greater than the second. In case of types Arrays, Chans,
 // Maps and Slices, Gt will compare their lengths. Ints are compared directly while strings are first parsed as
 // ints and then compared.
-func Gt(a interface{}, b interface{}) bool {
+func Gt(a any, b any) bool {
 	var left, right int64
 	av := reflect.ValueOf(a)
 
@@ -111,7 +111,7 @@ func Gt(a interface{}, b interface{}) bool {
 // FIXME Eq is unused by cobra and should be removed in a version 2. It exists only for compatibility with users of cobra.
 
 // Eq takes two types and checks whether they are equal. Supported types are int and string. Unsupported types will panic.
-func Eq(a interface{}, b interface{}) bool {
+func Eq(a any, b any) bool {
 	av := reflect.ValueOf(a)
 	bv := reflect.ValueOf(b)
 
@@ -147,7 +147,7 @@ func rpad(s string, padding int) string {
 }
 
 // tmpl executes the given template text on data, writing the result to w.
-func tmpl(w io.Writer, text string, data interface{}) error {
+func tmpl(w io.Writer, text string, data any) error {
 	t := template.New("top")
 	t.Funcs(templateFuncs)
 	template.Must(t.Parse(text))

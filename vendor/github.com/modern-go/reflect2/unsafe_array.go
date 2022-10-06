@@ -27,20 +27,20 @@ func (type2 *UnsafeArrayType) LikePtr() bool {
 	return type2.likePtr
 }
 
-func (type2 *UnsafeArrayType) Indirect(obj interface{}) interface{} {
+func (type2 *UnsafeArrayType) Indirect(obj any) any {
 	objEFace := unpackEFace(obj)
 	assertType("Type.Indirect argument 1", type2.ptrRType, objEFace.rtype)
 	return type2.UnsafeIndirect(objEFace.data)
 }
 
-func (type2 *UnsafeArrayType) UnsafeIndirect(ptr unsafe.Pointer) interface{} {
+func (type2 *UnsafeArrayType) UnsafeIndirect(ptr unsafe.Pointer) any {
 	if type2.likePtr {
 		return packEFace(type2.rtype, *(*unsafe.Pointer)(ptr))
 	}
 	return packEFace(type2.rtype, ptr)
 }
 
-func (type2 *UnsafeArrayType) SetIndex(obj interface{}, index int, elem interface{}) {
+func (type2 *UnsafeArrayType) SetIndex(obj any, index int, elem any) {
 	objEFace := unpackEFace(obj)
 	assertType("ArrayType.SetIndex argument 1", type2.ptrRType, objEFace.rtype)
 	elemEFace := unpackEFace(elem)
@@ -53,7 +53,7 @@ func (type2 *UnsafeArrayType) UnsafeSetIndex(obj unsafe.Pointer, index int, elem
 	typedmemmove(type2.elemRType, elemPtr, elem)
 }
 
-func (type2 *UnsafeArrayType) GetIndex(obj interface{}, index int) interface{} {
+func (type2 *UnsafeArrayType) GetIndex(obj any, index int) any {
 	objEFace := unpackEFace(obj)
 	assertType("ArrayType.GetIndex argument 1", type2.ptrRType, objEFace.rtype)
 	elemPtr := type2.UnsafeGetIndex(objEFace.data, index)

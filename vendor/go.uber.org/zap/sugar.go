@@ -67,100 +67,103 @@ func (s *SugaredLogger) Named(name string) *SugaredLogger {
 // and the second as the field value.
 //
 // For example,
-//   sugaredLogger.With(
-//     "hello", "world",
-//     "failure", errors.New("oh no"),
-//     Stack(),
-//     "count", 42,
-//     "user", User{Name: "alice"},
-//  )
+//
+//	 sugaredLogger.With(
+//	   "hello", "world",
+//	   "failure", errors.New("oh no"),
+//	   Stack(),
+//	   "count", 42,
+//	   "user", User{Name: "alice"},
+//	)
+//
 // is the equivalent of
-//   unsugared.With(
-//     String("hello", "world"),
-//     String("failure", "oh no"),
-//     Stack(),
-//     Int("count", 42),
-//     Object("user", User{Name: "alice"}),
-//   )
+//
+//	unsugared.With(
+//	  String("hello", "world"),
+//	  String("failure", "oh no"),
+//	  Stack(),
+//	  Int("count", 42),
+//	  Object("user", User{Name: "alice"}),
+//	)
 //
 // Note that the keys in key-value pairs should be strings. In development,
 // passing a non-string key panics. In production, the logger is more
 // forgiving: a separate error is logged, but the key-value pair is skipped
 // and execution continues. Passing an orphaned key triggers similar behavior:
 // panics in development and errors in production.
-func (s *SugaredLogger) With(args ...interface{}) *SugaredLogger {
+func (s *SugaredLogger) With(args ...any) *SugaredLogger {
 	return &SugaredLogger{base: s.base.With(s.sweetenFields(args)...)}
 }
 
 // Debug uses fmt.Sprint to construct and log a message.
-func (s *SugaredLogger) Debug(args ...interface{}) {
+func (s *SugaredLogger) Debug(args ...any) {
 	s.log(DebugLevel, "", args, nil)
 }
 
 // Info uses fmt.Sprint to construct and log a message.
-func (s *SugaredLogger) Info(args ...interface{}) {
+func (s *SugaredLogger) Info(args ...any) {
 	s.log(InfoLevel, "", args, nil)
 }
 
 // Warn uses fmt.Sprint to construct and log a message.
-func (s *SugaredLogger) Warn(args ...interface{}) {
+func (s *SugaredLogger) Warn(args ...any) {
 	s.log(WarnLevel, "", args, nil)
 }
 
 // Error uses fmt.Sprint to construct and log a message.
-func (s *SugaredLogger) Error(args ...interface{}) {
+func (s *SugaredLogger) Error(args ...any) {
 	s.log(ErrorLevel, "", args, nil)
 }
 
 // DPanic uses fmt.Sprint to construct and log a message. In development, the
 // logger then panics. (See DPanicLevel for details.)
-func (s *SugaredLogger) DPanic(args ...interface{}) {
+func (s *SugaredLogger) DPanic(args ...any) {
 	s.log(DPanicLevel, "", args, nil)
 }
 
 // Panic uses fmt.Sprint to construct and log a message, then panics.
-func (s *SugaredLogger) Panic(args ...interface{}) {
+func (s *SugaredLogger) Panic(args ...any) {
 	s.log(PanicLevel, "", args, nil)
 }
 
 // Fatal uses fmt.Sprint to construct and log a message, then calls os.Exit.
-func (s *SugaredLogger) Fatal(args ...interface{}) {
+func (s *SugaredLogger) Fatal(args ...any) {
 	s.log(FatalLevel, "", args, nil)
 }
 
 // Debugf uses fmt.Sprintf to log a templated message.
-func (s *SugaredLogger) Debugf(template string, args ...interface{}) {
+func (s *SugaredLogger) Debugf(template string, args ...any) {
 	s.log(DebugLevel, template, args, nil)
 }
 
 // Infof uses fmt.Sprintf to log a templated message.
-func (s *SugaredLogger) Infof(template string, args ...interface{}) {
+func (s *SugaredLogger) Infof(template string, args ...any) {
 	s.log(InfoLevel, template, args, nil)
 }
 
 // Warnf uses fmt.Sprintf to log a templated message.
-func (s *SugaredLogger) Warnf(template string, args ...interface{}) {
+func (s *SugaredLogger) Warnf(template string, args ...any) {
 	s.log(WarnLevel, template, args, nil)
 }
 
 // Errorf uses fmt.Sprintf to log a templated message.
-func (s *SugaredLogger) Errorf(template string, args ...interface{}) {
+func (s *SugaredLogger) Errorf(template string, args ...any) {
 	s.log(ErrorLevel, template, args, nil)
 }
 
 // DPanicf uses fmt.Sprintf to log a templated message. In development, the
 // logger then panics. (See DPanicLevel for details.)
-func (s *SugaredLogger) DPanicf(template string, args ...interface{}) {
+func (s *SugaredLogger) DPanicf(template string, args ...any) {
 	s.log(DPanicLevel, template, args, nil)
 }
 
 // Panicf uses fmt.Sprintf to log a templated message, then panics.
-func (s *SugaredLogger) Panicf(template string, args ...interface{}) {
+func (s *SugaredLogger) Panicf(template string, args ...any) {
 	s.log(PanicLevel, template, args, nil)
 }
 
 // Fatalf uses fmt.Sprintf to log a templated message, then calls os.Exit.
-func (s *SugaredLogger) Fatalf(template string, args ...interface{}) {
+func (s *SugaredLogger) Fatalf(template string, args ...any) {
 	s.log(FatalLevel, template, args, nil)
 }
 
@@ -168,45 +171,46 @@ func (s *SugaredLogger) Fatalf(template string, args ...interface{}) {
 // pairs are treated as they are in With.
 //
 // When debug-level logging is disabled, this is much faster than
-//  s.With(keysAndValues).Debug(msg)
-func (s *SugaredLogger) Debugw(msg string, keysAndValues ...interface{}) {
+//
+//	s.With(keysAndValues).Debug(msg)
+func (s *SugaredLogger) Debugw(msg string, keysAndValues ...any) {
 	s.log(DebugLevel, msg, nil, keysAndValues)
 }
 
 // Infow logs a message with some additional context. The variadic key-value
 // pairs are treated as they are in With.
-func (s *SugaredLogger) Infow(msg string, keysAndValues ...interface{}) {
+func (s *SugaredLogger) Infow(msg string, keysAndValues ...any) {
 	s.log(InfoLevel, msg, nil, keysAndValues)
 }
 
 // Warnw logs a message with some additional context. The variadic key-value
 // pairs are treated as they are in With.
-func (s *SugaredLogger) Warnw(msg string, keysAndValues ...interface{}) {
+func (s *SugaredLogger) Warnw(msg string, keysAndValues ...any) {
 	s.log(WarnLevel, msg, nil, keysAndValues)
 }
 
 // Errorw logs a message with some additional context. The variadic key-value
 // pairs are treated as they are in With.
-func (s *SugaredLogger) Errorw(msg string, keysAndValues ...interface{}) {
+func (s *SugaredLogger) Errorw(msg string, keysAndValues ...any) {
 	s.log(ErrorLevel, msg, nil, keysAndValues)
 }
 
 // DPanicw logs a message with some additional context. In development, the
 // logger then panics. (See DPanicLevel for details.) The variadic key-value
 // pairs are treated as they are in With.
-func (s *SugaredLogger) DPanicw(msg string, keysAndValues ...interface{}) {
+func (s *SugaredLogger) DPanicw(msg string, keysAndValues ...any) {
 	s.log(DPanicLevel, msg, nil, keysAndValues)
 }
 
 // Panicw logs a message with some additional context, then panics. The
 // variadic key-value pairs are treated as they are in With.
-func (s *SugaredLogger) Panicw(msg string, keysAndValues ...interface{}) {
+func (s *SugaredLogger) Panicw(msg string, keysAndValues ...any) {
 	s.log(PanicLevel, msg, nil, keysAndValues)
 }
 
 // Fatalw logs a message with some additional context, then calls os.Exit. The
 // variadic key-value pairs are treated as they are in With.
-func (s *SugaredLogger) Fatalw(msg string, keysAndValues ...interface{}) {
+func (s *SugaredLogger) Fatalw(msg string, keysAndValues ...any) {
 	s.log(FatalLevel, msg, nil, keysAndValues)
 }
 
@@ -215,7 +219,7 @@ func (s *SugaredLogger) Sync() error {
 	return s.base.Sync()
 }
 
-func (s *SugaredLogger) log(lvl zapcore.Level, template string, fmtArgs []interface{}, context []interface{}) {
+func (s *SugaredLogger) log(lvl zapcore.Level, template string, fmtArgs []any, context []any) {
 	// If logging at this level is completely disabled, skip the overhead of
 	// string formatting.
 	if lvl < DPanicLevel && !s.base.Core().Enabled(lvl) {
@@ -235,7 +239,7 @@ func (s *SugaredLogger) log(lvl zapcore.Level, template string, fmtArgs []interf
 	}
 }
 
-func (s *SugaredLogger) sweetenFields(args []interface{}) []Field {
+func (s *SugaredLogger) sweetenFields(args []any) []Field {
 	if len(args) == 0 {
 		return nil
 	}
@@ -283,7 +287,7 @@ func (s *SugaredLogger) sweetenFields(args []interface{}) []Field {
 
 type invalidPair struct {
 	position   int
-	key, value interface{}
+	key, value any
 }
 
 func (p invalidPair) MarshalLogObject(enc zapcore.ObjectEncoder) error {

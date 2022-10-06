@@ -116,7 +116,7 @@ func (any *numberLazyAny) WriteTo(stream *Stream) {
 	stream.Write(any.buf)
 }
 
-func (any *numberLazyAny) GetInterface() interface{} {
+func (any *numberLazyAny) GetInterface() any {
 	iter := any.cfg.BorrowIterator(any.buf)
 	defer any.cfg.ReturnIterator(iter)
 	return iter.Read()

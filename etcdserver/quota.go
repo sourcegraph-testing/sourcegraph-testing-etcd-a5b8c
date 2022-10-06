@@ -37,18 +37,18 @@ const (
 // too few resources available within the quota to apply the request.
 type Quota interface {
 	// Available judges whether the given request fits within the quota.
-	Available(req interface{}) bool
+	Available(req any) bool
 	// Cost computes the charge against the quota for a given request.
-	Cost(req interface{}) int
+	Cost(req any) int
 	// Remaining is the amount of charge left for the quota.
 	Remaining() int64
 }
 
 type passthroughQuota struct{}
 
-func (*passthroughQuota) Available(interface{}) bool { return true }
-func (*passthroughQuota) Cost(interface{}) int       { return 0 }
-func (*passthroughQuota) Remaining() int64           { return 1 }
+func (*passthroughQuota) Available(any) bool { return true }
+func (*passthroughQuota) Cost(any) int       { return 0 }
+func (*passthroughQuota) Remaining() int64   { return 1 }
 
 type backendQuota struct {
 	s               *EtcdServer
@@ -124,12 +124,12 @@ func NewBackendQuota(s *EtcdServer, name string) Quota {
 	return &backendQuota{s, s.Cfg.QuotaBackendBytes}
 }
 
-func (b *backendQuota) Available(v interface{}) bool {
+func (b *backendQuota) Available(v any) bool {
 	// TODO: maybe optimize backend.Size()
 	return b.s.Backend().Size()+int64(b.Cost(v)) < b.maxBackendBytes
 }
 
-func (b *backendQuota) Cost(v interface{}) int {
+func (b *backendQuota) Cost(v any) int {
 	switch r := v.(type) {
 	case *pb.PutRequest:
 		return costPut(r)

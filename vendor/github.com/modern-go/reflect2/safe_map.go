@@ -13,7 +13,7 @@ func (type2 *safeMapType) Key() Type {
 	return type2.safeType.cfg.Type2(type2.Type.Key())
 }
 
-func (type2 *safeMapType) MakeMap(cap int) interface{} {
+func (type2 *safeMapType) MakeMap(cap int) any {
 	ptr := reflect.New(type2.Type)
 	ptr.Elem().Set(reflect.MakeMap(type2.Type))
 	return ptr.Interface()
@@ -23,7 +23,7 @@ func (type2 *safeMapType) UnsafeMakeMap(cap int) unsafe.Pointer {
 	panic("does not support unsafe operation")
 }
 
-func (type2 *safeMapType) SetIndex(obj interface{}, key interface{}, elem interface{}) {
+func (type2 *safeMapType) SetIndex(obj any, key any, elem any) {
 	keyVal := reflect.ValueOf(key)
 	elemVal := reflect.ValueOf(elem)
 	val := reflect.ValueOf(obj)
@@ -34,7 +34,7 @@ func (type2 *safeMapType) UnsafeSetIndex(obj unsafe.Pointer, key unsafe.Pointer,
 	panic("does not support unsafe operation")
 }
 
-func (type2 *safeMapType) TryGetIndex(obj interface{}, key interface{}) (interface{}, bool) {
+func (type2 *safeMapType) TryGetIndex(obj any, key any) (any, bool) {
 	keyVal := reflect.ValueOf(key)
 	if key == nil {
 		keyVal = reflect.New(type2.Type.Key()).Elem()
@@ -46,7 +46,7 @@ func (type2 *safeMapType) TryGetIndex(obj interface{}, key interface{}) (interfa
 	return val.Interface(), true
 }
 
-func (type2 *safeMapType) GetIndex(obj interface{}, key interface{}) interface{} {
+func (type2 *safeMapType) GetIndex(obj any, key any) any {
 	val := reflect.ValueOf(obj).Elem()
 	keyVal := reflect.ValueOf(key).Elem()
 	elemVal := val.MapIndex(keyVal)
@@ -63,7 +63,7 @@ func (type2 *safeMapType) UnsafeGetIndex(obj unsafe.Pointer, key unsafe.Pointer)
 	panic("does not support unsafe operation")
 }
 
-func (type2 *safeMapType) Iterate(obj interface{}) MapIterator {
+func (type2 *safeMapType) Iterate(obj any) MapIterator {
 	m := reflect.ValueOf(obj).Elem()
 	return &safeMapIterator{
 		m:    m,
@@ -85,7 +85,7 @@ func (iter *safeMapIterator) HasNext() bool {
 	return iter.i != len(iter.keys)
 }
 
-func (iter *safeMapIterator) Next() (interface{}, interface{}) {
+func (iter *safeMapIterator) Next() (any, any) {
 	key := iter.keys[iter.i]
 	elem := iter.m.MapIndex(key)
 	iter.i += 1

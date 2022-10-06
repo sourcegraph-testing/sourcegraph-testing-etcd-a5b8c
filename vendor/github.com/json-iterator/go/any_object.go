@@ -64,13 +64,13 @@ func (any *objectLazyAny) ToString() string {
 	return *(*string)(unsafe.Pointer(&any.buf))
 }
 
-func (any *objectLazyAny) ToVal(obj interface{}) {
+func (any *objectLazyAny) ToVal(obj any) {
 	iter := any.cfg.BorrowIterator(any.buf)
 	defer any.cfg.ReturnIterator(iter)
 	iter.ReadVal(obj)
 }
 
-func (any *objectLazyAny) Get(path ...interface{}) Any {
+func (any *objectLazyAny) Get(path ...any) Any {
 	if len(path) == 0 {
 		return any
 	}
@@ -132,7 +132,7 @@ func (any *objectLazyAny) WriteTo(stream *Stream) {
 	stream.Write(any.buf)
 }
 
-func (any *objectLazyAny) GetInterface() interface{} {
+func (any *objectLazyAny) GetInterface() any {
 	iter := any.cfg.BorrowIterator(any.buf)
 	defer any.cfg.ReturnIterator(iter)
 	return iter.Read()
@@ -144,7 +144,7 @@ type objectAny struct {
 	val reflect.Value
 }
 
-func wrapStruct(val interface{}) *objectAny {
+func wrapStruct(val any) *objectAny {
 	return &objectAny{baseAny{}, nil, reflect.ValueOf(val)}
 }
 
@@ -206,7 +206,7 @@ func (any *objectAny) ToString() string {
 	return str
 }
 
-func (any *objectAny) Get(path ...interface{}) Any {
+func (any *objectAny) Get(path ...any) Any {
 	if len(path) == 0 {
 		return any
 	}
@@ -253,7 +253,7 @@ func (any *objectAny) WriteTo(stream *Stream) {
 	stream.WriteVal(any.val)
 }
 
-func (any *objectAny) GetInterface() interface{} {
+func (any *objectAny) GetInterface() any {
 	return any.val.Interface()
 }
 
@@ -263,7 +263,7 @@ type mapAny struct {
 	val reflect.Value
 }
 
-func wrapMap(val interface{}) *mapAny {
+func wrapMap(val any) *mapAny {
 	return &mapAny{baseAny{}, nil, reflect.ValueOf(val)}
 }
 
@@ -325,7 +325,7 @@ func (any *mapAny) ToString() string {
 	return str
 }
 
-func (any *mapAny) Get(path ...interface{}) Any {
+func (any *mapAny) Get(path ...any) Any {
 	if len(path) == 0 {
 		return any
 	}
@@ -369,6 +369,6 @@ func (any *mapAny) WriteTo(stream *Stream) {
 	stream.WriteVal(any.val)
 }
 
-func (any *mapAny) GetInterface() interface{} {
+func (any *mapAny) GetInterface() any {
 	return any.val.Interface()
 }

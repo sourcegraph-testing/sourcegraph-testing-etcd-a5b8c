@@ -105,8 +105,8 @@ func (m *ClientMetrics) EnableClientHandlingTimeHistogram(opts ...HistogramOptio
 }
 
 // UnaryClientInterceptor is a gRPC client-side interceptor that provides Prometheus monitoring for Unary RPCs.
-func (m *ClientMetrics) UnaryClientInterceptor() func(ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
-	return func(ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
+func (m *ClientMetrics) UnaryClientInterceptor() func(ctx context.Context, method string, req, reply any, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
+	return func(ctx context.Context, method string, req, reply any, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
 		monitor := newClientReporter(m, Unary, method)
 		monitor.SentMessage()
 		err := invoker(ctx, method, req, reply, cc, opts...)
@@ -148,7 +148,7 @@ type monitoredClientStream struct {
 	monitor *clientReporter
 }
 
-func (s *monitoredClientStream) SendMsg(m interface{}) error {
+func (s *monitoredClientStream) SendMsg(m any) error {
 	err := s.ClientStream.SendMsg(m)
 	if err == nil {
 		s.monitor.SentMessage()
@@ -156,7 +156,7 @@ func (s *monitoredClientStream) SendMsg(m interface{}) error {
 	return err
 }
 
-func (s *monitoredClientStream) RecvMsg(m interface{}) error {
+func (s *monitoredClientStream) RecvMsg(m any) error {
 	err := s.ClientStream.RecvMsg(m)
 	if err == nil {
 		s.monitor.ReceivedMessage()

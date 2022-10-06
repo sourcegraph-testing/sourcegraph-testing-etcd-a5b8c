@@ -50,7 +50,7 @@ func (p *pbPrinter) Watch(r v3.WatchResponse) {
 	printPB(&wr)
 }
 
-func printPB(v interface{}) {
+func printPB(v any) {
 	m, ok := v.(pbMarshal)
 	if !ok {
 		ExitWithError(ExitBadFeature, fmt.Errorf("marshal unsupported for type %T (%v)", v, v))

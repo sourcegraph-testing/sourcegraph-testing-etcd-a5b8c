@@ -284,7 +284,7 @@ func RegisterHealthServer(s *grpc.Server, srv HealthServer) {
 	s.RegisterService(&_Health_serviceDesc, srv)
 }
 
-func _Health_Check_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Health_Check_Handler(srv any, ctx context.Context, dec func(any) error, interceptor grpc.UnaryServerInterceptor) (any, error) {
 	in := new(HealthCheckRequest)
 	if err := dec(in); err != nil {
 		return nil, err
@@ -296,13 +296,13 @@ func _Health_Check_Handler(srv interface{}, ctx context.Context, dec func(interf
 		Server:     srv,
 		FullMethod: "/grpc.health.v1.Health/Check",
 	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+	handler := func(ctx context.Context, req any) (any, error) {
 		return srv.(HealthServer).Check(ctx, req.(*HealthCheckRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Health_Watch_Handler(srv interface{}, stream grpc.ServerStream) error {
+func _Health_Watch_Handler(srv any, stream grpc.ServerStream) error {
 	m := new(HealthCheckRequest)
 	if err := stream.RecvMsg(m); err != nil {
 		return err

@@ -57,7 +57,7 @@ type http2Client struct {
 	cancel     context.CancelFunc
 	ctxDone    <-chan struct{} // Cache the ctx.Done() chan.
 	userAgent  string
-	md         interface{}
+	md         any
 	conn       net.Conn // underlying communication channel
 	loopy      *loopyWriter
 	remoteAddr net.Addr
@@ -608,7 +608,7 @@ func (t *http2Client) NewStream(ctx context.Context, callHdr *CallHdr) (_ *Strea
 	}
 	firstTry := true
 	var ch chan struct{}
-	checkForStreamQuota := func(it interface{}) bool {
+	checkForStreamQuota := func(it any) bool {
 		if t.streamQuota <= 0 { // Can go negative if server decreases it.
 			if firstTry {
 				t.waitingStreams++
@@ -634,7 +634,7 @@ func (t *http2Client) NewStream(ctx context.Context, callHdr *CallHdr) (_ *Strea
 		return true
 	}
 	var hdrListSizeErr error
-	checkForHeaderListSize := func(it interface{}) bool {
+	checkForHeaderListSize := func(it any) bool {
 		if t.maxSendHeaderListSize == nil {
 			return true
 		}
@@ -649,7 +649,7 @@ func (t *http2Client) NewStream(ctx context.Context, callHdr *CallHdr) (_ *Strea
 		return true
 	}
 	for {
-		success, err := t.controlBuf.executeAndPut(func(it interface{}) bool {
+		success, err := t.controlBuf.executeAndPut(func(it any) bool {
 			if !checkForStreamQuota(it) {
 				return false
 			}
@@ -750,7 +750,7 @@ func (t *http2Client) closeStream(s *Stream, err error, rst bool, rstCode http2.
 		rst:     rst,
 		rstCode: rstCode,
 	}
-	addBackStreamQuota := func(interface{}) bool {
+	addBackStreamQuota := func(any) bool {
 		t.streamQuota++
 		if t.streamQuota > 0 && t.waitingStreams > 0 {
 			select {
@@ -899,7 +899,7 @@ func (t *http2Client) updateFlowControl(n uint32) {
 		s.fc.newLimit(n)
 	}
 	t.mu.Unlock()
-	updateIWS := func(interface{}) bool {
+	updateIWS := func(any) bool {
 		t.initialWindowSize = int32(n)
 		return true
 	}
@@ -1045,7 +1045,7 @@ func (t *http2Client) handleSettings(f *http2.SettingsFrame, isFirst bool) {
 		}
 		updateFuncs = append(updateFuncs, updateStreamQuota)
 	}
-	t.controlBuf.executeAndPut(func(interface{}) bool {
+	t.controlBuf.executeAndPut(func(any) bool {
 		for _, f := range updateFuncs {
 			f()
 		}

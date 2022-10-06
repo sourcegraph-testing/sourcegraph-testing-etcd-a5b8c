@@ -268,7 +268,7 @@ func Open(path string, mode os.FileMode, options *Options) (*DB, error) {
 
 	// Initialize page pool.
 	db.pagePool = sync.Pool{
-		New: func() interface{} {
+		New: func() any {
 			return make([]byte, db.pageSize)
 		},
 	}
@@ -841,7 +841,7 @@ retry:
 var trySolo = errors.New("batch function returned an error and should be re-run solo")
 
 type panicked struct {
-	reason interface{}
+	reason any
 }
 
 func (p panicked) Error() string {
@@ -1167,7 +1167,7 @@ func (m *meta) sum64() uint64 {
 }
 
 // _assert will panic with a given formatted message if the given condition is false.
-func _assert(condition bool, msg string, v ...interface{}) {
+func _assert(condition bool, msg string, v ...any) {
 	if !condition {
 		panic(fmt.Sprintf("assertion failed: "+msg, v...))
 	}

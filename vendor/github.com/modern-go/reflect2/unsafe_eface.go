@@ -10,12 +10,12 @@ type eface struct {
 	data  unsafe.Pointer
 }
 
-func unpackEFace(obj interface{}) *eface {
+func unpackEFace(obj any) *eface {
 	return (*eface)(unsafe.Pointer(&obj))
 }
 
-func packEFace(rtype unsafe.Pointer, data unsafe.Pointer) interface{} {
-	var i interface{}
+func packEFace(rtype unsafe.Pointer, data unsafe.Pointer) any {
+	var i any
 	e := (*eface)(unsafe.Pointer(&i))
 	e.rtype = rtype
 	e.data = data
@@ -32,7 +32,7 @@ func newUnsafeEFaceType(cfg *frozenConfig, type1 reflect.Type) *UnsafeEFaceType 
 	}
 }
 
-func (type2 *UnsafeEFaceType) IsNil(obj interface{}) bool {
+func (type2 *UnsafeEFaceType) IsNil(obj any) bool {
 	if obj == nil {
 		return true
 	}
@@ -45,15 +45,15 @@ func (type2 *UnsafeEFaceType) UnsafeIsNil(ptr unsafe.Pointer) bool {
 	if ptr == nil {
 		return true
 	}
-	return unpackEFace(*(*interface{})(ptr)).data == nil
+	return unpackEFace(*(*any)(ptr)).data == nil
 }
 
-func (type2 *UnsafeEFaceType) Indirect(obj interface{}) interface{} {
+func (type2 *UnsafeEFaceType) Indirect(obj any) any {
 	objEFace := unpackEFace(obj)
 	assertType("Type.Indirect argument 1", type2.ptrRType, objEFace.rtype)
 	return type2.UnsafeIndirect(objEFace.data)
 }
 
-func (type2 *UnsafeEFaceType) UnsafeIndirect(ptr unsafe.Pointer) interface{} {
-	return *(*interface{})(ptr)
+func (type2 *UnsafeEFaceType) UnsafeIndirect(ptr unsafe.Pointer) any {
+	return *(*any)(ptr)
 }

@@ -51,7 +51,7 @@ func (s *durationSliceValue) String() string {
 	return "[" + strings.Join(out, ",") + "]"
 }
 
-func durationSliceConv(val string) (interface{}, error) {
+func durationSliceConv(val string) (any, error) {
 	val = strings.Trim(val, "[]")
 	// Empty string would cause a slice with one (empty) entry
 	if len(val) == 0 {

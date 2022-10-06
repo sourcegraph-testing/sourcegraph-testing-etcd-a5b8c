@@ -78,6 +78,6 @@ func (any *floatAny) WriteTo(stream *Stream) {
 	stream.WriteFloat64(any.val)
 }
 
-func (any *floatAny) GetInterface() interface{} {
+func (any *floatAny) GetInterface() any {
 	return any.val
 }

@@ -77,7 +77,7 @@ func NewGZIPCompressorWithLevel(level int) (Compressor, error) {
 	}
 	return &gzipCompressor{
 		pool: sync.Pool{
-			New: func() interface{} {
+			New: func() any {
 				w, err := gzip.NewWriterLevel(ioutil.Discard, level)
 				if err != nil {
 					panic(err)
@@ -497,10 +497,11 @@ type parser struct {
 // format. The caller owns the returned msg memory.
 //
 // If there is an error, possible values are:
-//   * io.EOF, when no messages remain
-//   * io.ErrUnexpectedEOF
-//   * of type transport.ConnectionError
-//   * an error from the status package
+//   - io.EOF, when no messages remain
+//   - io.ErrUnexpectedEOF
+//   - of type transport.ConnectionError
+//   - an error from the status package
+//
 // No other error values or types must be returned, which also means
 // that the underlying io.Reader must not return an incompatible
 // error.
@@ -536,7 +537,7 @@ func (p *parser) recvMsg(maxReceiveMessageSize int) (pf payloadFormat, msg []byt
 // encode serializes msg and returns a buffer containing the message, or an
 // error if it is too large to be transmitted by grpc.  If msg is nil, it
 // generates an empty message.
-func encode(c baseCodec, msg interface{}) ([]byte, error) {
+func encode(c baseCodec, msg any) ([]byte, error) {
 	if msg == nil { // NOTE: typed nils will not be caught by this check
 		return nil, nil
 	}
@@ -603,7 +604,7 @@ func msgHeader(data, compData []byte) (hdr []byte, payload []byte) {
 	return hdr, data
 }
 
-func outPayload(client bool, msg interface{}, data, payload []byte, t time.Time) *stats.OutPayload {
+func outPayload(client bool, msg any, data, payload []byte, t time.Time) *stats.OutPayload {
 	return &stats.OutPayload{
 		Client:     client,
 		Payload:    msg,
@@ -703,7 +704,7 @@ func decompress(compressor encoding.Compressor, d []byte, maxReceiveMessageSize 
 // For the two compressor parameters, both should not be set, but if they are,
 // dc takes precedence over compressor.
 // TODO(dfawley): wrap the old compressor/decompressor using the new API?
-func recv(p *parser, c baseCodec, s *transport.Stream, dc Decompressor, m interface{}, maxReceiveMessageSize int, payInfo *payloadInfo, compressor encoding.Compressor) error {
+func recv(p *parser, c baseCodec, s *transport.Stream, dc Decompressor, m any, maxReceiveMessageSize int, payInfo *payloadInfo, compressor encoding.Compressor) error {
 	d, err := recvAndDecompress(p, s, dc, maxReceiveMessageSize, payInfo, compressor)
 	if err != nil {
 		return err
@@ -772,7 +773,7 @@ func ErrorDesc(err error) string {
 // Errorf returns nil if c is OK.
 //
 // Deprecated: use status.Errorf instead.
-func Errorf(c codes.Code, format string, a ...interface{}) error {
+func Errorf(c codes.Code, format string, a ...any) error {
 	return status.Errorf(c, format, a...)
 }
 

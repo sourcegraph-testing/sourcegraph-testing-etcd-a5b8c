@@ -22,7 +22,7 @@ func (i *int16Value) Type() string {
 
 func (i *int16Value) String() string { return strconv.FormatInt(int64(*i), 10) }
 
-func int16Conv(sval string) (interface{}, error) {
+func int16Conv(sval string) (any, error) {
 	v, err := strconv.ParseInt(sval, 0, 16)
 	if err != nil {
 		return 0, err

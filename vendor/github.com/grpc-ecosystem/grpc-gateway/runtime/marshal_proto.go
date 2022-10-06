@@ -17,7 +17,7 @@ func (*ProtoMarshaller) ContentType() string {
 }
 
 // Marshal marshals "value" into Proto
-func (*ProtoMarshaller) Marshal(value interface{}) ([]byte, error) {
+func (*ProtoMarshaller) Marshal(value any) ([]byte, error) {
 	message, ok := value.(proto.Message)
 	if !ok {
 		return nil, errors.New("unable to marshal non proto field")
@@ -26,7 +26,7 @@ func (*ProtoMarshaller) Marshal(value interface{}) ([]byte, error) {
 }
 
 // Unmarshal unmarshals proto "data" into "value"
-func (*ProtoMarshaller) Unmarshal(data []byte, value interface{}) error {
+func (*ProtoMarshaller) Unmarshal(data []byte, value any) error {
 	message, ok := value.(proto.Message)
 	if !ok {
 		return errors.New("unable to unmarshal non proto field")
@@ -36,7 +36,7 @@ func (*ProtoMarshaller) Unmarshal(data []byte, value interface{}) error {
 
 // NewDecoder returns a Decoder which reads proto stream from "reader".
 func (marshaller *ProtoMarshaller) NewDecoder(reader io.Reader) Decoder {
-	return DecoderFunc(func(value interface{}) error {
+	return DecoderFunc(func(value any) error {
 		buffer, err := ioutil.ReadAll(reader)
 		if err != nil {
 			return err
@@ -47,7 +47,7 @@ func (marshaller *ProtoMarshaller) NewDecoder(reader io.Reader) Decoder {
 
 // NewEncoder returns an Encoder which writes proto stream into "writer".
 func (marshaller *ProtoMarshaller) NewEncoder(writer io.Writer) Encoder {
-	return EncoderFunc(func(value interface{}) error {
+	return EncoderFunc(func(value any) error {
 		buffer, err := marshaller.Marshal(value)
 		if err != nil {
 			return err

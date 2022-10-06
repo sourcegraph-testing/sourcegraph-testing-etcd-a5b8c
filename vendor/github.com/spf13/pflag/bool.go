@@ -31,7 +31,7 @@ func (b *boolValue) String() string { return strconv.FormatBool(bool(*b)) }
 
 func (b *boolValue) IsBoolFlag() bool { return true }
 
-func boolConv(sval string) (interface{}, error) {
+func boolConv(sval string) (any, error) {
 	return strconv.ParseBool(sval)
 }
 

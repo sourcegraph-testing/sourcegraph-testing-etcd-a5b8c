@@ -110,7 +110,7 @@ func (v Version) String() string {
 	return buffer.String()
 }
 
-func (v *Version) UnmarshalYAML(unmarshal func(interface{}) error) error {
+func (v *Version) UnmarshalYAML(unmarshal func(any) error) error {
 	var data string
 	if err := unmarshal(&data); err != nil {
 		return err

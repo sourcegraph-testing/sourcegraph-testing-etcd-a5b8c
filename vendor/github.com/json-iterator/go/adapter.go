@@ -12,17 +12,17 @@ type RawMessage []byte
 //
 // Unmarshal parses the JSON-encoded data and stores the result in the value pointed to by v.
 // Refer to https://godoc.org/encoding/json#Unmarshal for more information
-func Unmarshal(data []byte, v interface{}) error {
+func Unmarshal(data []byte, v any) error {
 	return ConfigDefault.Unmarshal(data, v)
 }
 
 // UnmarshalFromString is a convenient method to read from string instead of []byte
-func UnmarshalFromString(str string, v interface{}) error {
+func UnmarshalFromString(str string, v any) error {
 	return ConfigDefault.UnmarshalFromString(str, v)
 }
 
 // Get quick method to get value from deeply nested JSON structure
-func Get(data []byte, path ...interface{}) Any {
+func Get(data []byte, path ...any) Any {
 	return ConfigDefault.Get(data, path...)
 }
 
@@ -30,17 +30,17 @@ func Get(data []byte, path ...interface{}) Any {
 //
 // Marshal returns the JSON encoding of v, adapts to json/encoding Marshal API
 // Refer to https://godoc.org/encoding/json#Marshal for more information
-func Marshal(v interface{}) ([]byte, error) {
+func Marshal(v any) ([]byte, error) {
 	return ConfigDefault.Marshal(v)
 }
 
 // MarshalIndent same as json.MarshalIndent. Prefix is not supported.
-func MarshalIndent(v interface{}, prefix, indent string) ([]byte, error) {
+func MarshalIndent(v any, prefix, indent string) ([]byte, error) {
 	return ConfigDefault.MarshalIndent(v, prefix, indent)
 }
 
 // MarshalToString convenient method to write as string instead of []byte
-func MarshalToString(v interface{}) (string, error) {
+func MarshalToString(v any) (string, error) {
 	return ConfigDefault.MarshalToString(v)
 }
 
@@ -61,7 +61,7 @@ type Decoder struct {
 }
 
 // Decode decode JSON into interface{}
-func (adapter *Decoder) Decode(obj interface{}) error {
+func (adapter *Decoder) Decode(obj any) error {
 	if adapter.iter.head == adapter.iter.tail && adapter.iter.reader != nil {
 		if !adapter.iter.loadMore() {
 			return io.EOF
@@ -123,7 +123,7 @@ type Encoder struct {
 }
 
 // Encode encode interface{} as JSON to io.Writer
-func (adapter *Encoder) Encode(val interface{}) error {
+func (adapter *Encoder) Encode(val any) error {
 	adapter.stream.WriteVal(val)
 	adapter.stream.WriteRaw("\n")
 	adapter.stream.Flush()

@@ -21,13 +21,13 @@ func (type2 *UnsafeStructType) LikePtr() bool {
 	return type2.likePtr
 }
 
-func (type2 *UnsafeStructType) Indirect(obj interface{}) interface{} {
+func (type2 *UnsafeStructType) Indirect(obj any) any {
 	objEFace := unpackEFace(obj)
 	assertType("Type.Indirect argument 1", type2.ptrRType, objEFace.rtype)
 	return type2.UnsafeIndirect(objEFace.data)
 }
 
-func (type2 *UnsafeStructType) UnsafeIndirect(ptr unsafe.Pointer) interface{} {
+func (type2 *UnsafeStructType) UnsafeIndirect(ptr unsafe.Pointer) any {
 	if type2.likePtr {
 		return packEFace(type2.rtype, *(*unsafe.Pointer)(ptr))
 	}

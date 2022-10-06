@@ -56,7 +56,7 @@ func (any *trueAny) Parse() *Iterator {
 	return nil
 }
 
-func (any *trueAny) GetInterface() interface{} {
+func (any *trueAny) GetInterface() any {
 	return true
 }
 
@@ -124,7 +124,7 @@ func (any *falseAny) Parse() *Iterator {
 	return nil
 }
 
-func (any *falseAny) GetInterface() interface{} {
+func (any *falseAny) GetInterface() any {
 	return false
 }
 

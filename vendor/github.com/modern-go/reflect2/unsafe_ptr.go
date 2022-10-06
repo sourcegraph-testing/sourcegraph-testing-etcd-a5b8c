@@ -15,7 +15,7 @@ func newUnsafePtrType(cfg *frozenConfig, type1 reflect.Type) *UnsafePtrType {
 	}
 }
 
-func (type2 *UnsafePtrType) IsNil(obj interface{}) bool {
+func (type2 *UnsafePtrType) IsNil(obj any) bool {
 	if obj == nil {
 		return true
 	}
@@ -35,12 +35,12 @@ func (type2 *UnsafePtrType) LikePtr() bool {
 	return true
 }
 
-func (type2 *UnsafePtrType) Indirect(obj interface{}) interface{} {
+func (type2 *UnsafePtrType) Indirect(obj any) any {
 	objEFace := unpackEFace(obj)
 	assertType("Type.Indirect argument 1", type2.ptrRType, objEFace.rtype)
 	return type2.UnsafeIndirect(objEFace.data)
 }
 
-func (type2 *UnsafePtrType) UnsafeIndirect(ptr unsafe.Pointer) interface{} {
+func (type2 *UnsafePtrType) UnsafeIndirect(ptr unsafe.Pointer) any {
 	return packEFace(type2.rtype, *(*unsafe.Pointer)(ptr))
 }

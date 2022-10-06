@@ -33,7 +33,7 @@ import (
 )
 
 var (
-	_cePool = sync.Pool{New: func() interface{} {
+	_cePool = sync.Pool{New: func() any {
 		// Pre-allocate some space for cores.
 		return &CheckedEntry{
 			cores: make([]Core, 4),

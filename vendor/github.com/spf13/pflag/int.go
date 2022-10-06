@@ -22,7 +22,7 @@ func (i *intValue) Type() string {
 
 func (i *intValue) String() string { return strconv.Itoa(int(*i)) }
 
-func intConv(sval string) (interface{}, error) {
+func intConv(sval string) (any, error) {
 	return strconv.Atoi(sval)
 }
 

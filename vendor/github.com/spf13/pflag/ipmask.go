@@ -56,7 +56,7 @@ func ParseIPv4Mask(s string) net.IPMask {
 	return net.IPv4Mask(mask[12], mask[13], mask[14], mask[15])
 }
 
-func parseIPv4Mask(sval string) (interface{}, error) {
+func parseIPv4Mask(sval string) (any, error) {
 	mask := ParseIPv4Mask(sval)
 	if mask == nil {
 		return nil, fmt.Errorf("unable to parse %s as net.IPMask", sval)

@@ -94,7 +94,7 @@ func (opts *jwtOptions) Parse(optMap map[string]string) error {
 }
 
 // Key will parse and return the appropriately typed key for the selected signature method
-func (opts *jwtOptions) Key() (interface{}, error) {
+func (opts *jwtOptions) Key() (any, error) {
 	switch opts.SignMethod.(type) {
 	case *jwt.SigningMethodRSA, *jwt.SigningMethodRSAPSS:
 		return opts.rsaKey()
@@ -107,14 +107,14 @@ func (opts *jwtOptions) Key() (interface{}, error) {
 	}
 }
 
-func (opts *jwtOptions) hmacKey() (interface{}, error) {
+func (opts *jwtOptions) hmacKey() (any, error) {
 	if len(opts.PrivateKey) == 0 {
 		return nil, ErrMissingKey
 	}
 	return opts.PrivateKey, nil
 }
 
-func (opts *jwtOptions) rsaKey() (interface{}, error) {
+func (opts *jwtOptions) rsaKey() (any, error) {
 	var (
 		priv *rsa.PrivateKey
 		pub  *rsa.PublicKey
@@ -152,7 +152,7 @@ func (opts *jwtOptions) rsaKey() (interface{}, error) {
 	return priv, nil
 }
 
-func (opts *jwtOptions) ecKey() (interface{}, error) {
+func (opts *jwtOptions) ecKey() (any, error) {
 	var (
 		priv *ecdsa.PrivateKey
 		pub  *ecdsa.PublicKey

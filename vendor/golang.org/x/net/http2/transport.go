@@ -2373,21 +2373,21 @@ var (
 	errPseudoTrailers         = errors.New("http2: invalid pseudo header in trailers")
 )
 
-func (cc *ClientConn) logf(format string, args ...interface{}) {
+func (cc *ClientConn) logf(format string, args ...any) {
 	cc.t.logf(format, args...)
 }
 
-func (cc *ClientConn) vlogf(format string, args ...interface{}) {
+func (cc *ClientConn) vlogf(format string, args ...any) {
 	cc.t.vlogf(format, args...)
 }
 
-func (t *Transport) vlogf(format string, args ...interface{}) {
+func (t *Transport) vlogf(format string, args ...any) {
 	if VerboseLogs {
 		t.logf(format, args...)
 	}
 }
 
-func (t *Transport) logf(format string, args ...interface{}) {
+func (t *Transport) logf(format string, args ...any) {
 	log.Printf(format, args...)
 }
 

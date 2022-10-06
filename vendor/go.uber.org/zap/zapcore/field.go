@@ -99,7 +99,7 @@ type Field struct {
 	Type      FieldType
 	Integer   int64
 	String    string
-	Interface interface{}
+	Interface any
 }
 
 // AddTo exports a field through the ObjectEncoder interface. It's primarily
@@ -200,7 +200,7 @@ func addFields(enc ObjectEncoder, fields []Field) {
 	}
 }
 
-func encodeStringer(key string, stringer interface{}, enc ObjectEncoder) (err error) {
+func encodeStringer(key string, stringer any, enc ObjectEncoder) (err error) {
 	defer func() {
 		if v := recover(); v != nil {
 			err = fmt.Errorf("PANIC=%v", v)

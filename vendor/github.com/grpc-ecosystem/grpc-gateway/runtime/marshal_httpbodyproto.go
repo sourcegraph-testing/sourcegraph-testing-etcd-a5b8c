@@ -26,7 +26,7 @@ func (h *HTTPBodyMarshaler) ContentType() string {
 
 // ContentTypeFromMessage in case v is a google.api.HttpBody message it returns
 // its specified content type otherwise fall back to the default Marshaler.
-func (h *HTTPBodyMarshaler) ContentTypeFromMessage(v interface{}) string {
+func (h *HTTPBodyMarshaler) ContentTypeFromMessage(v any) string {
 	if httpBody, ok := v.(*httpbody.HttpBody); ok {
 		return httpBody.GetContentType()
 	}
@@ -35,7 +35,7 @@ func (h *HTTPBodyMarshaler) ContentTypeFromMessage(v interface{}) string {
 
 // Marshal marshals "v" by returning the body bytes if v is a
 // google.api.HttpBody message, otherwise it falls back to the default Marshaler.
-func (h *HTTPBodyMarshaler) Marshal(v interface{}) ([]byte, error) {
+func (h *HTTPBodyMarshaler) Marshal(v any) ([]byte, error) {
 	if httpBody, ok := v.(*httpbody.HttpBody); ok {
 		return httpBody.Data, nil
 	}

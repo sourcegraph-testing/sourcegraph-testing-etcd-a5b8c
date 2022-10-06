@@ -59,7 +59,7 @@ func (b *ctx) append(prefix string) *ctx {
 }
 
 // ReadVal copy the underlying JSON into go interface, same as json.Unmarshal
-func (iter *Iterator) ReadVal(obj interface{}) {
+func (iter *Iterator) ReadVal(obj any) {
 	cacheKey := reflect2.RTypeOf(obj)
 	decoder := iter.cfg.getDecoderFromCache(cacheKey)
 	if decoder == nil {
@@ -79,7 +79,7 @@ func (iter *Iterator) ReadVal(obj interface{}) {
 }
 
 // WriteVal copy the go interface into underlying JSON, same as json.Marshal
-func (stream *Stream) WriteVal(val interface{}) {
+func (stream *Stream) WriteVal(val any) {
 	if nil == val {
 		stream.WriteNil()
 		return
