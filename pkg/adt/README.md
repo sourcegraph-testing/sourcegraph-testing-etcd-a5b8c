@@ -45,5 +45,5 @@ Deleting the node `11` triggers multiple rotates for rebalancing:
 ![red-black-tree-08-delete-11.png](img/red-black-tree-08-delete-11.png)
 ![red-black-tree-09-delete-11.png](img/red-black-tree-09-delete-11.png)
 
-Try yourself at https://www.cs.usfca.edu/~galles/visualization/RedBlack.html.
+Try thyself at https://www.cs.usfca.edu/~galles/visualization/RedBlack.html.
 Hello World 2
