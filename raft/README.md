@@ -196,3 +196,4 @@ To ensure there is no attempt to commit two membership changes at once by matchi
 
 This approach introduces a problem when removing a member from a two-member cluster: If one of the members dies before the other one receives the commit of the confchange entry, then the member cannot be removed any more since the cluster cannot make progress. For this reason it is highly recommended to use three or more nodes in every cluster.
 Hello World 2
+Hello World
