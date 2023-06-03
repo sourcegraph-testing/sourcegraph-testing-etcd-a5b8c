@@ -24,3 +24,4 @@ Then run the unit test:
 promtool test rules test.yaml
 ```
 Hello World 2
+Hello World
