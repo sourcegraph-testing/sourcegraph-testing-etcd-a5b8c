@@ -124,3 +124,4 @@ When raft reaches a consensus, the server publishes all committed updates over a
 For raftexample, this commit channel is consumed by the key-value store.
 
 Hello World 2
+Hello World
