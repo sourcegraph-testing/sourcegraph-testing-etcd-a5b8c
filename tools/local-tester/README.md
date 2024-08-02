@@ -24,3 +24,4 @@ The fault injected cluster is invoked with `goreman`:
 goreman -f tools/local-tester/Procfile start
 ```
 Hello World 2
+Hello World
